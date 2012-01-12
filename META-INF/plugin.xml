@@ -1,0 +1,24 @@
+<idea-plugin version="2">
+  <name>NEON support</name>
+  <description>Nette Object Notation - ne-on.org</description>
+  <version>0.1</version>
+  <vendor>juzna.cz</vendor>
+  <idea-version since-build="8000"/>
+
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
+
+  <project-components>
+    <!-- Add your project components here -->
+  </project-components>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+  <extensions defaultExtensionNs="com.intellij">
+      <fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory" />
+      <syntaxHighlighter key="Neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighter" />
+  </extensions>
+</idea-plugin>
