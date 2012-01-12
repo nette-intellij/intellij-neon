@@ -448,7 +448,7 @@ class _NeonLexer implements FlexLexer {
   /* user code: */
     private StateStack stack = new StateStack();
 
-    public NeonLexer() {
+    public _NeonLexer() {
         zzState = zzLexicalState = YYINITIAL;
         stack.clear();
     }

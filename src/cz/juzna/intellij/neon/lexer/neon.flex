@@ -20,7 +20,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %{
     private StateStack stack = new StateStack();
 
-    public NeonLexer() {
+    public _NeonLexer() {
         zzState = zzLexicalState = YYINITIAL;
         stack.clear();
     }
