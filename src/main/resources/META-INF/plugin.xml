@@ -9,6 +9,6 @@
 
 	<!-- IDEA extensions -->
 	<extensions defaultExtensionNs="com.intellij">
-
+		<fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory" />
 	</extensions>
 </idea-plugin>
