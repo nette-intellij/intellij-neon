@@ -13,5 +13,10 @@
 		<colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage" />
 		<!--<syntaxHighlighter implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighter" />  This doesn't work :( Must register in NeonLanguage -->
 		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
+		<!--
+		Crashes with this :(
+		<codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider" />
+		<langCodeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider" />
+		-->
 	</extensions>
 </idea-plugin>
