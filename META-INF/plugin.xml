@@ -18,7 +18,7 @@
 	</actions>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<!-- TODO: parser definition -->
+		<lang.parserDefinition language="neon" implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition" />
 		<fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory"/>
 		<syntaxHighlighter key="Neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighter"/>
 		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
