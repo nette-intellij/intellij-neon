@@ -30,10 +30,7 @@ import javax.swing.*;
 
 
 public class NeonFileType extends LanguageFileType {
-    private static final Logger LOG = Logger.getInstance("#NeonFileType");
     public static final NeonFileType NEON_FILE_TYPE = new NeonFileType();
-
-
     public static final String DEFAULT_EXTENSION = "neon";
 
 
