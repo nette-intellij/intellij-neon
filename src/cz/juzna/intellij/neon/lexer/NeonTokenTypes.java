@@ -7,6 +7,8 @@ import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.NeonLanguage;
 
 /**
+ * Types of tokens returned form lexer
+ *
  * @author Jan Dolecek - juzna.cz@gmail.com
  */
 public interface NeonTokenTypes {
@@ -30,10 +32,8 @@ public interface NeonTokenTypes {
 	IElementType NEON_RBRACE_SQUARE = new NeonElementType("]");
 	IElementType NEON_COMMA = new NeonElementType(",");
 	IElementType NEON_COLON = new NeonElementType(":");
-//	IElementType NEON_QUESTION = new NeonElementType("?");
+	IElementType NEON_QUESTION = new NeonElementType("?");
 
-
-	IFileElementType FILE = new IFileElementType("FILE", NeonLanguage.LANGUAGE);
 
     TokenSet WHITESPACES = TokenSet.create(NEON_WHITESPACE);
     TokenSet COMMENTS = TokenSet.create(NEON_COMMENT);
