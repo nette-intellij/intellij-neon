@@ -18,8 +18,10 @@
 	</actions>
 
 	<extensions defaultExtensionNs="com.intellij">
+		<!-- TODO: parser definition -->
 		<fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory"/>
 		<syntaxHighlighter key="Neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighter"/>
 		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
+		<lang.braceMatcher language="neon" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher" />
 	</extensions>
 </idea-plugin>

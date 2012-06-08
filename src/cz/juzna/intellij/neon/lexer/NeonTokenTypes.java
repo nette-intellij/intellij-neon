@@ -23,10 +23,17 @@ public interface NeonTokenTypes {
     IElementType NEON_NUMBER = new NeonElementType("number");
     IElementType NEON_REFERENCE = new NeonElementType("reference");
     IElementType NEON_WHITESPACE = TokenType.WHITE_SPACE; //new NeonElementType("whitespace");
-    
+
+	IElementType NEON_LBRACE_CURLY = new NeonElementType("{");
+	IElementType NEON_RBRACE_CURLY = new NeonElementType("}");
+	IElementType NEON_LBRACE_SQUARE = new NeonElementType("[");
+	IElementType NEON_RBRACE_SQUARE = new NeonElementType("]");
+	IElementType NEON_COMMA = new NeonElementType(",");
+	IElementType NEON_COLON = new NeonElementType(":");
+//	IElementType NEON_QUESTION = new NeonElementType("?");
 
 
-    IFileElementType FILE = new IFileElementType("FILE", NeonLanguage.LANGUAGE);
+	IFileElementType FILE = new IFileElementType("FILE", NeonLanguage.LANGUAGE);
 
     TokenSet WHITESPACES = TokenSet.create(NEON_WHITESPACE);
     TokenSet COMMENTS = TokenSet.create(NEON_COMMENT);
