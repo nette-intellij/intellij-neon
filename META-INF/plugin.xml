@@ -1,22 +1,14 @@
 <idea-plugin version="2">
+	<!-- Plugin info -->
 	<name>NEON support</name>
 	<description>Nette Object Notation - ne-on.org</description>
 	<version>0.1</version>
 	<vendor>juzna.cz</vendor>
-	<idea-version since-build="8000"/>
+	<idea-version since-build="111.0"/>
+	<depends>com.intellij.modules.lang</depends>
 
-	<application-components>
-		<!-- Add your application components here -->
-	</application-components>
 
-	<project-components>
-		<!-- Add your project components here -->
-	</project-components>
-
-	<actions>
-		<!-- Add your actions here -->
-	</actions>
-
+	<!-- IDEA extensions -->
 	<extensions defaultExtensionNs="com.intellij">
 		<lang.parserDefinition language="neon" implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition" />
 		<fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory"/>
