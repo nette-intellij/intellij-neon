@@ -23,5 +23,6 @@
 		<syntaxHighlighter key="Neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighter"/>
 		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
 		<lang.braceMatcher language="neon" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher" />
+		<langCodeStyleSettingsProvider implementation="cz.juzna.intellij.neon.NeonLanguageCodeStyleSettingsProvider" />
 	</extensions>
 </idea-plugin>
