@@ -8,7 +8,7 @@ import java.io.Reader;
 public class Test {
     
     public static void main(String[] args) throws Exception {
-        String str = "pepa: novek\nfranta:\n - vopicka\n - kralik\n";
+        String str = "pepa: novak\nfranta:\n - vopicka\n - kralik\n";
         System.out.println(str);
 
         _NeonLexer lexer = new _NeonLexer((Reader) null);
