@@ -2,7 +2,7 @@ package cz.juzna.intellij.neon.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
+import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 
 /**
  * @author Ondrej Brejla
@@ -10,7 +10,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %%
 
 %class _NeonLexer
-%implements FlexLexer
+%implements FlexLexer, NeonTokenTypes
 %unicode
 %function advance
 %type IElementType
@@ -154,7 +154,7 @@ REFERENCE="@"({IDENTIFIER} | "\\")+
         yypushback(yylength());
     }
     {NEWLINE} {
-        return NEON_WHITESPACE;
+        return NEON_EOL;
     }
     {BLOCK_ARRAY_SEPARATOR} {
         pushState(ST_IN_RIGHT_BLOCK);

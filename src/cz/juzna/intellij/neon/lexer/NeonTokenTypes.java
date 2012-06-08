@@ -11,6 +11,7 @@ import cz.juzna.intellij.neon.NeonLanguage;
  */
 public interface NeonTokenTypes {
     IElementType NEON_KEYWORD = new NeonElementType("keyword");
+    IElementType NEON_EOL = new NeonElementType("eol");
     IElementType NEON_INTERPUNCTION = new NeonElementType("interpunction");
     IElementType NEON_BLOCK = new NeonElementType("block");
     IElementType NEON_VALUED_BLOCK = new NeonElementType("valuedblock");
