@@ -1,0 +1,14 @@
+<idea-plugin version="2">
+	<!-- Plugin info -->
+	<name>NEON support</name>
+	<description>Nette Object Notation - ne-on.org</description>
+	<version>0.1</version>
+	<vendor>juzna.cz</vendor>
+	<idea-version since-build="111.0"/>
+	<depends>com.intellij.modules.lang</depends>
+
+	<!-- IDEA extensions -->
+	<extensions defaultExtensionNs="com.intellij">
+
+	</extensions>
+</idea-plugin>
