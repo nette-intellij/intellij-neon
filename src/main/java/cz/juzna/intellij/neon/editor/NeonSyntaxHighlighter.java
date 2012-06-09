@@ -40,7 +40,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	// Groups of IElementType's
 	public static final TokenSet sBAD           = TokenSet.create(NEON_UNKNOWN);
 	public static final TokenSet sCOMMENTS      = TokenSet.create(NEON_COMMENT);
-	public static final TokenSet sIDENTIFIERS   = TokenSet.create(NEON_IDENTIFIER, NEON_LITERAL);
+	public static final TokenSet sIDENTIFIERS   = TokenSet.create(NEON_KEY); //, NEON_IDENTIFIER, NEON_LITERAL);
 	public static final TokenSet sINTERPUNCTION = TokenSet.create(NEON_BLOCK_INHERITENCE, NEON_LPAREN, NEON_RPAREN, NEON_LBRACE_CURLY, NEON_RBRACE_CURLY, NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE, NEON_ITEM_DELIMITER, NEON_ASSIGNMENT);
 	public static final TokenSet sNUMBERS       = TokenSet.create(NEON_NUMBER);
 

@@ -2,6 +2,7 @@ package cz.juzna.intellij.neon.lexer;
 
 
 import com.intellij.lexer.FlexAdapter;
+import com.intellij.lexer.LexerPosition;
 import com.intellij.lexer.MergingLexerAdapter;
 import com.intellij.psi.tree.TokenSet;
 

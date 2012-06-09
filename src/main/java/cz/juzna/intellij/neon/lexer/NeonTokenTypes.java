@@ -34,6 +34,10 @@ public interface NeonTokenTypes {
 	IElementType NEON_ASSIGNMENT = new NeonTokenType(":");
 
 
+	// special tokens (identifier in block header or as array key)
+	IElementType NEON_KEY = new NeonTokenType("key");
+
+
 	TokenSet WHITESPACES = TokenSet.create(NEON_WHITESPACE);
 	TokenSet COMMENTS = TokenSet.create(NEON_COMMENT);
 	TokenSet STRING_LITERALS = TokenSet.create(NEON_LITERAL, NEON_STRING);

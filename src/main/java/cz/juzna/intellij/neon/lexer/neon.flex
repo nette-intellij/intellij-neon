@@ -17,7 +17,12 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %eof{  return;
 %eof}
 
-
+%{
+	private void retryInState(int newState) {
+        yybegin(newState);
+        yypushback(yylength());
+	}
+%}
 
 KEYWORD=("true" | "TRUE" | "false" | "FALSE" | "yes" | "YES" | "no" | "NO" | "null" | "NULL")
 WHITESPACE=[ \t]
@@ -48,10 +53,36 @@ VARIABLE="%"{LITERAL}"%"?
 REFERENCE="@"({IDENTIFIER} | "\\")+
 COMMENT="#"[^"\r""\n""\r\n")]*
 
+KEY=({REFERENCE} | {LITERAL} | {STRING} | {NUMBER}){WHITESPACE}*(":"|"=")
+BLOCK_HEADER={IDENTIFIER}{WHITESPACE}*"<"{WHITESPACE}*{IDENTIFIER}{WHITESPACE}*":"{WHITESPACE}*({NEWLINE} | {COMMENT})
 
+%state IN_BLOCK_HEADER
+%state IN_KEY
 
 %%
-<YYINITIAL> {
+
+<IN_BLOCK_HEADER> {
+    {IDENTIFIER} {
+        return NEON_KEY;
+    }
+}
+
+<IN_KEY> {
+    {IDENTIFIER} {
+        return NEON_KEY;
+    }
+    ":" / ( {WHITESPACE}+ | {NEWLINE} ) {
+		yybegin(YYINITIAL);
+        return NEON_ASSIGNMENT;
+    }
+    "=" {
+		yybegin(YYINITIAL);
+        return NEON_ASSIGNMENT;
+    }
+}
+
+
+//<YYINITIAL> {
     // 1: strings
     {STRING} {
         return NEON_STRING;
@@ -100,6 +131,7 @@ COMMENT="#"[^"\r""\n""\r\n")]*
 
     // 4: new line + indent
     {NEWLINE}{WHITESPACE}* {
+        yybegin(YYINITIAL);
         return NEON_INDENT;
     }
 
@@ -129,6 +161,19 @@ COMMENT="#"[^"\r""\n""\r\n")]*
     }
     {STRING} {
         return NEON_STRING;
+    }
+
+
+// hck: some compound tokens (for highlighting)
+<YYINITIAL> {
+    {KEY} {
+        retryInState(IN_KEY);
+        // return NEON_KEY;
+    }
+
+    {BLOCK_HEADER} {
+        retryInState(IN_BLOCK_HEADER);
+        // return NEON_BLOCK_HEADER;
     }
 }
 
