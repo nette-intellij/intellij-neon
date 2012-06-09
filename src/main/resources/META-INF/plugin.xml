@@ -18,5 +18,7 @@
 		<codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider" />
 		<langCodeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider" />
 		-->
+		<lang.parserDefinition language="neon" implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition" />
+		<lang.fileViewProviderFactory language="neon" implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory" />
 	</extensions>
 </idea-plugin>
