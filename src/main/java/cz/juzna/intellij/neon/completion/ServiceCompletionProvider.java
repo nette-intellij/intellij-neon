@@ -10,13 +10,11 @@ import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.impl.PhpDocPropertyImpl;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.NeonKey;
-import cz.juzna.intellij.neon.psi.NeonReference;
-import cz.juzna.intellij.neon.psi.NeonScalarValue;
+import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,6 +50,8 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 
 		getAvailableServicesFromSystemContainer(services);
 
+		if (curr.getContainingFile() instanceof NeonFile) getServicesFromNeonFile(services, (NeonFile) curr.getContainingFile());
+
 		return services;
 	}
 
@@ -67,6 +67,27 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 					result.add( field.getName() );
 				}
 			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private void getServicesFromNeonFile(List<String> result, NeonFile file) {
+		for(NeonSection section: file.getSections().values()) {
+			// without sections, i.e. the section is actually an extension
+			if (section.getName().equals("services") && (section.getValue() instanceof NeonHash)) addServiceFromNeonHash(result, (NeonHash) section.getValue());
+
+			if (section.getValue() instanceof NeonHash) {
+				HashMap<String,NeonValue> map = ((NeonHash) section.getValue()).getMap();
+				if (map.containsKey("services")) addServiceFromNeonHash(result, (NeonHash) map.get("services"));
+			}
+		}
+	}
+
+	private void addServiceFromNeonHash(List<String> result, NeonHash hash) {
+		for (NeonKey key: hash.getKeys()) {
+			result.add( key.getKeyText() );
 		}
 	}
 
