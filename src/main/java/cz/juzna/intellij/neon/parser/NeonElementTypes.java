@@ -14,6 +14,8 @@ public interface NeonElementTypes {
 	public static final IFileElementType FILE = new IFileElementType(NeonLanguage.LANGUAGE);
 
 	public static final NeonElementType KEY_VALUE_PAIR = new NeonElementType("Key value pair");
+	public static final NeonElementType KEY = new NeonElementType("Key");
+	public static final NeonElementType COMPOUND_KEY = new NeonElementType("Compound key");
 	public static final NeonElementType HASH = new NeonElementType("Hash");
 	public static final NeonElementType ITEM = new NeonElementType("Item");
 	public static final NeonElementType ENTITY = new NeonElementType("Entity");

@@ -101,7 +101,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		assert myBuilder.getTokenType() == NEON_KEY : "Expected key";
 
 		PsiBuilder.Marker keyValPair = mark();
-		advanceLexer();
+		parseKey();
 		eolSeen = false;
 
 		// key colon value
@@ -119,6 +119,23 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		}
 
 		keyValPair.done(KEY_VALUE_PAIR);
+	}
+
+	private void parseKey() {
+		assert myBuilder.getTokenType() == NEON_KEY : "Expected key";
+		PsiBuilder.Marker key = mark();
+		advanceLexer();
+
+		if (myBuilder.getTokenType() == NEON_BLOCK_INHERITENCE) {
+			advanceLexer();
+			PsiBuilder.Marker key2 = mark();
+			advanceLexer();
+			key2.done(KEY);
+			key.done(COMPOUND_KEY);
+
+		} else {
+			key.done(KEY);
+		}
 	}
 
 	private void parseSequence(int indent) {
