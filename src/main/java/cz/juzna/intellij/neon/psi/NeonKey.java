@@ -6,8 +6,8 @@ import com.intellij.psi.PsiNamedElement;
 /**
  * Key from key-value pair
  */
-public interface NeonKey extends NeonPsiElement, PsiNamedElement {
-	public PsiElement getKey();
+public interface NeonKey extends NeonPsiElement {
+//	public PsiElement getKey();
 	public String getKeyText();
 
 }
