@@ -157,7 +157,12 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	private void parseValue(int indent) {
 		IElementType type = myBuilder.getTokenType();
 
-		if (SCALAR_VALUES.contains(type)) {
+		if (type == NEON_REFERENCE) {
+			PsiBuilder.Marker val = mark();
+			advanceLexer();
+			val.done(REFERENCE);
+
+		} else if (SCALAR_VALUES.contains(type)) {
 			PsiBuilder.Marker val = mark();
 			advanceLexer();
 

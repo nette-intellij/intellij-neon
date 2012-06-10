@@ -24,6 +24,7 @@ public interface NeonElementTypes {
 	public static final NeonElementType SEQUENCE = new NeonElementType("Sequence");
 	public static final NeonElementType COMPOUND_VALUE = new NeonElementType("Compound value");
 	public static final NeonElementType SCALAR_VALUE = new NeonElementType("Scalar value");
+	public static final NeonElementType REFERENCE = new NeonElementType("Reference");
 
 	public static final TokenSet SCALAR_VALUES = TokenSet.create(
 		NeonTokenTypes.NEON_STRING,

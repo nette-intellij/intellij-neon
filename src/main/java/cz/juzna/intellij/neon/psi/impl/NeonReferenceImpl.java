@@ -17,7 +17,12 @@ public class NeonReferenceImpl extends NeonPsiElementImpl implements NeonReferen
 	}
 
 	@Override
-	public String getReferenceText() {
+	public String getServiceName() {
+		return getNode().getText().substring(1);
+	}
+
+	@Override
+	public String getName() {
 		return getNode().getText();
 	}
 }
