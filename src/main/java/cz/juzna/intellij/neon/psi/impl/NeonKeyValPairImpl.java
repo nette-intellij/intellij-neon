@@ -6,6 +6,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import com.intellij.util.IncorrectOperationException;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
+import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
 import cz.juzna.intellij.neon.psi.NeonValue;
@@ -27,7 +28,7 @@ public class NeonKeyValPairImpl extends NeonPsiElementImpl implements NeonKeyVal
 
 	@Override
 	public NeonKey getKey() {
-		return (NeonKey) getNode().getChildren(TokenSet.create(NeonTokenTypes.NEON_KEY))[0].getPsi();
+		return (NeonKey) getNode().getChildren(TokenSet.create(NeonElementTypes.KEY))[0].getPsi();
 	}
 
 	@Override
@@ -44,5 +45,10 @@ public class NeonKeyValPairImpl extends NeonPsiElementImpl implements NeonKeyVal
 	public PsiElement setName(@NonNls @NotNull String s) throws IncorrectOperationException {
 		// TODO
 		return null;
+	}
+
+	@Override
+	public String getName() {
+		return getKeyText();
 	}
 }

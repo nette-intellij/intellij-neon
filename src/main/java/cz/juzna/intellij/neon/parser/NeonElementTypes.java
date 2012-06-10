@@ -30,6 +30,7 @@ public interface NeonElementTypes {
 		NeonTokenTypes.NEON_NUMBER,
 		NeonTokenTypes.NEON_REFERENCE,
 		NeonTokenTypes.NEON_IDENTIFIER,
-		NeonTokenTypes.NEON_LITERAL
+		NeonTokenTypes.NEON_LITERAL,
+		NeonTokenTypes.NEON_VARIABLE
 	);
 }
