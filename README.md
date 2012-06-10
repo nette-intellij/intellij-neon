@@ -16,7 +16,7 @@ This plugin aims to add suppors for this language into PhpStorm (or the whole In
 ## Install
 
 Open project in *IntelliJ IDEA* as a *Plugin project*, go to *Build* -> *Prepare for deployment* and install in your PHP Storm.
-This plugin is not yet stable, therefore there is no binary file for download yet. Stay tuned.
+Experimental build available [here](http://juzna.cz/intellij-neon.jar). When it reaches a stable state, it'll be available in plugin repository.
 
 ## Development
 
