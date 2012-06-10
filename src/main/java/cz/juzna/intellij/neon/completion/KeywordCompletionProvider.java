@@ -63,18 +63,6 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		else if (curr.getParent() instanceof NeonScalarValue) {
 			for(LookupElementBuilder x: KEYWORD_LOOKUPS) results.addElement(x);
 		}
-		else if (curr.getParent() instanceof NeonReference) {
-			// Services from SystemContainer class
-			PhpClass container = PhpIndex.getInstance(curr.getProject()).getClassByName("SystemContainer");
-			if (container != null) {
-				for (Field field : container.getFields()) {
-					if (field instanceof PhpDocPropertyImpl) {
-						results.addElement( LookupElementBuilder.create(field.getName()) );
-					}
-				}
-			}
-		}
-		// TODO: more
 
 	}
 
