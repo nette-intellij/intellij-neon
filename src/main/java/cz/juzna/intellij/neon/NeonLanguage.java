@@ -9,19 +9,16 @@ import com.intellij.psi.templateLanguages.TemplateLanguage;
 import cz.juzna.intellij.neon.editor.NeonSyntaxHighlighter;
 
 
-public class NeonLanguage extends Language implements TemplateLanguage {
+public class NeonLanguage extends Language {
 	// singleton
 	public static final NeonLanguage LANGUAGE = new NeonLanguage();
 
 	public NeonLanguage() {
-		super("Neon", "application/x-neon");
+		super("neon", "application/x-neon");
+	}
 
-		// register highlighter - lazy singleton factory
-		SyntaxHighlighterFactory.LANGUAGE_FACTORY.addExplicitExtension(this, new SingleLazyInstanceSyntaxHighlighterFactory() {
-			protected SyntaxHighlighter createHighlighter() {
-				return new NeonSyntaxHighlighter();
-			}
-		});
-
+	@Override
+	public String getDisplayName() {
+		return "Neon";
 	}
 }
