@@ -167,6 +167,14 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
+    <library name="php">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/apps/PhpStorm/plugins/php/lib/php.jar!/" />
+        <root url="jar://$USER_HOME$/apps/PhpStorm/plugins/php/lib/resources_en.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="yaml">
       <CLASSES>
         <root url="jar://$USER_HOME$/apps/PhpStorm/plugins/yaml/lib/yaml.jar!/" />

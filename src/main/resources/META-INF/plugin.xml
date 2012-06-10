@@ -6,6 +6,7 @@
 	<vendor>juzna.cz</vendor>
 	<idea-version since-build="111.0"/>
 	<depends>com.intellij.modules.lang</depends>
+	<depends>com.jetbrains.php</depends>
 
 	<!-- IDEA extensions -->
 	<extensions defaultExtensionNs="com.intellij">
