@@ -28,7 +28,16 @@ public class NeonKeyValPairImpl extends NeonPsiElementImpl implements NeonKeyVal
 
 	@Override
 	public NeonKey getKey() {
-		return (NeonKey) getNode().getChildren(TokenSet.create(NeonElementTypes.KEY))[0].getPsi();
+ 		ASTNode keys[];
+
+		ASTNode[] compoundKeys = getNode().getChildren(TokenSet.create(NeonElementTypes.COMPOUND_KEY));
+		if (compoundKeys.length > 0) {
+			keys = compoundKeys[0].getChildren(TokenSet.create(NeonElementTypes.KEY));
+		} else {
+			keys = getNode().getChildren(TokenSet.create(NeonElementTypes.KEY));
+		}
+
+		return keys.length > 0 ? (NeonKey) keys[0].getPsi() : null;
 	}
 
 	@Override
