@@ -8,13 +8,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.lexer.NeonLexer;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.psi.impl.NeonFileImpl;
-import cz.juzna.intellij.neon.psi.impl.NeonPsiElement;
+import cz.juzna.intellij.neon.psi.impl.NeonPsiElementImpl;
 import org.jetbrains.annotations.NotNull;
 
 public class NeonParserDefinition implements ParserDefinition {
@@ -55,7 +54,7 @@ public class NeonParserDefinition implements ParserDefinition {
 	@NotNull
 	@Override
 	public PsiElement createElement(ASTNode node) {
-		return new NeonPsiElement(node);
+		return new NeonPsiElementImpl(node);
 	}
 
 	@Override
