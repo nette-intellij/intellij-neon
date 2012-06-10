@@ -1,0 +1,61 @@
+package cz.juzna.intellij.neon.completion;
+
+import com.intellij.codeInsight.completion.CompletionParameters;
+import com.intellij.codeInsight.completion.CompletionProvider;
+import com.intellij.codeInsight.completion.CompletionResultSet;
+import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import com.intellij.psi.PsiElement;
+import com.intellij.util.ProcessingContext;
+import cz.juzna.intellij.neon.psi.NeonKey;
+import org.jdesktop.swingx.renderer.ComponentProvider;
+import org.jetbrains.annotations.NotNull;
+import org.picocontainer.defaults.ComponentParameter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Complete keywords
+ */
+public class KeywordCompletionProvider extends CompletionProvider<CompletionParameters> {
+	private static final String[] KEYWORDS = {
+		// common
+		"true", "false", "yes", "no",
+
+		// sections
+		"common", "production", "development", "test",
+
+		// extensions
+		"parameters", "nette", "services", "factories", "php"
+	};
+
+
+	// CompletionResultSet wants list of LookupElements
+	private List<LookupElementBuilder> KEYWORD_LOOKUPS = new ArrayList();
+
+
+	public KeywordCompletionProvider() {
+		super();
+
+		for(String keyword: KEYWORDS) {
+			KEYWORD_LOOKUPS.add(LookupElementBuilder.create(keyword));
+		}
+	}
+
+	@Override
+	protected void addCompletions(@NotNull CompletionParameters params,
+	                              ProcessingContext ctx,
+	                              @NotNull CompletionResultSet results) {
+
+		PsiElement curr = params.getPosition().getOriginalElement();
+
+		if (curr instanceof NeonKey) {
+			for(LookupElementBuilder x: KEYWORD_LOOKUPS) results.addElement(x);
+			return;
+		}
+
+
+
+	}
+
+}

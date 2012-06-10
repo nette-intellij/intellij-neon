@@ -22,5 +22,6 @@
 		<lang.fileViewProviderFactory language="neon" implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory" />
 		<lang.braceMatcher language="neon" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher" />
 		<lang.foldingBuilder language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder" />
+		<completion.contributor language="neon" implementationClass="cz.juzna.intellij.neon.completion.NeonCompletionContributor" />
 	</extensions>
 </idea-plugin>
