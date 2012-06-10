@@ -11,7 +11,7 @@
 	<extensions defaultExtensionNs="com.intellij">
 		<fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory" />
 		<colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage" />
-		<!--<syntaxHighlighter implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighter" />  This doesn't work :( Must register in NeonLanguage -->
+		<lang.syntaxHighlighterFactory key="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory" />
 		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
 
 		<!-- code settings (ident, tabs?) -->
