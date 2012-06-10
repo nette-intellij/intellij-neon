@@ -6,6 +6,10 @@ import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
+import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.impl.PhpDocPropertyImpl;
+import com.jetbrains.php.lang.psi.elements.Field;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonReference;
 import cz.juzna.intellij.neon.psi.NeonScalarValue;
@@ -60,7 +64,15 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 			for(LookupElementBuilder x: KEYWORD_LOOKUPS) results.addElement(x);
 		}
 		else if (curr.getParent() instanceof NeonReference) {
-			// TODO: list of services
+			// Services from SystemContainer class
+			PhpClass container = PhpIndex.getInstance(curr.getProject()).getClassByName("SystemContainer");
+			if (container != null) {
+				for (Field field : container.getFields()) {
+					if (field instanceof PhpDocPropertyImpl) {
+						results.addElement( LookupElementBuilder.create(field.getName()) );
+					}
+				}
+			}
 		}
 		// TODO: more
 
