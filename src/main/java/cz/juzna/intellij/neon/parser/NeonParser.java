@@ -127,11 +127,14 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		advanceLexer();
 
 		if (myBuilder.getTokenType() == NEON_BLOCK_INHERITENCE) {
+			PsiBuilder.Marker compound = key.precede();
+			key.done(KEY);
+
 			advanceLexer();
-			PsiBuilder.Marker key2 = mark();
+			key = mark();
 			advanceLexer();
-			key2.done(KEY);
-			key.done(COMPOUND_KEY);
+			key.done(KEY);
+			compound.done(COMPOUND_KEY);
 
 		} else {
 			key.done(KEY);
