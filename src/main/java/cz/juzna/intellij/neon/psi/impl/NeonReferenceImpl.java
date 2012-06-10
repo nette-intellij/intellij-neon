@@ -13,7 +13,7 @@ public class NeonReferenceImpl extends NeonPsiElementImpl implements NeonReferen
 	}
 
 	public String toString() {
-		return "neon reference";
+		return "Neon reference";
 	}
 
 	@Override

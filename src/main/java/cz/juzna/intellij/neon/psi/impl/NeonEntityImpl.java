@@ -1,10 +1,13 @@
 package cz.juzna.intellij.neon.psi.impl;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.TokenSet;
+import com.intellij.util.IncorrectOperationException;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import cz.juzna.intellij.neon.psi.NeonEntity;
 import cz.juzna.intellij.neon.psi.NeonHash;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -20,7 +23,7 @@ public class NeonEntityImpl extends NeonPsiElementImpl implements NeonEntity {
 	}
 
 	@Override
-	public String getEntityName() {
+	public String getName() {
 		return getNode().getFirstChildNode().getPsi().getText();
 	}
 
@@ -29,5 +32,10 @@ public class NeonEntityImpl extends NeonPsiElementImpl implements NeonEntity {
 		ASTNode children[] = getNode().getChildren(TokenSet.create(NeonElementTypes.ARGS));
 		if (children.length > 0) return (NeonHash) children[0].getPsi(); // should be hash I guess
 		else return null;
+	}
+
+	@Override
+	public PsiElement setName(@NonNls @NotNull String s) throws IncorrectOperationException {
+		return null; // TODO:
 	}
 }

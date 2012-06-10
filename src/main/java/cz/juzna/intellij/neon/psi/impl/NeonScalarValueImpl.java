@@ -13,11 +13,16 @@ public class NeonScalarValueImpl extends NeonPsiElementImpl implements NeonScala
 	}
 
 	public String toString() {
-		return "neon scalar value";
+		return "Neon scalar value";
 	}
 
 	@Override
 	public String getValueText() {
 		return getNode().getText();
+	}
+
+	@Override
+	public String getName() {
+		return getValueText();
 	}
 }

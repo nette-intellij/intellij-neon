@@ -12,6 +12,10 @@ public class NeonVariableImpl extends NeonPsiElementImpl implements NeonVariable
 		super(astNode);
 	}
 
+	public String toString() {
+		return "Neon variable";
+	}
+
 	@Override
 	public String getVariableText() {
 		return getNode().getText();

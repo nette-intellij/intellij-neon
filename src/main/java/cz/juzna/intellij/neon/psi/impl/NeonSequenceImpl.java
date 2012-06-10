@@ -12,6 +12,6 @@ public class NeonSequenceImpl extends NeonArrayImpl {
 	}
 
 	public String toString() {
-		return "neon sequence";
+		return "Neon sequence";
 	}
 }

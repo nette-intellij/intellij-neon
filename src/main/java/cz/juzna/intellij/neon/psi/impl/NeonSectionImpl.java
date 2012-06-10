@@ -16,7 +16,7 @@ public class NeonSectionImpl extends NeonKeyValPairImpl implements NeonSection {
 	}
 
 	public String toString() {
-		return "neon section";
+		return "Neon section";
 	}
 
 	@Override
