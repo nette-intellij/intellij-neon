@@ -35,6 +35,7 @@ public class ClassCompletionProvider extends CompletionProvider<CompletionParame
 		curr = params.getPosition().getOriginalElement();
 		if (curr.getParent() instanceof NeonEntity || curr.getParent() instanceof NeonScalarValue) {
 			for (String name : PhpIndex.getInstance(curr.getProject()).getAllClassNames(null)) {
+				// TODO: perhaps should be optimized by a prefixMatcher?
 				results.addElement( LookupElementBuilder.create(name) );
 			}
 		}
