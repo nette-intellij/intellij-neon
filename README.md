@@ -13,18 +13,16 @@ This plugin aims to add suppors for this language into PhpStorm (or the whole In
 * code completion
 * ... more to come
 
-## Install
 
+## Install
 Open project in *IntelliJ IDEA* as a *Plugin project*, go to *Build* -> *Prepare for deployment* and install in your PHP Storm.
 Experimental build available [here](http://juzna.cz/intellij-neon.jar). When it reaches a stable state, it'll be available in plugin repository.
 
-## Development
 
+## Development
 This plugin is in its early development phase, it's not complete at all and it will contain many bugs!
  Be careful if you decide to use it.
 
-To be able to compile it, add these external libraries to your project: PHP, YAML, CSS - all from plugin dir of your PhpStorm installation.
-You may also need to add jUnit 4 to run tests.
-
-
 Please tell me what **features** you'd like in *Issues tab*.
+
+If you want to contribute, please read [development.md](https://github.com/juzna/intellij-neon/blob/master/development.md)
