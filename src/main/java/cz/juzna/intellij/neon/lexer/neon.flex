@@ -46,8 +46,8 @@ D_STRING = "\""(\\.|[^\"\\\n]*)"\""
 STRING = {D_STRING} | {S_STRING}
 
 
-IDENTIFIER=[[:letter:]_\x7f-\xff][[:letter:][:digit:]_\x7f-\xff\.\\]*"!"?
-LITERAL=([^#%\"',=\[\]\{\}\(\)\<\>\t\n\r@ ])+
+IDENTIFIER=[[:letter:]_\x7f-\xff][[:letter:][:digit:]_\x7f-\xff\.\\\<\>]*"!"?
+LITERAL=([^#%\"',=\[\]\{\}\(\)\t\n\r@ ])+
 
 VARIABLE="%"{LITERAL}"%"?
 REFERENCE="@"({IDENTIFIER} | "\\")+
