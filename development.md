@@ -33,3 +33,19 @@ Third, may also need to add *jUnit 4* and/or *testng* to run tests.
 - Parser
 - PSI
 - all the cool features
+
+
+### Lexer
+Lexer is written using JFlex - it's in a .flex file, which is then compiled into a Java class. To be able to make changes in
+ the source .flex file, install *jflex* and also download *JFlex support* plugin for IDEA and configure it under settings.
+
+Lexer is heavily tested. Code of tests is inspired in [properties plugin](https://github.com/JetBrains/intellij-community/tree/master/plugins/properties)
+ from JetBrains and they're pretty simple - each test consists of a) sample code and b) list of expected tokens.
+
+
+### Parser
+Parsing is greatly described in [Custom Language](http://confluence.jetbrains.net/display/IDEADEV/Developing+Custom+Language+Plugins+for+IntelliJ+IDEA)
+ documentation page.
+
+Parser should be heavily tested as well, test cases again inspired from *properties*. Here each test case consists of two parts:
+ a) a sample code and b) syntax tree of this code dumped to a text file. Should be pretty straightforward.
