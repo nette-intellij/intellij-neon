@@ -14,7 +14,7 @@ public class ParserTest extends ParsingTestCase {
 
 	@Override
 	protected String getTestDataPath() {
-		return "src/test/data";
+		return "src/test/data/parser";
 	}
 
 	protected void doTest(boolean checkResult, boolean suppressErrors) {
