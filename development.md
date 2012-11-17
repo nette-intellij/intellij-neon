@@ -1,5 +1,6 @@
 # Development
-This page contains explains how to compile the plugin, how it works and how to contribute to it.
+This page contains explains how to compile the plugin, how it works and how to contribute to it. You may also have a look
+ at some interesting [external articles](https://github.com/juzna/intellij-neon/blob/master/links.md)
 
 (Note I'm not a super cool Java expert, so some things may not be absolutely correct. If you know a better way, please fix
 and send us a pull request.)
