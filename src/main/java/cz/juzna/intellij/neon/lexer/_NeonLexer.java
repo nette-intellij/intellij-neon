@@ -10,7 +10,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
  * @author Jan Dolecek
  */
 
-class _NeonLexer implements FlexLexer {
+public class _NeonLexer implements FlexLexer {
   /** initial size of the lookahead buffer */
   private static final int ZZ_BUFFERSIZE = 16384;
 
@@ -399,7 +399,7 @@ class _NeonLexer implements FlexLexer {
 	}
 
 
-  _NeonLexer(java.io.Reader in) {
+  public _NeonLexer(java.io.Reader in) {
     this.zzReader = in;
   }
 
@@ -409,7 +409,7 @@ class _NeonLexer implements FlexLexer {
    *
    * @param   in  the java.io.Inputstream to read input from.
    */
-  _NeonLexer(java.io.InputStream in) {
+  public _NeonLexer(java.io.InputStream in) {
     this(new java.io.InputStreamReader(in));
   }
 

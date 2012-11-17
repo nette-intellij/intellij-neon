@@ -11,6 +11,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 
 %class _NeonLexer
 %implements FlexLexer
+%public
 %unicode
 %function advance
 %type IElementType
