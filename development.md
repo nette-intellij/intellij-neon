@@ -1,5 +1,5 @@
 # Development
-This page contains explains how to compile the plugin, how it works and how to contribute to it. You may also have a look
+This page contains explains how to compile the plugin, how it works and how to contribute to it.
  at some interesting [external articles](https://github.com/juzna/intellij-neon/blob/master/links.md)
 
 (Note I'm not a super cool Java expert, so some things may not be absolutely correct. If you know a better way, please fix
@@ -50,3 +50,24 @@ Parsing is greatly described in [Custom Language](http://confluence.jetbrains.ne
 
 Parser should be heavily tested as well, test cases again inspired from *properties*. Here each test case consists of two parts:
  a) a sample code and b) syntax tree of this code dumped to a text file. Should be pretty straightforward.
+
+
+
+## Features
+List of features with classes which implement them (it sould help to tell why each file exists, so the we don't have much crap).
+
+- Language base - most of default namespace; `Neon`, `NeonLanguage`, `NeonIcons`, `file.*`
+- Lexer - `lexer.*`
+- Parser - `parser.*` and `psi.*`
+- Syntax Highlight - `editor.NeonSyntaxHighlighterFactory`
+- Commenter - `NeonCommenter` - defined how to turn code into a comment and back
+- Brace matching - `NeonBraceMatcher` - how to highlight and jump to relevant closing/opening brace or parenthesis
+- Code folding - `editor.NeonFoldingBuilder` - defines which parts of code can be folded (minimized)
+- Completion - `completion.*`; keywords, class names, services from DIC
+- Settings
+    - Color Settings Page - `editor.NeonColorsPage` - allows to configure colors under Settings
+    - Ident style - `editor.NeonLanguageCodeStyleSettingsProvider`, `editor.NeonCodeStyleSettingsProvider`
+
+
+
+*[DIC]: Dependency Injection Container
