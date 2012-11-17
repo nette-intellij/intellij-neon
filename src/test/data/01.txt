@@ -1,0 +1,16 @@
+NeonFile:01.neon
+  Neon section
+    Neon key
+      PsiElement([Neon] key)('name')
+    PsiElement([Neon] :)(':')
+    PsiWhiteSpace(' ')
+    Neon scalar value
+      PsiElement([Neon] identifier)('Jan')
+  PsiElement([Neon] indent)('\n')
+  Neon section
+    Neon key
+      PsiElement([Neon] key)('surname')
+    PsiElement([Neon] :)(':')
+    PsiWhiteSpace(' ')
+    Neon scalar value
+      PsiElement([Neon] identifier)('Dolecek')

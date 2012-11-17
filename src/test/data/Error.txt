@@ -1,0 +1,18 @@
+NeonFile:Error.neon
+  Neon section
+    Neon key
+      PsiElement([Neon] key)('name')
+    PsiElement([Neon] :)(':')
+    PsiWhiteSpace(' ')
+    Neon scalar value
+      PsiElement([Neon] identifier)('Jan')
+  PsiElement([Neon] indent)('\n')
+  PsiElement(BAD_CHARACTER)('>')
+  PsiWhiteSpace(' ')
+  Neon section
+    Neon key
+      PsiElement([Neon] key)('surname')
+    PsiElement([Neon] :)(':')
+    PsiWhiteSpace(' ')
+    Neon scalar value
+      PsiElement([Neon] identifier)('Dolecek')
