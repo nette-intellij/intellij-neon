@@ -17,7 +17,7 @@ probably resist in `lib/` dir (though it is not on GitHub. IDEA will download th
 
 ## Dependencies
 First, you need *Java SDK* (get it from Oracle) and *PhpStorm SDK* (as *IntelliJ IDEA Plugin SDK*; use your local installation
-of PhpStorm).
+of PhpStorm). Also add `tools.jar` (see Gotchas chapter)
 
 Second, you'll need to add some more stuff from PhpStorm, which is not in its default SDK. That are PHP, YAML, CSS.
 Take these from plugin dir of your PhpStorm installation.
@@ -71,3 +71,8 @@ List of features with classes which implement them (it sould help to tell why ea
 
 
 *[DIC]: Dependency Injection Container
+
+
+
+## Gotchas
+- add `tools.jar` to SDK; there are some classes needed in the project. I dunno whether it should be there of if there's a cleaner way.
