@@ -26,7 +26,7 @@
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
-  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" defaultCharsetForPropertiesFiles="UTF-8" />
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
@@ -151,6 +151,15 @@
       </item>
     </group>
   </component>
+  <component name="ProjectCodeStyleSettingsManager">
+    <option name="PER_PROJECT_SETTINGS">
+      <value>
+        <XML>
+          <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+        </XML>
+      </value>
+    </option>
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/intellij-neon.iml" filepath="$PROJECT_DIR$/intellij-neon.iml" />
@@ -167,18 +176,34 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
+    <library name="css">
+      <CLASSES>
+        <root url="jar://$PHPSTORM_PATH$/plugins/CSS/lib/css.jar!/" />
+        <root url="jar://$PHPSTORM_PATH$/plugins/CSS/lib/css-openapi.jar!/" />
+        <root url="jar://$PHPSTORM_PATH$/plugins/CSS/lib/resources_en.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="junit-4.10">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/junit-4.10.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="php">
       <CLASSES>
-        <root url="jar://$USER_HOME$/apps/PhpStorm/plugins/php/lib/php.jar!/" />
-        <root url="jar://$USER_HOME$/apps/PhpStorm/plugins/php/lib/resources_en.jar!/" />
+        <root url="jar://$PHPSTORM_PATH$/plugins/php/lib/php.jar!/" />
+        <root url="jar://$PHPSTORM_PATH$/plugins/php/lib/resources_en.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
     <library name="yaml">
       <CLASSES>
-        <root url="jar://$USER_HOME$/apps/PhpStorm/plugins/yaml/lib/yaml.jar!/" />
-        <root url="jar://$USER_HOME$/apps/PhpStorm/plugins/yaml/lib/resources_en.jar!/" />
+        <root url="jar://$PHPSTORM_PATH$/plugins/yaml/lib/yaml.jar!/" />
+        <root url="jar://$PHPSTORM_PATH$/plugins/yaml/lib/resources_en.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
