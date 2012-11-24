@@ -1,18 +1,16 @@
 package cz.juzna.intellij.neon.lexer;
 
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.application.PluginPathManager;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.testFramework.LightPlatformTestCase;
-import com.intellij.testFramework.PlatformLiteFixture;
 import com.intellij.testFramework.PlatformTestCase;
 import com.sun.tools.javac.util.Pair;
-import cz.juzna.intellij.neon.parser.NeonElementType;
 import org.jetbrains.annotations.NonNls;
-import org.testng.annotations.*;
+import org.junit.Test;
 
-import static junit.framework.Assert.*;
 import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 
 /**
  *
@@ -57,7 +55,7 @@ public class LexerTest extends LightPlatformTestCase {
 
 	/*** tests here ***/
 
-	@org.testng.annotations.Test
+	@Test
 	public void testSimple() throws Exception {
 		doTest("name: Jan", new Pair[] {
 				Pair.of(NEON_KEY, "name"),
