@@ -5,6 +5,6 @@ services:
 	httpRequest: @httpRequestFactory::createHttpRequest
 
 panels:
-	Nette\Application\Diagnostics\RoutingPanel::initialize
-	@httpRequestFactory::start
-	@httpRequestFactory::start
+	- Nette\Application\Diagnostics\RoutingPanel::initialize
+	- @httpRequestFactory::start
+	- @httpRequestFactory::start

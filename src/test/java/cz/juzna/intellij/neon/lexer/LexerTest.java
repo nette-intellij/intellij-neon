@@ -1,12 +1,18 @@
 package cz.juzna.intellij.neon.lexer;
 
 import com.intellij.lexer.Lexer;
+import com.intellij.openapi.util.io.FileUtil;
+import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.testFramework.LightPlatformTestCase;
 import com.intellij.testFramework.PlatformTestCase;
 import com.sun.tools.javac.util.Pair;
 import org.jetbrains.annotations.NonNls;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
 
 import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 import static junit.framework.Assert.assertEquals;
@@ -63,6 +69,47 @@ public class LexerTest extends LightPlatformTestCase {
 				Pair.of(NEON_WHITESPACE, " "),
 				Pair.of(NEON_IDENTIFIER, "Jan"),
 		});
+	}
+
+	@Test
+	public void test01() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
+	public void test02() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
+	public void test03() throws Exception {
+		doTestFromFile();
+	}
+
+	public void doTestFromFile() throws Exception {
+		String code = doLoadFile("src/test/data/parser", getTestName(false) + ".neon");
+
+		Lexer lexer = new NeonLexer();
+		StringBuilder sb = new StringBuilder();
+
+		lexer.start(code);
+		while (lexer.getTokenType() != null) {
+			sb.append(lexer.getTokenType().toString());
+			sb.append("\n");
+		}
+
+//		System.out.println(sb);
+
+		// Match to original
+		String lexed = doLoadFile("src/test/data/parser", getTestName(false) + ".lexed");
+		assertEquals(lexed, sb.toString());
+	}
+
+	private static String doLoadFile(String myFullDataPath, String name) throws IOException {
+		String fullName = myFullDataPath + File.separatorChar + name;
+		String text = FileUtil.loadFile(new File(fullName), CharsetToolkit.UTF8).trim();
+		text = StringUtil.convertLineSeparators(text);
+		return text;
 	}
 
 }
