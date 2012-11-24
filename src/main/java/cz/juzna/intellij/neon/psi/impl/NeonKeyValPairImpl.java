@@ -42,7 +42,7 @@ public class NeonKeyValPairImpl extends NeonPsiElementImpl implements NeonKeyVal
 
 	@Override
 	public String getKeyText() {
-		return this.getKey().getText();
+		return this.getKey() != null ? this.getKey().getText() : null;
 	}
 
 	@Override
