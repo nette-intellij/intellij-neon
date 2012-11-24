@@ -5,8 +5,7 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.testFramework.LightPlatformTestCase;
-import com.intellij.testFramework.PlatformTestCase;
+import com.intellij.testFramework.UsefulTestCase;
 import com.sun.tools.javac.util.Pair;
 import org.jetbrains.annotations.NonNls;
 import org.junit.Test;
@@ -21,11 +20,7 @@ import static junit.framework.Assert.fail;
 /**
  *
  */
-public class LexerTest extends LightPlatformTestCase {
-	public LexerTest() {
-		PlatformTestCase.initPlatformLangPrefix();
-	}
-
+public class LexerTest extends UsefulTestCase {
 
 	/*** helpers ***/
 
@@ -96,6 +91,7 @@ public class LexerTest extends LightPlatformTestCase {
 		while (lexer.getTokenType() != null) {
 			sb.append(lexer.getTokenType().toString());
 			sb.append("\n");
+			lexer.advance();
 		}
 
 //		System.out.println(sb);
