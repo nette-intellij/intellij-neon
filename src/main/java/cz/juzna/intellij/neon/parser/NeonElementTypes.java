@@ -32,6 +32,7 @@ public interface NeonElementTypes {
 		NeonTokenTypes.NEON_REFERENCE,
 		NeonTokenTypes.NEON_IDENTIFIER,
 		NeonTokenTypes.NEON_LITERAL,
-		NeonTokenTypes.NEON_VARIABLE
+		NeonTokenTypes.NEON_VARIABLE,
+		NeonTokenTypes.NEON_DOUBLE_COLON, NeonTokenTypes.NEON_DOLLAR, NeonTokenTypes.NEON_AT
 	);
 }

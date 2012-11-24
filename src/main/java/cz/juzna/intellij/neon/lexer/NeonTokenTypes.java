@@ -32,6 +32,9 @@ public interface NeonTokenTypes {
 	IElementType NEON_ITEM_DELIMITER = new NeonTokenType(",");
 	IElementType NEON_ARRAY_BULLET = new NeonTokenType("-");
 	IElementType NEON_ASSIGNMENT = new NeonTokenType(":");
+	IElementType NEON_DOUBLE_COLON = new NeonTokenType("::");
+	IElementType NEON_DOLLAR = new NeonTokenType("$");
+	IElementType NEON_AT = new NeonTokenType("@");
 
 
 	// special tokens (identifier in block header or as array key)

@@ -167,11 +167,17 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 		} else if (SCALAR_VALUES.contains(type)) {
 			PsiBuilder.Marker val = mark();
-			advanceLexer();
+
+			// read all scalar tokens
+			while (SCALAR_VALUES.contains(myBuilder.getTokenType())) {
+				advanceLexer();
+			}
 
 			if (myBuilder.getTokenType() == NEON_LPAREN) {
+				PsiBuilder.Marker entity = val.precede();
+				val.done(SCALAR_VALUE);
 				parseArguments();
-				val.done(ENTITY);
+				entity.done(ENTITY);
 			} else {
 				val.done(SCALAR_VALUE);
 			}

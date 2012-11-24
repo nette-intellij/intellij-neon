@@ -122,6 +122,15 @@ BLOCK_HEADER={IDENTIFIER}{WHITESPACE}*"<"{WHITESPACE}*{IDENTIFIER}{WHITESPACE}*"
     ")" {
         return NEON_RPAREN;
     }
+    "::" {
+        return NEON_DOUBLE_COLON;
+    }
+    "$" {
+        return NEON_DOLLAR;
+    }
+    "@" {
+        return NEON_AT;
+    }
 
 
     // 3: comment
