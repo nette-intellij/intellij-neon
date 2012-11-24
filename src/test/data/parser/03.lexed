@@ -43,6 +43,8 @@ WHITE_SPACE
 [Neon] ::
 [Neon] literal
 [Neon] indent
+[Neon] -
+WHITE_SPACE
 [Neon] reference
 [Neon] ::
 [Neon] literal
