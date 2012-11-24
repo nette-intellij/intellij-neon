@@ -58,7 +58,7 @@ public class NeonParserDefinition implements ParserDefinition {
 		IElementType type = node.getElementType();
 
 		if (type == NeonElementTypes.KEY_VALUE_PAIR) {
-			if (node.getTreeParent().getPsi() instanceof NeonFile) return new NeonSectionImpl(node);
+			if (node.getTreeParent() != null && (node.getTreeParent().getPsi() instanceof NeonFile)) return new NeonSectionImpl(node);
 			else return new NeonKeyValPairImpl(node);
 		}
 		else if (type == NeonElementTypes.KEY) return new NeonKeyImpl(node);
