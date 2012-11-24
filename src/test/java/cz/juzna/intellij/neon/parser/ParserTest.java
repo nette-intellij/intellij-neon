@@ -33,6 +33,16 @@ public class ParserTest extends ParsingTestCase {
 	}
 
 	@Test
+	public void test02() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void test03() {
+		doTest(true, false);
+	}
+
+	@Test
 	public void testError() {
 		doTest(true, false);
 	}

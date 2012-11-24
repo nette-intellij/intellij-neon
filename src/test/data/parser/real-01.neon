@@ -1,0 +1,46 @@
+services:
+# aliases for back compatibility
+    application: @Nette\Application\Application
+    router: @Nette\Application\Routers\RouteList
+    session: @Nette\Http\Session
+    user: @Nette\Http\User
+    cacheStorage: @Nette\Caching\Storages\FileStorage
+
+# cache
+    Nette\Caching\Storages\FileJournal: self(%tempDir%)
+    Nette\Caching\Storages\FileStorage: self(%tempDir%/cache)
+    templateCacheStorage:
+        class: Nette\Caching\Storages\PhpFileStorage(%tempDir%/cache)
+        autowired: no
+
+# http
+    Nette\Http\Request:
+        class: self
+        factory: @httpRequestFactory::createHttpRequest
+
+    Nette\Http\Response: self
+    Nette\Http\Context: self
+    Nette\Http\User: self
+    Nette\Http\Session:
+        class: self
+        setup:
+            # - setOptions
+
+# application
+    Nette\Application\Routers\RouteList: self
+    Nette\Application\PresenterFactory: self(%appDir%)
+    Nette\Application\Application:
+        class: self
+        setup:
+            - $catchExceptions(%productionMode%)
+            - Nette\Application\Diagnostics\RoutingPanel::initialize
+
+# mailer
+    Nette\Mail\SendmailMailer: self
+
+factories:
+    httpRequestFactory:
+        class: Nette\Http\RequestFactory
+        setup:
+            - setEncoding(UTF-8)
+        internal: TRUE
