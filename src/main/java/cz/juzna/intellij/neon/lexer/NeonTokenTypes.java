@@ -9,19 +9,23 @@ import com.intellij.psi.tree.TokenSet;
  *
  * @author Jan Dolecek - juzna.cz@gmail.com
  */
-public interface NeonTokenTypes {
+public interface NeonTokenTypes
+{
+	IElementType NEON_STRING = new NeonTokenType("string");
+	IElementType NEON_SYMBOL = new NeonTokenType("symbol");
+	IElementType NEON_COMMENT = new NeonTokenType("comment");
+	IElementType NEON_INDENT = new NeonTokenType("indent");
+	IElementType NEON_LITERAL = new NeonTokenType("literal");
+	IElementType NEON_WHITESPACE = TokenType.WHITE_SPACE; // new NeonTokenType("whitespace");
+
+	// the rest are deprecated and will be removed
 	IElementType NEON_IDENTIFIER = new NeonTokenType("identifier");
 	IElementType NEON_KEYWORD = new NeonTokenType("keyword");
 	IElementType NEON_EOL = new NeonTokenType("eol");
-	IElementType NEON_INDENT = new NeonTokenType("indent");
-	IElementType NEON_STRING = new NeonTokenType("string");
-	IElementType NEON_COMMENT = new NeonTokenType("comment");
 	IElementType NEON_UNKNOWN = TokenType.BAD_CHARACTER; // new NeonTokenType("error");
-	IElementType NEON_LITERAL = new NeonTokenType("literal");
 	IElementType NEON_VARIABLE = new NeonTokenType("variable");
 	IElementType NEON_NUMBER = new NeonTokenType("number");
 	IElementType NEON_REFERENCE = new NeonTokenType("reference");
-	IElementType NEON_WHITESPACE = TokenType.WHITE_SPACE; // new NeonTokenType("whitespace");
 	IElementType NEON_BLOCK_INHERITENCE = new NeonTokenType("<");
 	IElementType NEON_LPAREN = new NeonTokenType("(");
 	IElementType NEON_RPAREN = new NeonTokenType(")");
