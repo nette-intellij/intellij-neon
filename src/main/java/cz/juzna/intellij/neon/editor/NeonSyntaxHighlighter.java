@@ -34,9 +34,6 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final String            NUMBER_ID        = "Number";
 	public static final TextAttributesKey NUMBER           = TextAttributesKey.createTextAttributesKey(NUMBER_ID, SyntaxHighlighterColors.NUMBER.getDefaultAttributes().clone());
 
-	public static final String            KEYWORD_ID       = "Keyword";
-	public static final TextAttributesKey KEYWORD          = TextAttributesKey.createTextAttributesKey(KEYWORD_ID, SyntaxHighlighterColors.KEYWORD.getDefaultAttributes().clone());
-
 
 	// Groups of IElementType's
 	public static final TokenSet sBAD           = TokenSet.create(NEON_UNKNOWN);

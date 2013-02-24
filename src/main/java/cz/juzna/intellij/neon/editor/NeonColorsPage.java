@@ -21,7 +21,6 @@ public class NeonColorsPage implements ColorSettingsPage {
 			new AttributesDescriptor("colors.identifier",    NeonSyntaxHighlighter.IDENTIFIER),
 			new AttributesDescriptor("colors.interpunction", NeonSyntaxHighlighter.INTERPUNCTION),
 			new AttributesDescriptor("colors.number",        NeonSyntaxHighlighter.NUMBER),
-			new AttributesDescriptor("colors.keyword",       NeonSyntaxHighlighter.KEYWORD),
 	};
 
 	@NotNull
