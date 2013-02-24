@@ -27,13 +27,12 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 
 
 STRING = \'[^\'\n]*\'|\"(\\\\.|[^\"\\\\\n])*\"
-//SYMBOL = :(?=[\s,\]})]|$)| [,=[\]{}()]
 COMMENT = \#.*
 INDENT = \n[\t\ ]*
-// LITERAL = [^#\"\',=\[\]{}()\x00-\x20!`]([^,:=\]})(\x00-\x20]+|:(?![\s,\]})]|$)|[\ \t]+[^#,:=\]})(\x00-\x20])*
+LITERAL_START = [^#\"\',=\[\]{}()\x00-\x20!`]
 WHITESPACE = [\t\ ]+
 
-%state LITERAL_INIT
+%state IN_LITERAL
 
 %%
 
@@ -45,10 +44,9 @@ WHITESPACE = [\t\ ]+
 
     "-" / [ \n] { return NEON_SYMBOL; }
     "-" $  { return NEON_SYMBOL; }
-    ":" / [ \n,\]\}\)] { return NEON_SYMBOL; }
+    ":" / [ \n,\]})] { return NEON_SYMBOL; }
     ":" $ { return NEON_SYMBOL; }
     [,=\[\]{}()] { return NEON_SYMBOL; }
-
 
     {COMMENT} {
         return NEON_COMMENT;
@@ -58,8 +56,8 @@ WHITESPACE = [\t\ ]+
         return NEON_INDENT;
     }
 
-    [^#\"\',=\[\]{}()\x00-\x20!`] {
-        yybegin(LITERAL_INIT);
+    {LITERAL_START} {
+        yybegin(IN_LITERAL);
         return NEON_LITERAL;
     }
 
@@ -68,16 +66,10 @@ WHITESPACE = [\t\ ]+
     }
 }
 
-<LITERAL_INIT> {
+<IN_LITERAL> {
     [^,:=\]})(\x00-\x20]+ {}
-    ":"[ \n,\]\}\)] {
-        yypushback(2);
-        yybegin(YYINITIAL);
-    }
-    ":" {}
     [ \t]+[^#,:=\]})(\x00-\x20] {}
-    .|\n {
-        yypushback(1);
-        yybegin(YYINITIAL);
-    }
+    ":"[ \n,\]\}\)] { retryInState(YYINITIAL); }
+    ":" {}
+    .|\n  { retryInState(YYINITIAL); }
 }
