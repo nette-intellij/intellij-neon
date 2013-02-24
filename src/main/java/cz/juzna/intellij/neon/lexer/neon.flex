@@ -26,7 +26,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %}
 
 
-STRING = \'[^\'\n]*\'|\"(\\\\.|[^\"\\\\\n])*\"
+STRING = \'[^\'\n]*\'|\"(\\.|[^\"\\\n])*\"
 COMMENT = \#.*
 INDENT = \n[\t\ ]*
 LITERAL_START = [^#\"\',=\[\]{}()\x00-\x20!`]

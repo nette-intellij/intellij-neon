@@ -50,10 +50,10 @@ public class _NeonLexer implements FlexLexer {
   private static final String ZZ_ACTION_PACKED_0 =
     "\2\0\1\1\1\0\1\2\1\0\1\3\1\4\2\1"+
     "\1\5\1\6\2\7\1\6\1\10\1\0\2\11\1\6"+
-    "\2\0";
+    "\1\0";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[22];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -80,10 +80,10 @@ public class _NeonLexer implements FlexLexer {
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\22\0\44\0\66\0\110\0\132\0\154\0\176"+
     "\0\220\0\242\0\44\0\264\0\44\0\306\0\330\0\44"+
-    "\0\352\0\44\0\374\0\44\0\306\0\u010e";
+    "\0\352\0\44\0\374\0\44\0\306";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[22];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -117,11 +117,10 @@ public class _NeonLexer implements FlexLexer {
     "\1\0\3\14\1\0\2\14\1\0\1\14\4\0\1\14"+
     "\2\0\2\24\1\0\2\24\1\0\1\25\2\24\1\25"+
     "\1\24\4\0\1\24\4\0\1\15\6\0\1\15\4\0"+
-    "\1\15\7\0\1\26\17\0\1\22\17\0\2\6\1\0"+
-    "\17\6";
+    "\1\15\3\0\2\6\1\0\17\6\2\0\1\22\17\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[288];
+    int [] result = new int[270];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -163,10 +162,10 @@ public class _NeonLexer implements FlexLexer {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\2\0\1\11\1\0\1\1\1\0\4\1\1\11\1\1"+
-    "\1\11\2\1\1\11\1\0\1\11\1\1\1\11\2\0";
+    "\1\11\2\1\1\11\1\0\1\11\1\1\1\11\1\0";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[22];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
