@@ -1,14 +1,18 @@
 NeonFile:01.neon
-  Neon scalar value
-    PsiElement([Neon] literal)('name')
-  PsiElement([Neon] symbol)(':')
-  PsiWhiteSpace(' ')
-  Neon scalar value
-    PsiElement([Neon] literal)('Jan')
-  PsiElement([Neon] indent)('\n')
-  Neon scalar value
-    PsiElement([Neon] literal)('surname')
-  PsiElement([Neon] symbol)(':')
-  PsiWhiteSpace(' ')
-  Neon scalar value
-    PsiElement([Neon] string)('"Dolecek"')
+  Neon array
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('name')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
+      Neon scalar value
+        PsiElement([Neon] literal)('Jan')
+    PsiElement([Neon] indent)('\n')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('surname')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
+      Neon scalar value
+        PsiElement([Neon] string)('Dolecek')
+    PsiElement([Neon] indent)('\n')
