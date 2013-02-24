@@ -22,7 +22,7 @@ public class NeonLexer2Test extends UsefulTestCase {
 		assertEquals("key", l.getTokenText());
 		l.advance();
 
-		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(NeonTokenTypes.NEON_COLON, l.getTokenType());
 		assertEquals(3, l.getTokenStart());
 		assertEquals(4, l.getTokenEnd());
 		assertEquals(":", l.getTokenText());

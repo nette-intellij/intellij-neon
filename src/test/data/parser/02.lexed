@@ -1,18 +1,18 @@
 [Neon] comment
 [Neon] indent
 [Neon] literal
-[Neon] symbol
+[Neon] :
 [Neon] indent
-[Neon] symbol
+[Neon] -
 WHITE_SPACE
 [Neon] literal
 [Neon] indent
 [Neon] literal
-[Neon] symbol
+[Neon] :
 WHITE_SPACE
 [Neon] literal
 [Neon] indent
-[Neon] symbol
+[Neon] -
 WHITE_SPACE
 [Neon] literal
 [Neon] indent

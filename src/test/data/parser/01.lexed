@@ -1,10 +1,10 @@
 [Neon] literal
-[Neon] symbol
+[Neon] :
 WHITE_SPACE
 [Neon] literal
 [Neon] indent
 [Neon] literal
-[Neon] symbol
+[Neon] :
 WHITE_SPACE
 [Neon] string
 [Neon] indent

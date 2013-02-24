@@ -64,7 +64,7 @@ public class LexerTest extends UsefulTestCase {
 	public void testSimple() throws Exception {
 		doTest("name: 'Jan'", new Pair[] {
 				Pair.of(NEON_LITERAL, "name"),
-				Pair.of(NEON_SYMBOL, ":"),
+				Pair.of(NEON_COLON, ":"),
 				Pair.of(NEON_WHITESPACE, " "),
 				Pair.of(NEON_STRING, "'Jan'"),
 		});

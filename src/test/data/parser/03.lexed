@@ -1,35 +1,35 @@
 [Neon] comment
 [Neon] indent
 [Neon] literal
-[Neon] symbol
+[Neon] :
 [Neon] indent
 [Neon] literal
-[Neon] symbol
+[Neon] :
 WHITE_SPACE
 [Neon] literal
 [Neon] indent
 [Neon] literal
-[Neon] symbol
+[Neon] :
 WHITE_SPACE
 [Neon] literal
-[Neon] symbol
+[Neon] (
 [Neon] literal
-[Neon] symbol
+[Neon] )
 [Neon] indent
 [Neon] literal
-[Neon] symbol
-WHITE_SPACE
-[Neon] literal
-[Neon] indent
-[Neon] indent
-[Neon] literal
-[Neon] symbol
-[Neon] indent
-[Neon] symbol
+[Neon] :
 WHITE_SPACE
 [Neon] literal
 [Neon] indent
-[Neon] symbol
+[Neon] indent
+[Neon] literal
+[Neon] :
+[Neon] indent
+[Neon] -
+WHITE_SPACE
+[Neon] literal
+[Neon] indent
+[Neon] -
 WHITE_SPACE
 [Neon] literal
 [Neon] indent
