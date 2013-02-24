@@ -37,63 +37,47 @@ WHITESPACE = [\t\ ]+
 
 %%
 
-{STRING} {
-    return NEON_STRING;
+<YYINITIAL> {
+
+    {STRING} {
+        return NEON_STRING;
+    }
+
+    "-" / [ \n] { return NEON_SYMBOL; }
+    "-" $  { return NEON_SYMBOL; }
+    ":" / [ \n,\]\}\)] { return NEON_SYMBOL; }
+    ":" $ { return NEON_SYMBOL; }
+    [,=\[\]{}()] { return NEON_SYMBOL; }
+
+
+    {COMMENT} {
+        return NEON_COMMENT;
+    }
+
+    {INDENT} {
+        return NEON_INDENT;
+    }
+
+    [^#\"\',=\[\]{}()\x00-\x20!`] {
+        yybegin(LITERAL_INIT);
+        return NEON_LITERAL;
+    }
+
+    {WHITESPACE} {
+        return NEON_WHITESPACE;
+    }
 }
 
-"-" / \s { return NEON_SYMBOL; }
-"-" $  { return NEON_SYMBOL; }
-":" / [\s,\]\}\)] { return NEON_SYMBOL; }
-":" $ { return NEON_SYMBOL; }
-
-
-{COMMENT} {
-    return NEON_COMMENT;
-}
-
-{INDENT} {
-    return NEON_INDENT;
-}
-
-{WHITESPACE} {
-    return NEON_WHITESPACE;
-}
-
-[^#\"\',=\[\]{}()\x00-\x20!`] {
-    yybegin(LITERAL_INIT);
-}
-
-
-
-
-// LITERAL = [^#\"\',=\[\]{}()\x00-\x20!`]([^,:=\]})(\x00-\x20]+|:(?![\s,\]})]|$)|[\ \t]+[^#,:=\]})(\x00-\x20])*
 <LITERAL_INIT> {
-    [^,:=\]})(\x00-\x20]+ {
-
-    }
-
-    :[\s,\]})] {
+    [^,:=\]})(\x00-\x20]+ {}
+    ":"[ \n,\]\}\)] {
         yypushback(2);
         yybegin(YYINITIAL);
-        return NEON_LITERAL;
     }
-
-    ":" {
-
-    }
-
-    [\ \t]+[^#,:=\]})(\x00-\x20] {
-
-    }
-
-    . {
-        yypushback(2);
+    ":" {}
+    [ \t]+[^#,:=\]})(\x00-\x20] {}
+    .|\n {
+        yypushback(1);
         yybegin(YYINITIAL);
-        return NEON_LITERAL;
     }
-
 }
-
-// default
-{WHITESPACE} { return NEON_WHITESPACE; }
-.            { return NEON_UNKNOWN; }
