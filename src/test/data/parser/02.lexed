@@ -1,17 +1,19 @@
 [Neon] comment
 [Neon] indent
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 [Neon] indent
-[Neon] -
+[Neon] symbol
 WHITE_SPACE
-[Neon] identifier
+[Neon] literal
 [Neon] indent
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 WHITE_SPACE
-[Neon] identifier
+[Neon] literal
 [Neon] indent
-[Neon] -
+[Neon] symbol
 WHITE_SPACE
-[Neon] identifier
+[Neon] literal
+[Neon] indent
+[Neon] indent

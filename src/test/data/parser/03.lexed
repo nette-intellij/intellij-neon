@@ -1,50 +1,56 @@
 [Neon] comment
 [Neon] indent
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 [Neon] indent
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 WHITE_SPACE
-[Neon] key
-[Neon] ::
-[Neon] key
+[Neon] literal
+[Neon] symbol
+[Neon] symbol
+[Neon] literal
 [Neon] indent
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 WHITE_SPACE
-[Neon] key
-[Neon] ::
-[Neon] key
-[Neon] (
-[Neon] key
-[Neon] )
+[Neon] literal
+[Neon] symbol
+[Neon] symbol
+[Neon] literal
+[Neon] symbol
+[Neon] literal
+[Neon] symbol
 [Neon] indent
-[Neon] key
-[Neon] :
-WHITE_SPACE
-[Neon] reference
-[Neon] ::
-[Neon] key
-[Neon] indent
-[Neon] indent
-[Neon] key
-[Neon] :
-[Neon] indent
-[Neon] -
-WHITE_SPACE
-[Neon] key
-[Neon] ::
-[Neon] key
-[Neon] indent
-[Neon] -
+[Neon] literal
+[Neon] symbol
 WHITE_SPACE
 [Neon] reference
-[Neon] ::
-[Neon] key
+[Neon] symbol
+[Neon] symbol
+[Neon] literal
 [Neon] indent
-[Neon] -
+[Neon] indent
+[Neon] literal
+[Neon] symbol
+[Neon] indent
+[Neon] symbol
+WHITE_SPACE
+[Neon] literal
+[Neon] symbol
+[Neon] symbol
+[Neon] literal
+[Neon] indent
+[Neon] symbol
 WHITE_SPACE
 [Neon] reference
-[Neon] ::
-[Neon] key
+[Neon] symbol
+[Neon] symbol
+[Neon] literal
+[Neon] indent
+[Neon] symbol
+WHITE_SPACE
+[Neon] reference
+[Neon] symbol
+[Neon] symbol
+[Neon] literal

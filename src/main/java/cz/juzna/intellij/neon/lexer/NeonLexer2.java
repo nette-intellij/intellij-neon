@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.regex.Matcher;
 
 /**
- *
+ * Better faster stronger lexer
  */
 public class NeonLexer2 extends LexerBase {
 	int startOffset;
@@ -27,6 +27,8 @@ public class NeonLexer2 extends LexerBase {
 		this.startOffset = startOffset;
 		this.endOffset = endOffset;
 		this.readUntil = startOffset;
+
+		this.advance();
 	}
 
 	@Override

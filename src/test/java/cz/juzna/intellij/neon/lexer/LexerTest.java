@@ -21,6 +21,10 @@ import static junit.framework.Assert.fail;
  *
  */
 public class LexerTest extends UsefulTestCase {
+	// which lexer to test
+	private static NeonLexer2 createLexer() {
+		return new NeonLexer2();
+	}
 
 	/*** helpers ***/
 
@@ -31,7 +35,7 @@ public class LexerTest extends UsefulTestCase {
 	 * @param expectedTokens List of tokens expected from lexer
 	 */
 	protected static void doTest(@NonNls String text, @NonNls Pair<IElementType, String>[] expectedTokens) {
-		Lexer lexer = new NeonLexer();
+		Lexer lexer = createLexer();
 		doTest(text, expectedTokens, lexer);
 	}
 
@@ -49,7 +53,7 @@ public class LexerTest extends UsefulTestCase {
 			lexer.advance();
 		}
 
-		if (idx < expectedTokens.length) fail("Not enough tokens from lexer");
+		if (idx < expectedTokens.length) fail("Not enough tokens from lexer, expected " + expectedTokens.length + " but got only " + idx);
 	}
 
 
@@ -58,11 +62,11 @@ public class LexerTest extends UsefulTestCase {
 
 	@Test
 	public void testSimple() throws Exception {
-		doTest("name: Jan", new Pair[] {
-				Pair.of(NEON_KEY, "name"),
-				Pair.of(NEON_ASSIGNMENT, ":"),
+		doTest("name: 'Jan'", new Pair[] {
+				Pair.of(NEON_LITERAL, "name"),
+				Pair.of(NEON_SYMBOL, ":"),
 				Pair.of(NEON_WHITESPACE, " "),
-				Pair.of(NEON_IDENTIFIER, "Jan"),
+				Pair.of(NEON_STRING, "'Jan'"),
 		});
 	}
 
@@ -104,7 +108,7 @@ public class LexerTest extends UsefulTestCase {
 	public void doTestFromFile() throws Exception {
 		String code = doLoadFile("src/test/data/parser", getTestName(false) + ".neon");
 
-		Lexer lexer = new NeonLexer();
+		Lexer lexer = createLexer();
 		StringBuilder sb = new StringBuilder();
 
 		lexer.start(code);
@@ -123,7 +127,7 @@ public class LexerTest extends UsefulTestCase {
 
 	private static String doLoadFile(String myFullDataPath, String name) throws IOException {
 		String fullName = myFullDataPath + File.separatorChar + name;
-		String text = FileUtil.loadFile(new File(fullName), CharsetToolkit.UTF8).trim();
+		String text = FileUtil.loadFile(new File(fullName), CharsetToolkit.UTF8);
 		text = StringUtil.convertLineSeparators(text);
 		return text;
 	}
