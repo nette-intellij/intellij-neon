@@ -42,4 +42,19 @@ public class NeonLexer2Test extends UsefulTestCase {
 		l.advance();
 		assertEquals(null, l.getTokenType());
 	}
+
+	@Test
+	public void test02() {
+		NeonLexer2 l = new NeonLexer2();
+		l.start("key: 'val'", 4, 5);
+
+		l.advance();
+		assertEquals(NeonTokenTypes.NEON_WHITESPACE, l.getTokenType());
+		assertEquals(4, l.getTokenStart());
+		assertEquals(5, l.getTokenEnd());
+		assertEquals(" ", l.getTokenText());
+
+		l.advance();
+		assertEquals(null, l.getTokenType());
+	}
 }

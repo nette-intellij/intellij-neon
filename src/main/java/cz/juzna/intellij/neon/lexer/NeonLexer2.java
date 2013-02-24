@@ -22,7 +22,8 @@ public class NeonLexer2 extends LexerBase {
 
 	@Override
 	public void start(CharSequence buffer, int startOffset, int endOffset, int initialState) {
-		m = NeonTokenizer.createPattern().matcher(this.buffer = buffer.subSequence(startOffset, endOffset));
+		this.buffer = buffer;
+		m = NeonTokenizer.createPattern().matcher(buffer.subSequence(startOffset, endOffset));
 		this.startOffset = startOffset;
 		this.endOffset = endOffset;
 		this.readUntil = startOffset;
