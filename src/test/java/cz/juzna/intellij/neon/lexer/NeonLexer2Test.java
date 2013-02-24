@@ -1,5 +1,6 @@
 package cz.juzna.intellij.neon.lexer;
 
+import com.intellij.lexer.Lexer;
 import com.intellij.testFramework.UsefulTestCase;
 import org.junit.Test;
 
@@ -12,7 +13,7 @@ public class NeonLexer2Test extends UsefulTestCase {
 
 	@Test
 	public void test01() {
-		NeonLexer2 l = new NeonLexer2();
+		Lexer l = createLexer();
 		l.start("key: 'val'");
 
 		assertEquals(NeonTokenTypes.NEON_LITERAL, l.getTokenType());
@@ -44,7 +45,7 @@ public class NeonLexer2Test extends UsefulTestCase {
 
 	@Test
 	public void test02() {
-		NeonLexer2 l = new NeonLexer2();
+		Lexer l = createLexer();
 		l.start("key: 'val'", 4, 5);
 
 		assertEquals(NeonTokenTypes.NEON_WHITESPACE, l.getTokenType());
@@ -55,4 +56,9 @@ public class NeonLexer2Test extends UsefulTestCase {
 
 		assertEquals(null, l.getTokenType());
 	}
+
+	private Lexer createLexer() {
+		return new NeonLexer();
+	}
+
 }
