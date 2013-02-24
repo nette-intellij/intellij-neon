@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  *
  */
-public class TokenizerTest extends UsefulTestCase {
+public class NeonTokenizerTest extends UsefulTestCase {
 
 	@Test
 	public void testParse() {
