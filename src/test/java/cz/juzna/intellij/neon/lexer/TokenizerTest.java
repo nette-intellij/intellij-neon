@@ -31,7 +31,7 @@ public class TokenizerTest extends UsefulTestCase {
 		ArrayList<IElementType> expected = new ArrayList<IElementType>();
 		expected.add(NeonTokenTypes.NEON_STRING);
 
-		assertOrderedEquals(NeonTokenizer.parse(""), expected);
+		assertOrderedEquals(NeonTokenizer.parse("key: value"), expected);
 	}
 
 }
