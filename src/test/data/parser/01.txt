@@ -5,7 +5,7 @@ NeonFile:01.neon
         PsiElement([Neon] literal)('name')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
-      Neon scalar value
+      Neon scalar
         PsiElement([Neon] literal)('Jan')
     PsiElement([Neon] indent)('\n')
     Neon key-val pair
@@ -13,6 +13,6 @@ NeonFile:01.neon
         PsiElement([Neon] literal)('surname')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
-      Neon scalar value
-        PsiElement([Neon] string)('Dolecek')
+      Neon scalar
+        PsiElement([Neon] string)('"Dolecek"')
     PsiElement([Neon] indent)('\n')
