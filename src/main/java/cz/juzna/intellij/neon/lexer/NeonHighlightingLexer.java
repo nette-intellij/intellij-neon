@@ -42,7 +42,7 @@ public class NeonHighlightingLexer extends LookAheadLexer {
 				advanceLexer(baseLexer);
 			}
 
-			if (baseLexer.getTokenType() == NeonTokenTypes.NEON_SYMBOL && baseLexer.getTokenText().equals(":")) {
+			if (baseLexer.getTokenType() == NeonTokenTypes.NEON_COLON) {
 				advanceLexer(baseLexer);
 				replaceCachedType(0, NeonTokenTypes.NEON_KEY);
 			}

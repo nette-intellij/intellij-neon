@@ -16,8 +16,6 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %unicode
 %function advance
 %type IElementType
-%eof{  return;
-%eof}
 
 %{
 	private void retryInState(int newState) {
@@ -52,7 +50,7 @@ WHITESPACE = [\t ]+
     "(" { return NEON_LPAREN; }
     ")" { return NEON_RPAREN; }
     "{" { return NEON_LBRACE_CURLY; }
-    "}" { return NEON_RBRACE_CURLY
+    "}" { return NEON_RBRACE_CURLY; }
     "[" { return NEON_LBRACE_SQUARE; }
     "]" { return NEON_RBRACE_SQUARE; }
 

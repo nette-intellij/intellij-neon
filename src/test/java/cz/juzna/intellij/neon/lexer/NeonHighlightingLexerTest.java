@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class NeonHighlightingLexerTest extends UsefulTestCase {
 
 	@Test
-	public void test01() {
+	public void testKeys() {
 		Lexer l = new NeonHighlightingLexer(new NeonLexer());
 		l.start("key: val");
 
@@ -22,7 +22,7 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 		assertEquals("key", l.getTokenText());
 		l.advance();
 
-		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(NeonTokenTypes.NEON_COLON, l.getTokenType());
 		assertEquals(3, l.getTokenStart());
 		assertEquals(4, l.getTokenEnd());
 		assertEquals(":", l.getTokenText());
@@ -48,7 +48,7 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 		Lexer l = new NeonHighlightingLexer(new NeonLexer());
 		l.start("[true,off,TruE,\"true\"]");
 
-		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType()); // this is important
+		assertEquals(NeonTokenTypes.NEON_LBRACE_SQUARE, l.getTokenType()); // this is important
 		assertEquals(0, l.getTokenStart());
 		assertEquals(1, l.getTokenEnd());
 		assertEquals("[", l.getTokenText());
@@ -60,7 +60,7 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 		assertEquals("true", l.getTokenText());
 		l.advance();
 
-		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(NeonTokenTypes.NEON_ITEM_DELIMITER, l.getTokenType());
 		assertEquals(5, l.getTokenStart());
 		assertEquals(6, l.getTokenEnd());
 		assertEquals(",", l.getTokenText());
@@ -72,7 +72,7 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 		assertEquals("off", l.getTokenText());
 		l.advance();
 
-		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(NeonTokenTypes.NEON_ITEM_DELIMITER, l.getTokenType());
 		assertEquals(9, l.getTokenStart());
 		assertEquals(10, l.getTokenEnd());
 		assertEquals(",", l.getTokenText());
@@ -84,7 +84,7 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 		assertEquals("TruE", l.getTokenText());
 		l.advance();
 
-		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(NeonTokenTypes.NEON_ITEM_DELIMITER, l.getTokenType());
 		assertEquals(14, l.getTokenStart());
 		assertEquals(15, l.getTokenEnd());
 		assertEquals(",", l.getTokenText());
@@ -96,7 +96,7 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 		assertEquals("\"true\"", l.getTokenText());
 		l.advance();
 
-		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(NeonTokenTypes.NEON_RBRACE_SQUARE, l.getTokenType());
 		assertEquals(21, l.getTokenStart());
 		assertEquals(22, l.getTokenEnd());
 		assertEquals("]", l.getTokenText());
