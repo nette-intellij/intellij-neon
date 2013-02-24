@@ -1,10 +1,10 @@
 package cz.juzna.intellij.neon.lexer;
 
+import com.intellij.openapi.util.Pair;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,21 +13,26 @@ public class NeonTokenizer {
 	private static String[] patterns = new String[] {
 		"\'[^\'\n]*\'|\"(?:\\\\.|[^\"\\\\\n])*\" ", // string
 		"-(?=\\s|$)|:(?=[\\s,\\]})]|$)|[,=\\[\\]{}\\(\\)]", // symbol
-		"?:#.*", // comment
+		"#.*", // comment
 		"\n[\t ]*", // new line + indent
 		"[^#\"\',=\\[\\]{}\\(\\)\\x00-\\x20!`](?:[^,:=\\]}\\)\\(\\x00-\\x20]+|:(?![\\s,\\]})]|$)|[ \t]+[^#,:=\\]}\\)\\(\\x00-\\x20])*", // literal / boolean / integer / float
-		"?:[\t ]+" // whitespace
+		"[\t ]+" // whitespace
 	};
 
-	public static ArrayList<IElementType> parse(@NotNull String string) {
-		ArrayList<IElementType> tokens = new ArrayList<IElementType>();
+	public static ArrayList<Pair<IElementType,String>> parse(@NotNull String string) {
+		ArrayList<Pair<IElementType,String>> tokens = new ArrayList<Pair<IElementType, String>>();
 
-		Pattern p = Pattern.compile("((" + implode(")|(", patterns) + "))");
+		Pattern p = Pattern.compile("(?:(" + implode(")|(", patterns) + "))");
 		Matcher m = p.matcher(string);
-		List<String> matches = new ArrayList<String>();
-		while(m.find()) matches.add(m.group());
-
-		System.out.println(matches);
+		while(m.find()) {
+			if (m.group(1) != null) tokens.add(new Pair<IElementType, String>(NeonTokenTypes.NEON_STRING, m.group()));
+			else if(m.group(2) != null) tokens.add(new Pair<IElementType, String>(NeonTokenTypes.NEON_SYMBOL, m.group()));
+			else if(m.group(3) != null) tokens.add(new Pair<IElementType, String>(NeonTokenTypes.NEON_COMMENT, m.group()));
+			else if(m.group(4) != null) tokens.add(new Pair<IElementType, String>(NeonTokenTypes.NEON_INDENT, m.group()));
+			else if(m.group(5) != null) tokens.add(new Pair<IElementType, String>(NeonTokenTypes.NEON_LITERAL, m.group()));
+			else if(m.group(6) != null) tokens.add(new Pair<IElementType, String>(NeonTokenTypes.NEON_WHITESPACE, m.group()));
+			else { /* have fun */ }
+		}
 
 		return tokens;
 	}
