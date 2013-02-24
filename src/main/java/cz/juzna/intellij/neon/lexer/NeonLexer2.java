@@ -65,11 +65,20 @@ public class NeonLexer2 extends LexerBase {
 
 	@Override
 	public void advance() {
-		if (readUntil < currentOffset) {
-			Pair<IElementType, String> t = NeonTokenizer.getToken(m);
-			currentType = t.first;
-			currentContent = t.second;
-			currentOffset = m.start() + endOffset;
+		if (readUntil >= currentOffset) {
+			if (m.find()) {
+				Pair<IElementType, String> t = NeonTokenizer.getToken(m);
+				currentType = t.first;
+				currentContent = t.second;
+				currentOffset = m.start() + startOffset;
+				readUntil = currentOffset + currentContent.length();
+			} else {
+				currentType = null;
+				currentContent = null;
+				currentOffset = readUntil;
+			}
+		} else {
+			readUntil = currentOffset;
 		}
 	}
 
@@ -83,14 +92,4 @@ public class NeonLexer2 extends LexerBase {
 		return buffer.length();
 	}
 
-
-	private void fetchToken() {
-		if (shallMatch && m.find()) {
-			Pair<IElementType, String> t = NeonTokenizer.getToken(m);
-			currentType = t.first;
-			currentContent = t.second;
-			currentOffset = m.start() + endOffset;
-			shallMatch = false;
-		}
-	}
 }
