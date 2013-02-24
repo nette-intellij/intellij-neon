@@ -73,7 +73,8 @@ WHITESPACE = [\t ]+
 <IN_LITERAL> {
     [^,:=\]})(\x00-\x20]+ {}
     [ \t]+[^#,:=\]})(\x00-\x20] {}
-    ":"[ \n,\]})] { retryInState(YYINITIAL); }
+    ":"[ \t\n,\]})] { retryInState(YYINITIAL); }
+    ":"$ { retryInState(YYINITIAL); }
     ":" {}
     .|\n { retryInState(YYINITIAL); }
 }

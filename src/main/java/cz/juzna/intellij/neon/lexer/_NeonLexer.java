@@ -50,10 +50,10 @@ public class _NeonLexer implements FlexLexer {
   private static final String ZZ_ACTION_PACKED_0 =
     "\2\0\1\1\1\2\1\3\1\2\1\4\1\5\1\2"+
     "\2\1\1\6\1\7\2\10\1\7\1\0\1\11\2\0"+
-    "\2\12\1\7\1\0";
+    "\2\12\1\7\1\0\2\13";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[24];
+    int [] result = new int[26];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -80,10 +80,11 @@ public class _NeonLexer implements FlexLexer {
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\22\0\44\0\66\0\110\0\132\0\154\0\176"+
     "\0\44\0\220\0\242\0\44\0\264\0\44\0\306\0\330"+
-    "\0\66\0\44\0\132\0\352\0\44\0\374\0\44\0\306";
+    "\0\66\0\44\0\132\0\352\0\44\0\374\0\44\0\306"+
+    "\0\44\0\u010e";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[24];
+    int [] result = new int[26];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -116,11 +117,12 @@ public class _NeonLexer implements FlexLexer {
     "\1\25\6\0\3\25\1\26\1\0\1\25\3\0\2\15"+
     "\1\0\3\15\1\0\2\15\1\0\1\15\4\0\1\15"+
     "\2\0\2\27\1\0\2\27\1\0\1\30\2\27\1\30"+
-    "\1\27\4\0\1\27\4\0\1\16\6\0\1\16\4\0"+
-    "\1\16\3\0\2\23\1\0\17\23\2\0\1\25\17\0";
+    "\1\27\4\0\1\27\4\0\1\16\3\0\1\16\2\0"+
+    "\1\16\2\31\1\32\1\0\1\16\3\0\2\23\1\0"+
+    "\17\23\2\0\1\25\21\0\1\31\17\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[270];
+    int [] result = new int[288];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -162,10 +164,11 @@ public class _NeonLexer implements FlexLexer {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\2\0\1\11\5\1\1\11\2\1\1\11\1\1\1\11"+
-    "\2\1\1\0\1\11\2\0\1\11\1\1\1\11\1\0";
+    "\2\1\1\0\1\11\2\0\1\11\1\1\1\11\1\0"+
+    "\1\11\1\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[24];
+    int [] result = new int[26];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -491,46 +494,52 @@ public class _NeonLexer implements FlexLexer {
         case 9:
           { return NEON_STRING;
           }
-        case 11: break;
+        case 12: break;
         case 2:
           { return NEON_UNKNOWN;
           }
-        case 12: break;
+        case 13: break;
         case 4:
           { return NEON_COMMENT;
           }
-        case 13: break;
+        case 14: break;
         case 1:
           { yybegin(IN_LITERAL);
         return NEON_LITERAL;
           }
-        case 14: break;
+        case 15: break;
         case 5:
           { return NEON_WHITESPACE;
           }
-        case 15: break;
+        case 16: break;
         case 10:
           // lookahead expression with fixed base length
           zzMarkedPos = zzStartRead + 1;
           { return NEON_SYMBOL;
           }
-        case 16: break;
+        case 17: break;
         case 3:
           { return NEON_INDENT;
           }
-        case 17: break;
+        case 18: break;
         case 6:
           { return NEON_SYMBOL;
           }
-        case 18: break;
+        case 19: break;
+        case 11:
+          // lookahead expression with fixed base length
+          zzMarkedPos = zzStartRead + 1;
+          { retryInState(YYINITIAL);
+          }
+        case 20: break;
         case 8:
           { retryInState(YYINITIAL);
           }
-        case 19: break;
+        case 21: break;
         case 7:
           {
           }
-        case 20: break;
+        case 22: break;
         default:
           if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
             zzAtEOF = true;
