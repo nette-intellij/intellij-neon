@@ -21,6 +21,7 @@ public class NeonColorsPage implements ColorSettingsPage {
 			new AttributesDescriptor("colors.identifier",    NeonSyntaxHighlighter.IDENTIFIER),
 			new AttributesDescriptor("colors.interpunction", NeonSyntaxHighlighter.INTERPUNCTION),
 			new AttributesDescriptor("colors.number",        NeonSyntaxHighlighter.NUMBER),
+			new AttributesDescriptor("colors.keyword",       NeonSyntaxHighlighter.KEYWORD),
 	};
 
 	@NotNull
@@ -72,6 +73,9 @@ public class NeonColorsPage implements ColorSettingsPage {
 				"\t\t\tcountry: USA\n" +
 				"\n" +
 				"\t\tphones: { home: 555-6528, work: 555-7334 }\n" +
+				"\t\tphp:\n" +
+				"\t\t\tdate.timezone: Europe/Prague\n" +
+				"\t\t\tzlib.output_compression: yes  # use gzip\n" +
 				"\n" +
 				"\t\tchildren:\n" +
 				"\t\t\t- Bart\n" +

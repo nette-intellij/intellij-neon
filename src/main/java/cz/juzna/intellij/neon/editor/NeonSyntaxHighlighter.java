@@ -34,6 +34,8 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final String            NUMBER_ID        = "Number";
 	public static final TextAttributesKey NUMBER           = TextAttributesKey.createTextAttributesKey(NUMBER_ID, SyntaxHighlighterColors.NUMBER.getDefaultAttributes().clone());
 
+	public static final String            KEYWORD_ID       = "Keyword";
+	public static final TextAttributesKey KEYWORD          = TextAttributesKey.createTextAttributesKey(KEYWORD_ID, SyntaxHighlighterColors.KEYWORD.getDefaultAttributes().clone());
 
 	// Groups of IElementType's
 	public static final TokenSet sBAD           = TokenSet.create(NEON_UNKNOWN);
@@ -41,6 +43,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final TokenSet sIDENTIFIERS   = TokenSet.create(NEON_KEY); //, NEON_IDENTIFIER, NEON_LITERAL);
 	public static final TokenSet sINTERPUNCTION = TokenSet.create(NEON_BLOCK_INHERITENCE, NEON_LPAREN, NEON_RPAREN, NEON_LBRACE_CURLY, NEON_RBRACE_CURLY, NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE, NEON_ITEM_DELIMITER, NEON_ASSIGNMENT);
 	public static final TokenSet sNUMBERS       = TokenSet.create(NEON_NUMBER);
+	public static final TokenSet sKEYWORDS      = TokenSet.create(NEON_KEYWORD);
 
 
 	// Static container
@@ -54,6 +57,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 		fillMap(ATTRIBUTES, sIDENTIFIERS,   IDENTIFIER);
 		fillMap(ATTRIBUTES, sINTERPUNCTION, INTERPUNCTION);
 		fillMap(ATTRIBUTES, sNUMBERS,       NUMBER);
+		fillMap(ATTRIBUTES, sKEYWORDS,      KEYWORD);
 	}
 
 
