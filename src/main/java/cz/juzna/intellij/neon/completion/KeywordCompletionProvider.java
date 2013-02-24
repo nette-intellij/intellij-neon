@@ -6,17 +6,9 @@ import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
-import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.documentation.phpdoc.psi.impl.PhpDocPropertyImpl;
-import com.jetbrains.php.lang.psi.elements.Field;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
 import cz.juzna.intellij.neon.psi.NeonKey;
-import cz.juzna.intellij.neon.psi.NeonReference;
-import cz.juzna.intellij.neon.psi.NeonScalarValue;
-import cz.juzna.intellij.neon.psi.NeonValue;
-import org.jdesktop.swingx.renderer.ComponentProvider;
+import cz.juzna.intellij.neon.psi.NeonScalar;
 import org.jetbrains.annotations.NotNull;
-import org.picocontainer.defaults.ComponentParameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +52,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		if (curr.getParent() instanceof NeonKey) {
 			for(LookupElementBuilder x: KNOWN_KEYS_LOOKUPS) results.addElement(x);
 		}
-		else if (curr.getParent() instanceof NeonScalarValue) {
+		else if (curr.getParent() instanceof NeonScalar) {
 			for(LookupElementBuilder x: KEYWORD_LOOKUPS) results.addElement(x);
 		}
 

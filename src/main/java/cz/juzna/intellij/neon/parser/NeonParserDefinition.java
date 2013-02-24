@@ -62,14 +62,12 @@ public class NeonParserDefinition implements ParserDefinition {
 			else return new NeonKeyValPairImpl(node);
 		}
 		else if (type == NeonElementTypes.KEY) return new NeonKeyImpl(node);
-		else if (type == NeonElementTypes.COMPOUND_KEY) return new NeonCompoundKeyImpl(node);
-		else if (type == NeonElementTypes.COMPOUND_VALUE || type == NeonElementTypes.HASH) return new NeonHashImpl(node);
+		else if (type == NeonElementTypes.COMPOUND_VALUE || type == NeonElementTypes.HASH) return new NeonArrayImpl(node);
 		else if (type == NeonElementTypes.ARRAY) return new NeonArrayImpl(node);
 		else if (type == NeonElementTypes.SEQUENCE) return new NeonSectionImpl(node);
-		else if (type == NeonElementTypes.SCALAR_VALUE) return new NeonScalarValueImpl(node);
+		else if (type == NeonElementTypes.SCALAR_VALUE) return new NeonScalarImpl(node);
 		else if (type == NeonElementTypes.ENTITY) return new NeonEntityImpl(node);
-		else if (type == NeonElementTypes.ARGS) return new NeonHashImpl(node); // FIXME: will it work?
-		else if (type == NeonElementTypes.REFERENCE) return new NeonReferenceImpl(node);
+		else if (type == NeonElementTypes.ARGS) return new NeonArrayImpl(node); // FIXME: will it work?
 		else return new NeonPsiElementImpl(node);
 	}
 

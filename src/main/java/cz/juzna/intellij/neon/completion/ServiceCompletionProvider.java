@@ -13,7 +13,6 @@ import com.jetbrains.php.lang.psi.elements.PhpClass;
 import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,16 +75,16 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 	private void getServicesFromNeonFile(List<String> result, NeonFile file) {
 		for(NeonSection section: file.getSections().values()) {
 			// without sections, i.e. the section is actually an extension
-			if (section.getName().equals("services") && (section.getValue() instanceof NeonHash)) addServiceFromNeonHash(result, (NeonHash) section.getValue());
+			if (section.getName().equals("services") && (section.getValue() instanceof NeonArray)) addServiceFromNeonArray(result, (NeonArray) section.getValue());
 
-			if (section.getValue() instanceof NeonHash) {
-				HashMap<String,NeonValue> map = ((NeonHash) section.getValue()).getMap();
-				if (map.containsKey("services")) addServiceFromNeonHash(result, (NeonHash) map.get("services"));
+			if (section.getValue() instanceof NeonArray) {
+				HashMap<String,NeonValue> map = ((NeonArray) section.getValue()).getMap();
+				if (map.containsKey("services")) addServiceFromNeonArray(result, (NeonArray) map.get("services"));
 			}
 		}
 	}
 
-	private void addServiceFromNeonHash(List<String> result, NeonHash hash) {
+	private void addServiceFromNeonArray(List<String> result, NeonArray hash) {
 		for (NeonKey key: hash.getKeys()) {
 			result.add( key.getKeyText() );
 		}

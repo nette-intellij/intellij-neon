@@ -52,7 +52,7 @@ public class NeonKeyValPairImpl extends NeonPsiElementImpl implements NeonKeyVal
 
 	@Override
 	public PsiElement setName(@NonNls @NotNull String s) throws IncorrectOperationException {
-		// TODO
+		// TODO: needed for refactoring
 		return null;
 	}
 

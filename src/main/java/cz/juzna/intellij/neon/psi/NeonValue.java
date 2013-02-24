@@ -3,7 +3,7 @@ package cz.juzna.intellij.neon.psi;
 import com.intellij.psi.PsiElement;
 
 /**
- * Any value; can be ScalarValue or a compound value - hash, ...
+ * Parent for other values - can be Scalar or a compound value - array, entity, ...
  */
 public interface NeonValue extends PsiElement {
 

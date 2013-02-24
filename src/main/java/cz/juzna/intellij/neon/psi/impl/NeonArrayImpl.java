@@ -24,13 +24,46 @@ public class NeonArrayImpl extends NeonPsiElementImpl implements NeonArray {
 	}
 
 	@Override
-	public List<NeonValue> getItems() {
+	public boolean isList() {
+		boolean isList = true;
+
+		// TODO
+
+		return isList;
+	}
+
+	@Override
+	public boolean isHashMap() {
+		boolean isHashMap = true;
+
+		// TODO
+
+		return isHashMap;
+	}
+
+	@Override
+	public List<NeonValue> getValues() {
 		ArrayList<NeonValue> result = new ArrayList<NeonValue>();
 
-		for (ASTNode node : getNode().getChildren(null)) {
-			PsiElement psi = node.getPsi();
-			if (psi instanceof NeonValue) result.add((NeonValue) psi);
-		}
+		// TODO
+
+		return result;
+	}
+
+	@Override
+	public List<NeonKey> getKeys() {
+		ArrayList<NeonKey> result = new ArrayList<NeonKey>();
+
+		// TODO
+
+		return result;
+	}
+
+	@Override
+	public HashMap<String, NeonValue> getMap() {
+		HashMap<String, NeonValue> result = new HashMap<String, NeonValue>();
+
+		// TODO
 
 		return result;
 	}
