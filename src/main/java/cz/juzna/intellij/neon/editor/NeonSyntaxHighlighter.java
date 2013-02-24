@@ -64,7 +64,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	@NotNull
 	@Override
 	public Lexer getHighlightingLexer() {
-		return new NeonHighlightingLexer(new NeonLexer2());
+		return new NeonHighlightingLexer(new NeonLexer());
 	}
 
 	@NotNull
