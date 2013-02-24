@@ -9,6 +9,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.lexer.NeonHighlightingLexer;
+import cz.juzna.intellij.neon.lexer.NeonLexer;
 import cz.juzna.intellij.neon.lexer.NeonLexer2;
 import org.jetbrains.annotations.NotNull;
 
