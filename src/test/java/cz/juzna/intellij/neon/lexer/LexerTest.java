@@ -22,8 +22,8 @@ import static junit.framework.Assert.fail;
  */
 public class LexerTest extends UsefulTestCase {
 	// which lexer to test
-	private static NeonLexer2 createLexer() {
-		return new NeonLexer2();
+	private static NeonLexer createLexer() {
+		return new NeonLexer();
 	}
 
 	/*** helpers ***/

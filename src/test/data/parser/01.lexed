@@ -6,5 +6,5 @@ WHITE_SPACE
 [Neon] literal
 [Neon] symbol
 WHITE_SPACE
-[Neon] literal
+[Neon] string
 [Neon] indent
