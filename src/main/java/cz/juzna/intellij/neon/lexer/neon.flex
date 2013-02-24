@@ -64,6 +64,10 @@ WHITESPACE = [\t\ ]+
     {WHITESPACE} {
         return NEON_WHITESPACE;
     }
+
+    . {
+        return NEON_UNKNOWN;
+    }
 }
 
 <IN_LITERAL> {
