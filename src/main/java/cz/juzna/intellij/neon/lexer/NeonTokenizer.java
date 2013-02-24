@@ -19,21 +19,6 @@ public class NeonTokenizer {
 		"?:[\t ]+" // whitespace
 	};
 
-//	/** @var Tokenizer */
-//	private static $tokenizer;
-//
-//	private static $brackets = array(
-//		'[' => ']',
-//		'{' => '}',
-//		'(' => ')',
-//	);
-//
-//	/** @var int */
-//	private $n = 0;
-//
-//	/** @var bool */
-//	private $indentTabs;
-
 	public static ArrayList<IElementType> parse(@NotNull String string) {
 		ArrayList<IElementType> tokens = new ArrayList<IElementType>();
 
