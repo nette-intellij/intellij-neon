@@ -60,7 +60,7 @@ public class NeonLexer2 extends LexerBase {
 		if (readUntil < currentOffset) {
 			return currentOffset;
 		} else {
-			return currentOffset + currentContent.length();
+			return currentOffset + (currentContent != null ? currentContent.length() : 0);
 		}
 	}
 

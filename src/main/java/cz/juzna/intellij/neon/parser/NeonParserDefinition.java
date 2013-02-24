@@ -11,7 +11,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import cz.juzna.intellij.neon.lexer.NeonLexer;
+import cz.juzna.intellij.neon.lexer.NeonLexer2;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.psi.NeonFile;
 import cz.juzna.intellij.neon.psi.impl.*;
@@ -21,7 +21,7 @@ public class NeonParserDefinition implements ParserDefinition {
 	@NotNull
 	@Override
 	public Lexer createLexer(Project project) {
-		return new NeonLexer();
+		return new NeonLexer2();
 	}
 
 	@Override

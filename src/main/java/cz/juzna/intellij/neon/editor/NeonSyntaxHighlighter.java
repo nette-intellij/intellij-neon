@@ -8,12 +8,13 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import cz.juzna.intellij.neon.lexer.NeonLexer;
-import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
+import cz.juzna.intellij.neon.lexer.NeonHighlightingLexer;
+import cz.juzna.intellij.neon.lexer.NeonLexer2;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 
 public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
@@ -62,7 +63,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	@NotNull
 	@Override
 	public Lexer getHighlightingLexer() {
-		return new NeonLexer();
+		return new NeonHighlightingLexer(new NeonLexer2());
 	}
 
 	@NotNull
