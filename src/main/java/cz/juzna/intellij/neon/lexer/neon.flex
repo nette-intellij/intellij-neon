@@ -30,9 +30,10 @@ STRING = \'[^\'\n]*\'|\"(\\\\.|[^\"\\\\\n])*\"
 //SYMBOL = :(?=[\s,\]})]|$)| [,=[\]{}()]
 COMMENT = \#.*
 INDENT = \n[\t\ ]*
-LITERAL = [^#\"\',=\[\]{}()\x00-\x20!`]([^,:=\]})(\x00-\x20]+|:(?![\s,\]})]|$)|[\ \t]+[^#,:=\]})(\x00-\x20])*
+// LITERAL = [^#\"\',=\[\]{}()\x00-\x20!`]([^,:=\]})(\x00-\x20]+|:(?![\s,\]})]|$)|[\ \t]+[^#,:=\]})(\x00-\x20])*
 WHITESPACE = [\t\ ]+
 
+%state LITERAL_INIT
 
 %%
 
@@ -54,14 +55,45 @@ WHITESPACE = [\t\ ]+
     return NEON_INDENT;
 }
 
-{LITERAL} {
-    return NEON_LITERAL;
-}
 {WHITESPACE} {
     return NEON_WHITESPACE;
 }
 
+[^#\"\',=\[\]{}()\x00-\x20!`] {
+    yybegin(LITERAL_INIT);
+}
+
+
+
+
+// LITERAL = [^#\"\',=\[\]{}()\x00-\x20!`]([^,:=\]})(\x00-\x20]+|:(?![\s,\]})]|$)|[\ \t]+[^#,:=\]})(\x00-\x20])*
+<LITERAL_INIT> {
+    [^,:=\]})(\x00-\x20]+ {
+
+    }
+
+    :[\s,\]})] {
+        yypushback(2);
+        yybegin(YYINITIAL);
+        return NEON_LITERAL;
+    }
+
+    ":" {
+
+    }
+
+    [\ \t]+[^#,:=\]})(\x00-\x20] {
+
+    }
+
+    . {
+        yypushback(2);
+        yybegin(YYINITIAL);
+        return NEON_LITERAL;
+    }
+
+}
 
 // default
-//{WHITESPACE} { return NEON_WHITESPACE; }
+{WHITESPACE} { return NEON_WHITESPACE; }
 .            { return NEON_UNKNOWN; }
