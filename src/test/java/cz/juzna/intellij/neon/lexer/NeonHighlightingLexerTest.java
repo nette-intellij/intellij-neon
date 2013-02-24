@@ -10,9 +10,10 @@ import static org.junit.Assert.assertEquals;
  *
  */
 public class NeonHighlightingLexerTest extends UsefulTestCase {
+
 	@Test
 	public void test01() {
-		Lexer l = new NeonHighlightingLexer(new NeonLexer2());
+		Lexer l = new NeonHighlightingLexer(new NeonLexer());
 		l.start("key: val");
 
 		assertEquals(NeonTokenTypes.NEON_KEY, l.getTokenType()); // this is important
@@ -37,6 +38,68 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 		assertEquals(5, l.getTokenStart());
 		assertEquals(8, l.getTokenEnd());
 		assertEquals("val", l.getTokenText());
+		l.advance();
+
+		assertEquals(null, l.getTokenType());
+	}
+
+	@Test
+	public void testKeywords() {
+		Lexer l = new NeonHighlightingLexer(new NeonLexer());
+		l.start("[true,off,TruE,\"true\"]");
+
+		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType()); // this is important
+		assertEquals(0, l.getTokenStart());
+		assertEquals(1, l.getTokenEnd());
+		assertEquals("[", l.getTokenText());
+		l.advance();
+
+		assertEquals(NeonTokenTypes.NEON_KEYWORD, l.getTokenType());
+		assertEquals(1, l.getTokenStart());
+		assertEquals(5, l.getTokenEnd());
+		assertEquals("true", l.getTokenText());
+		l.advance();
+
+		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(5, l.getTokenStart());
+		assertEquals(6, l.getTokenEnd());
+		assertEquals(",", l.getTokenText());
+		l.advance();
+
+		assertEquals(NeonTokenTypes.NEON_KEYWORD, l.getTokenType());
+		assertEquals(6, l.getTokenStart());
+		assertEquals(9, l.getTokenEnd());
+		assertEquals("off", l.getTokenText());
+		l.advance();
+
+		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(9, l.getTokenStart());
+		assertEquals(10, l.getTokenEnd());
+		assertEquals(",", l.getTokenText());
+		l.advance();
+
+		assertEquals(NeonTokenTypes.NEON_LITERAL, l.getTokenType());
+		assertEquals(10, l.getTokenStart());
+		assertEquals(14, l.getTokenEnd());
+		assertEquals("TruE", l.getTokenText());
+		l.advance();
+
+		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(14, l.getTokenStart());
+		assertEquals(15, l.getTokenEnd());
+		assertEquals(",", l.getTokenText());
+		l.advance();
+
+		assertEquals(NeonTokenTypes.NEON_STRING, l.getTokenType());
+		assertEquals(15, l.getTokenStart());
+		assertEquals(21, l.getTokenEnd());
+		assertEquals("\"true\"", l.getTokenText());
+		l.advance();
+
+		assertEquals(NeonTokenTypes.NEON_SYMBOL, l.getTokenType());
+		assertEquals(21, l.getTokenStart());
+		assertEquals(22, l.getTokenEnd());
+		assertEquals("]", l.getTokenText());
 		l.advance();
 
 		assertEquals(null, l.getTokenType());
