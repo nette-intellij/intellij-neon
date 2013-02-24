@@ -1,17 +1,14 @@
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 [Neon] indent
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 [Neon] indent
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 WHITE_SPACE
-[Neon] identifier
-[Neon] (
-[Neon] variable
-BAD_CHARACTER
-[Neon] identifier
-BAD_CHARACTER
-[Neon] identifier
-[Neon] )
+[Neon] literal
+[Neon] symbol
+[Neon] literal
+[Neon] symbol
+[Neon] indent

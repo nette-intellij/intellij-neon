@@ -43,6 +43,26 @@ public class ParserTest extends ParsingTestCase {
 	}
 
 	@Test
+	public void test04() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void test05() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void test06() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void test07() {
+		doTest(true, false);
+	}
+
+	@Test
 	public void testError() {
 		doTest(true, false);
 	}

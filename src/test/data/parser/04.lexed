@@ -1,9 +1,8 @@
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 [Neon] indent
-[Neon] key
-[Neon] :
+[Neon] literal
+[Neon] symbol
 WHITE_SPACE
-[Neon] identifier
-BAD_CHARACTER
-[Neon] identifier
+[Neon] literal
+[Neon] indent

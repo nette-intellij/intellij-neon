@@ -1,30 +1,23 @@
 NeonFile:02.neon
   PsiComment([Neon] comment)('# mixing array/hash')
   PsiElement([Neon] indent)('\n')
-  Neon section
-    Neon key
-      PsiElement([Neon] key)('services')
-    PsiElement([Neon] :)(':')
-    PsiElement([Neon] indent)('\n\t')
-    Neon hash
-      Neon section
-        NeonPsiElementImpl([Neon] Item)
-          PsiElement([Neon] -)('-')
-          PsiWhiteSpace(' ')
-          Neon scalar value
-            PsiElement([Neon] identifier)('Mailer')
-          PsiElement([Neon] indent)('\n\t')
-      Neon key-val pair
-        Neon key
-          PsiElement([Neon] key)('articles')
-        PsiElement([Neon] :)(':')
-        PsiWhiteSpace(' ')
-        Neon scalar value
-          PsiElement([Neon] identifier)('ArticlesControl')
-      PsiElement([Neon] indent)('\n\t')
-      Neon section
-        NeonPsiElementImpl([Neon] Item)
-          PsiElement([Neon] -)('-')
-          PsiWhiteSpace(' ')
-          Neon scalar value
-            PsiElement([Neon] identifier)('SuperMailer')
+  Neon scalar value
+    PsiElement([Neon] literal)('services')
+  PsiElement([Neon] symbol)(':')
+  PsiElement([Neon] indent)('\n\t')
+  PsiElement([Neon] symbol)('-')
+  PsiWhiteSpace(' ')
+  Neon scalar value
+    PsiElement([Neon] literal)('Mailer')
+  PsiElement([Neon] indent)('\n\t')
+  Neon scalar value
+    PsiElement([Neon] literal)('articles')
+  PsiElement([Neon] symbol)(':')
+  PsiWhiteSpace(' ')
+  Neon scalar value
+    PsiElement([Neon] literal)('ArticlesControl')
+  PsiElement([Neon] indent)('\n\t')
+  PsiElement([Neon] symbol)('-')
+  PsiWhiteSpace(' ')
+  Neon scalar value
+    PsiElement([Neon] literal)('SuperMailer')

@@ -7,4 +7,3 @@ services:
 panels:
 	- Nette\Application\Diagnostics\RoutingPanel::initialize
 	- @httpRequestFactory::start
-	- @httpRequestFactory::start

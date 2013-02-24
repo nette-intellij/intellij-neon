@@ -7,16 +7,10 @@
 [Neon] symbol
 WHITE_SPACE
 [Neon] literal
-[Neon] symbol
-[Neon] symbol
-[Neon] literal
 [Neon] indent
 [Neon] literal
 [Neon] symbol
 WHITE_SPACE
-[Neon] literal
-[Neon] symbol
-[Neon] symbol
 [Neon] literal
 [Neon] symbol
 [Neon] literal
@@ -25,9 +19,6 @@ WHITE_SPACE
 [Neon] literal
 [Neon] symbol
 WHITE_SPACE
-[Neon] reference
-[Neon] symbol
-[Neon] symbol
 [Neon] literal
 [Neon] indent
 [Neon] indent
@@ -37,20 +28,8 @@ WHITE_SPACE
 [Neon] symbol
 WHITE_SPACE
 [Neon] literal
-[Neon] symbol
-[Neon] symbol
-[Neon] literal
 [Neon] indent
 [Neon] symbol
 WHITE_SPACE
-[Neon] reference
-[Neon] symbol
-[Neon] symbol
 [Neon] literal
 [Neon] indent
-[Neon] symbol
-WHITE_SPACE
-[Neon] reference
-[Neon] symbol
-[Neon] symbol
-[Neon] literal

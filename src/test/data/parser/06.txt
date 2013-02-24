@@ -1,0 +1,19 @@
+NeonFile:06.neon
+  Neon scalar value
+    PsiElement([Neon] literal)('doctrine')
+  PsiElement([Neon] symbol)(':')
+  PsiElement([Neon] indent)('\n\t')
+  Neon scalar value
+    PsiElement([Neon] literal)('metadata')
+  PsiElement([Neon] symbol)(':')
+  PsiElement([Neon] indent)('\n\t\t')
+  Neon scalar value
+    PsiElement([Neon] literal)('At')
+  PsiElement([Neon] symbol)(':')
+  PsiWhiteSpace(' ')
+  Neon scalar value
+    PsiElement([Neon] literal)('annotations')
+  PsiElement([Neon] symbol)('(')
+  Neon scalar value
+    PsiElement([Neon] literal)('%appDir%/models/At')
+  PsiElement([Neon] symbol)(')')
