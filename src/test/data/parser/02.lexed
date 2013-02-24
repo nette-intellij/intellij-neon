@@ -1,0 +1,17 @@
+[Neon] comment
+[Neon] indent
+[Neon] key
+[Neon] :
+[Neon] indent
+[Neon] -
+WHITE_SPACE
+[Neon] identifier
+[Neon] indent
+[Neon] key
+[Neon] :
+WHITE_SPACE
+[Neon] identifier
+[Neon] indent
+[Neon] -
+WHITE_SPACE
+[Neon] identifier

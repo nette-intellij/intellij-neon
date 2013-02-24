@@ -81,6 +81,26 @@ public class LexerTest extends UsefulTestCase {
 		doTestFromFile();
 	}
 
+	@Test
+	public void test04() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
+	public void test05() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
+	public void test06() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
+	public void test07() throws Exception {
+		doTestFromFile();
+	}
+
 	public void doTestFromFile() throws Exception {
 		String code = doLoadFile("src/test/data/parser", getTestName(false) + ".neon");
 
