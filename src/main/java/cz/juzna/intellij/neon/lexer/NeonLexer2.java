@@ -14,7 +14,6 @@ public class NeonLexer2 extends LexerBase {
 	int startOffset;
 	int endOffset;
 	int readUntil;
-	boolean shallMatch;
 	Matcher m;
 	private IElementType currentType;
 	private String currentContent;
@@ -27,7 +26,6 @@ public class NeonLexer2 extends LexerBase {
 		this.startOffset = startOffset;
 		this.endOffset = endOffset;
 		this.readUntil = startOffset;
-		shallMatch = true;
 	}
 
 	@Override
