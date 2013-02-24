@@ -42,11 +42,19 @@ WHITESPACE = [\t ]+
         return NEON_STRING;
     }
 
-    "-" / [ \n] { return NEON_SYMBOL; }
-    "-" $ { return NEON_SYMBOL; }
-    ":" / [ \n,\]})] { return NEON_SYMBOL; }
-    ":" $ { return NEON_SYMBOL; }
-    [,=\[\]{}()] { return NEON_SYMBOL; }
+    "-" / [ \n] { return NEON_ARRAY_BULLET; }
+    "-" $ { return NEON_ARRAY_BULLET; }
+    ":" / [ \n,\]})] { return NEON_COLON; }
+    ":" $ { return NEON_COLON; }
+    "," { return NEON_ITEM_DELIMITER; }
+    "=" { return NEON_ASSIGNMENT; }
+
+    "(" { return NEON_LPAREN; }
+    ")" { return NEON_RPAREN; }
+    "{" { return NEON_LBRACE_CURLY; }
+    "}" { return NEON_RBRACE_CURLY
+    "[" { return NEON_LBRACE_SQUARE; }
+    "]" { return NEON_RBRACE_SQUARE; }
 
     {COMMENT} {
         return NEON_COMMENT;
