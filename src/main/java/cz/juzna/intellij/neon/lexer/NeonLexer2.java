@@ -13,7 +13,6 @@ import java.util.regex.Matcher;
 public class NeonLexer2 extends LexerBase {
 	int startOffset;
 	int endOffset;
-	int readUntil;
 	Matcher m;
 	private IElementType currentType;
 	private String currentContent;
@@ -26,7 +25,6 @@ public class NeonLexer2 extends LexerBase {
 		m = NeonTokenizer.createPattern().matcher(buffer.subSequence(startOffset, endOffset));
 		this.startOffset = startOffset;
 		this.endOffset = endOffset;
-		this.readUntil = startOffset;
 
 		this.advance();
 	}
@@ -39,47 +37,29 @@ public class NeonLexer2 extends LexerBase {
 	@Nullable
 	@Override
 	public IElementType getTokenType() {
-		if (readUntil < currentOffset) {
-			return NeonTokenTypes.NEON_UNKNOWN;
-		} else {
-			return currentType;
-		}
+		return currentType;
 	}
 
 	@Override
 	public int getTokenStart() {
-		if (readUntil < currentOffset) {
-			return readUntil;
-		} else {
-			return currentOffset;
-		}
+		return currentOffset;
 	}
 
 	@Override
 	public int getTokenEnd() {
-		if (readUntil < currentOffset) {
-			return currentOffset;
-		} else {
-			return currentOffset + (currentContent != null ? currentContent.length() : 0);
-		}
+		return currentOffset + (currentContent != null ? currentContent.length() : 0);
 	}
 
 	@Override
 	public void advance() {
-		if (readUntil >= currentOffset) {
-			if (m.find()) {
-				Pair<IElementType, String> t = NeonTokenizer.getToken(m);
-				currentType = t.first;
-				currentContent = t.second;
-				currentOffset = m.start() + startOffset;
-				readUntil = currentOffset + currentContent.length();
-			} else {
-				currentType = null;
-				currentContent = null;
-				currentOffset = readUntil;
-			}
+		if (m.find()) {
+			Pair<IElementType, String> t = NeonTokenizer.getToken(m);
+			currentType = t.first;
+			currentContent = t.second;
+			currentOffset = m.start() + startOffset;
 		} else {
-			readUntil = currentOffset;
+			currentType = null;
+			currentContent = null;
 		}
 	}
 
