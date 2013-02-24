@@ -6,5 +6,5 @@ import javax.swing.*;
 
 
 public class NeonIcons {
-	public static Icon FILETYPE_ICON = IconLoader.getIcon("FileIcon.png", NeonIcons.class);
+	public static Icon FILETYPE_ICON = IconLoader.getIcon("Neon.png", NeonIcons.class);
 }
