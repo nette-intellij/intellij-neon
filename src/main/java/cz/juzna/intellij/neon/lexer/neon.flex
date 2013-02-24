@@ -6,6 +6,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 
 /**
  * @author Jan Dolecek
+ * @author Jan Tvrdík
  */
 %%
 
