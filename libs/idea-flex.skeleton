@@ -57,6 +57,9 @@
   /** zzAtEOF == true <=> the scanner is at the EOF */
   private boolean zzAtEOF;
 
+  /** denotes if the user-EOF-code has already been executed */
+  private boolean zzEOFDone;
+
 --- user class code
 
 --- constructor declaration
@@ -83,7 +86,7 @@
   // For Demetra compatibility
   public void reset(CharSequence buffer, int initialState){
     zzBuffer = buffer;
-    zzBufferArray = null; 
+    zzBufferArray = null;
     zzCurrentPos = zzMarkedPos = zzStartRead = 0;
     zzPushbackPos = 0;
     zzAtEOF = false;
