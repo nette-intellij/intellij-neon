@@ -25,12 +25,11 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 	}
 %}
 
-
 STRING = \'[^\'\n]*\'|\"(\\.|[^\"\\\n])*\"
 COMMENT = \#.*
-INDENT = \n[\t\ ]*
+INDENT = \n[\t ]*
 LITERAL_START = [^#\"\',=\[\]{}()\x00-\x20!`]
-WHITESPACE = [\t\ ]+
+WHITESPACE = [\t ]+
 
 %state IN_LITERAL
 
@@ -43,7 +42,7 @@ WHITESPACE = [\t\ ]+
     }
 
     "-" / [ \n] { return NEON_SYMBOL; }
-    "-" $  { return NEON_SYMBOL; }
+    "-" $ { return NEON_SYMBOL; }
     ":" / [ \n,\]})] { return NEON_SYMBOL; }
     ":" $ { return NEON_SYMBOL; }
     [,=\[\]{}()] { return NEON_SYMBOL; }
@@ -73,7 +72,7 @@ WHITESPACE = [\t\ ]+
 <IN_LITERAL> {
     [^,:=\]})(\x00-\x20]+ {}
     [ \t]+[^#,:=\]})(\x00-\x20] {}
-    ":"[ \n,\]\}\)] { retryInState(YYINITIAL); }
+    ":"[ \n,\]})] { retryInState(YYINITIAL); }
     ":" {}
-    .|\n  { retryInState(YYINITIAL); }
+    .|\n { retryInState(YYINITIAL); }
 }
