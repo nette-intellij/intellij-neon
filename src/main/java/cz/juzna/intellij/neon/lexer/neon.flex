@@ -40,12 +40,11 @@ WHITESPACE = [\t\ ]+
     return NEON_STRING;
 }
 
-"-" / \s |
-"-" / $  |
-":" / [\s,\]\}\)] |
-":" / $ {
-	return NEON_SYMBOL;
-}
+"-" / \s { return NEON_SYMBOL; }
+"-" $  { return NEON_SYMBOL; }
+":" / [\s,\]\}\)] { return NEON_SYMBOL; }
+":" $ { return NEON_SYMBOL; }
+
 
 {COMMENT} {
     return NEON_COMMENT;
