@@ -1,9 +1,11 @@
 # Neon in IntelliJ IDEA / PhpStorm
 
+<strong style="color:red;">Current status: very broken!!!</strong>
+
 [Neon](http://ne-on.org/) is a YAML-like language useful for configuration. It is part of [Nette framework](http://nette.org)
  and it's very nice! You should definitely use it.
 
-This plugin aims to add suppors for this language into PhpStorm (or the whole IntelliJ platform).
+This plugin aims to add supports for this language into PhpStorm (or the whole IntelliJ platform).
 
 ## Features
 * lexer, parser (internal)
