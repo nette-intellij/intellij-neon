@@ -62,9 +62,4 @@ public class ParserTest extends ParsingTestCase {
 		doTest(true, false);
 	}
 
-	@Test
-	public void testError() {
-		doTest(true, false);
-	}
-
 }

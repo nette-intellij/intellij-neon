@@ -57,12 +57,9 @@ public class NeonParserDefinition implements ParserDefinition {
 	public PsiElement createElement(ASTNode node) {
 		IElementType type = node.getElementType();
 
-		if (type == NeonElementTypes.KEY_VALUE_PAIR) {
-			if (node.getTreeParent() != null && (node.getTreeParent().getPsi() instanceof NeonFile)) return new NeonSectionImpl(node);
-			else return new NeonKeyValPairImpl(node);
-		}
+		if (type == NeonElementTypes.KEY_VALUE_PAIR) return new NeonKeyValPairImpl(node);
 		else if (type == NeonElementTypes.KEY) return new NeonKeyImpl(node);
-		else if (type == NeonElementTypes.COMPOUND_VALUE || type == NeonElementTypes.HASH) return new NeonArrayImpl(node);
+		else if (type == NeonElementTypes.COMPOUND_VALUE) return new NeonArrayImpl(node);
 		else if (type == NeonElementTypes.ARRAY) return new NeonArrayImpl(node);
 		else if (type == NeonElementTypes.SEQUENCE) return new NeonSectionImpl(node);
 		else if (type == NeonElementTypes.SCALAR_VALUE) return new NeonScalarImpl(node);

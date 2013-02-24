@@ -15,4 +15,3 @@ NeonFile:01.neon
       PsiWhiteSpace(' ')
       Neon scalar
         PsiElement([Neon] string)('"Dolecek"')
-    PsiElement([Neon] indent)('\n')

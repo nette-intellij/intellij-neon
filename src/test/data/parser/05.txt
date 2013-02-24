@@ -1,19 +1,27 @@
 NeonFile:05.neon
-  Neon scalar value
-    PsiElement([Neon] literal)('nette')
-  PsiElement([Neon] symbol)(':')
-  PsiElement([Neon] indent)('\n\t')
-  Neon scalar value
-    PsiElement([Neon] literal)('application')
-  PsiElement([Neon] symbol)(':')
-  PsiElement([Neon] indent)('\n\t\t')
-  Neon scalar value
-    PsiElement([Neon] literal)('mapping')
-  PsiElement([Neon] symbol)(':')
-  PsiElement([Neon] indent)('\n\t\t\t')
-  Neon scalar value
-    PsiElement([Neon] literal)('*')
-  PsiElement([Neon] symbol)(':')
-  PsiWhiteSpace(' ')
-  Neon scalar value
-    PsiElement([Neon] literal)('At\*Module\*Presenter')
+  Neon array
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('nette')
+      PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n\t')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('application')
+          PsiElement([Neon] :)(':')
+          PsiElement([Neon] indent)('\n\t\t')
+          Neon array
+            Neon key-val pair
+              Neon key
+                PsiElement([Neon] literal)('mapping')
+              PsiElement([Neon] :)(':')
+              PsiElement([Neon] indent)('\n\t\t\t')
+              Neon array
+                Neon key-val pair
+                  Neon key
+                    PsiElement([Neon] literal)('*')
+                  PsiElement([Neon] :)(':')
+                  PsiWhiteSpace(' ')
+                  Neon scalar
+                    PsiElement([Neon] literal)('At\*Module\*Presenter')

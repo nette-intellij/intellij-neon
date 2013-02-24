@@ -1,11 +1,15 @@
 NeonFile:04.neon
-  Neon scalar value
-    PsiElement([Neon] literal)('php')
-  PsiElement([Neon] symbol)(':')
-  PsiElement([Neon] indent)('\n\t')
-  Neon scalar value
-    PsiElement([Neon] literal)('date.timezone')
-  PsiElement([Neon] symbol)(':')
-  PsiWhiteSpace(' ')
-  Neon scalar value
-    PsiElement([Neon] literal)('Europe/Prague')
+  Neon array
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('php')
+      PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n\t')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('date.timezone')
+          PsiElement([Neon] :)(':')
+          PsiWhiteSpace(' ')
+          Neon scalar
+            PsiElement([Neon] literal)('Europe/Prague')

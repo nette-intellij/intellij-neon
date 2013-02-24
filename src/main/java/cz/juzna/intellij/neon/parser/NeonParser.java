@@ -16,6 +16,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	private int myIndent;
 	private boolean myHasTabs = false; // FIXME: use this
 	private PsiBuilder.Marker myAfterLastEolMarker;
+	private int myInline;
 
 
 	@NotNull
@@ -31,7 +32,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		PsiBuilder.Marker fileMarker = mark();
 
 		passEmpty(); // process beginning of file
-		parseStatements(0);
+		parseValue(0);
 		assert (this.myBuilder.eof()) : "Not all tokens were passed.";
 
 		// end
@@ -39,145 +40,24 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		return builder.getTreeBuilt();
 	}
 
-
-	private void parseStatements(int indent) {
-		while (!myBuilder.eof() && (myIndent >= indent)) {
-			parseStatement(indent);
-		}
-	}
-
-	private void parseStatement(int indent) {
-		if (myBuilder.eof()) return;
-
-		IElementType type = myBuilder.getTokenType();
-		if(type == NEON_KEY) parseKeyVal(indent);
-		else parseValue(indent);
-
-		passEmpty();
-	}
-
-
-	// arguments in parenthesis
-	private void parseArguments() {
-		assert myBuilder.getTokenType() == NEON_LPAREN : "Expected left parenthesis";
-
-		PsiBuilder.Marker marker = mark();
-		advanceLexer();
-		while (myBuilder.getTokenType() != NEON_RPAREN) {
-			parseValue(0);
-			if (myBuilder.getTokenType() == NEON_ITEM_DELIMITER) advanceLexer();
-		}
-		advanceLexer();
-		marker.done(ARGS);
-	}
-
-	private void parseHash() {
-		assert myBuilder.getTokenType() == NEON_LBRACE_CURLY : "Expected left curly bracket";
-
-		PsiBuilder.Marker marker = mark();
-		advanceLexer();
-		while (myBuilder.getTokenType() != NEON_RBRACE_CURLY) {
-			parseKeyVal(myIndent);
-			if (myBuilder.getTokenType() == NEON_ITEM_DELIMITER) advanceLexer();
-		}
-		advanceLexer();
-		marker.done(HASH);
-	}
-
-	private void parseArray() {
-		assert myBuilder.getTokenType() == NEON_LBRACE_CURLY : "Expected left square bracket";
-
-		PsiBuilder.Marker marker = mark();
-		advanceLexer();
-		while (myBuilder.getTokenType() != NEON_RBRACE_SQUARE) {
-			parseValue(0);
-			if (myBuilder.getTokenType() == NEON_ITEM_DELIMITER) advanceLexer();
-		}
-		advanceLexer();
-		marker.done(ARRAY);
-	}
-
-	private void parseKeyVal(int indent) {
-		assert myBuilder.getTokenType() == NEON_KEY : "Expected key";
-
-		PsiBuilder.Marker keyValPair = mark();
-		parseKey();
-		eolSeen = false;
-
-		// key colon value
-		assert myBuilder.getTokenType() == NEON_ASSIGNMENT : "Expected assignment operator";
-		advanceLexer();
-
-		// value
-		if (myBuilder.getTokenType() == NEON_INDENT) {
-			advanceLexer(); // read indent
-			PsiBuilder.Marker val = mark();
-			parseStatements(myIndent);
-			val.done(COMPOUND_VALUE);
-		} else {
-			parseValue(indent);
-		}
-
-		keyValPair.done(KEY_VALUE_PAIR);
-	}
-
-	private void parseKey() {
-		assert myBuilder.getTokenType() == NEON_KEY : "Expected key";
-		PsiBuilder.Marker key = mark();
-		advanceLexer();
-
-		if (myBuilder.getTokenType() == NEON_BLOCK_INHERITENCE) {
-			PsiBuilder.Marker compound = key.precede();
-			key.done(KEY);
-
-			advanceLexer();
-			key = mark();
-			advanceLexer();
-			key.done(KEY);
-			compound.done(COMPOUND_KEY);
-
-		} else {
-			key.done(KEY);
-		}
-	}
-
-	private void parseSequence(int indent) {
-		assert myBuilder.getTokenType() == NEON_ARRAY_BULLET : "Expected array bullet";
-		PsiBuilder.Marker sequence = mark();
-
-		while (myIndent >= indent && myBuilder.getTokenType() == NEON_ARRAY_BULLET) {
-			PsiBuilder.Marker item = mark();
-			advanceLexer();
-			parseStatement(indent + 1);
-			passEmpty();
-			item.done(ITEM);
-		}
-
-		sequence.done(SEQUENCE);
-	}
-
-
 	private void parseValue(int indent) {
-		IElementType type = myBuilder.getTokenType();
+		IElementType currentToken = myBuilder.getTokenType();
+		IElementType nextToken = myBuilder.lookAhead(1);
 
-		if (type == NEON_REFERENCE) {
+		if (NeonTokenTypes.STRING_LITERALS.contains(currentToken) && nextToken == NEON_COLON || currentToken == NeonTokenTypes.NEON_ARRAY_BULLET) {
+			parseArray(indent);
+		}
+
+		else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
 			PsiBuilder.Marker val = mark();
 			advanceLexer();
-			val.done(REFERENCE);
-
-		} else if (SCALAR_VALUES.contains(type)) {
-			PsiBuilder.Marker val = mark();
-
-			// read all scalar tokens
-			while (SCALAR_VALUES.contains(myBuilder.getTokenType())) {
-				advanceLexer();
-			}
 
 			if (myBuilder.getTokenType() == NEON_LPAREN) {
-				PsiBuilder.Marker entity = val.precede();
-				val.done(SCALAR_VALUE);
+//				PsiBuilder.Marker entity = val.precede();
+//				val.done(SCALAR_VALUE);
 				parseArguments();
-				entity.done(ENTITY);
+//				entity.done(ENTITY);
+				val.done(ENTITY);
 			} else {
 				val.done(SCALAR_VALUE);
 			}
@@ -186,14 +66,81 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		}
 	}
 
+	private void parseKeyVal(int indent) {
+		assert NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()) : "Expected literal or string";
+
+		PsiBuilder.Marker keyValPair = mark();
+		parseKey();
+		eolSeen = false;
+
+		// key colon value
+		assert myBuilder.getTokenType() == NEON_COLON : "Expected assignment operator";
+		advanceLexer();
+
+		// value
+		if (myBuilder.getTokenType() == NEON_INDENT) {
+			advanceLexer(); // read indent
+//			PsiBuilder.Marker val = mark();
+			parseArray(myIndent);
+//			val.done(COMPOUND_VALUE);
+		} else {
+			parseValue(indent);
+		}
+
+		keyValPair.done(KEY_VALUE_PAIR);
+	}
+
+	private void parseKey() {
+		assert NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()) : "Expected literal or string";
+
+		PsiBuilder.Marker key = mark();
+		advanceLexer();
+		key.done(KEY);
+	}
+
 	private void parseCompoundValue(int indent) {
 		IElementType type = myBuilder.getTokenType();
 
-		if(type == NEON_LBRACE_SQUARE) parseArray();
-		else if(type == NEON_LBRACE_CURLY) parseHash();
-		else if(type == NEON_ARRAY_BULLET) parseSequence(myIndent);
-		else advanceLexer(); // not known
+		advanceLexer();
 	}
+
+	private void parseArray(int indent) {
+		PsiBuilder.Marker marker = mark();
+
+		while (myIndent >= indent && myBuilder.getTokenType() != null) {
+			if (myBuilder.getTokenType() == NEON_ARRAY_BULLET) {
+				PsiBuilder.Marker markItem = mark();
+				advanceLexer();
+				parseValue(indent + 1);
+				markItem.done(NeonElementTypes.ITEM);
+			} else {
+				parseKeyVal(indent + 1);
+			}
+
+			if (myBuilder.getTokenType() == NEON_INDENT) advanceLexer();
+		}
+
+		marker.done(ARRAY);
+	}
+
+	// arguments in parenthesis
+	private void parseArguments() {
+		assert myBuilder.getTokenType() == NEON_LPAREN : "Expected left parenthesis";
+
+		advanceLexer();
+
+		myInline++;
+		PsiBuilder.Marker marker = mark();
+		while (myBuilder.getTokenType() != NEON_RPAREN) {
+			parseValue(0);
+			if (myBuilder.getTokenType() == NEON_ITEM_DELIMITER) advanceLexer();
+		}
+		marker.done(ARGS);
+		myInline--;
+
+		advanceLexer();
+	}
+
 
 
 	/***  helpers ***/

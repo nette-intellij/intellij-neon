@@ -13,7 +13,7 @@ NeonFile:02.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('Mailer')
-          PsiElement([Neon] indent)('\n\t')
+        PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key
             PsiElement([Neon] literal)('articles')
@@ -27,4 +27,3 @@ NeonFile:02.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('SuperMailer')
-        PsiElement([Neon] indent)('\n')
