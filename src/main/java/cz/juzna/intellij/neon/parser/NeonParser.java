@@ -45,7 +45,9 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		IElementType nextToken = myBuilder.lookAhead(1);
 
 		if (NeonTokenTypes.STRING_LITERALS.contains(currentToken) && nextToken == NEON_COLON || currentToken == NeonTokenTypes.NEON_ARRAY_BULLET) {
+			PsiBuilder.Marker val = mark();
 			parseArray(indent);
+			val.done(ARRAY);
 		}
 
 		else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
@@ -53,17 +55,68 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			advanceLexer();
 
 			if (myBuilder.getTokenType() == NEON_LPAREN) {
-//				PsiBuilder.Marker entity = val.precede();
-//				val.done(SCALAR_VALUE);
-				parseArguments();
-//				entity.done(ENTITY);
+				myInline++;
+
+				PsiBuilder.Marker valArray = mark();
+
+				advanceLexer(); // opening bracket
+				parseArray(1000000);
+				advanceLexer(); // closing bracket
+
+				valArray.done(ARRAY);
+
+				myInline--;
+
 				val.done(ENTITY);
+
 			} else {
 				val.done(SCALAR_VALUE);
 			}
+
+		} else if (OPEN_BRACKET.contains(myBuilder.getTokenType())) { // array
+			PsiBuilder.Marker val = mark();
+			myInline++;
+
+			advanceLexer(); // opening bracket
+			parseArray(1000000);
+			advanceLexer(); // closing bracket
+
+			myInline--;
+
+			val.done(ARRAY);
+
 		} else {
-			parseCompoundValue(indent);
+			// dunno
+			advanceLexer();
 		}
+	}
+
+	private void parseArray(int indent) {
+//		PsiBuilder.Marker marker = mark();
+		boolean isInline = myInline > 0;
+
+		while (myBuilder.getTokenType() != null && ! CLOSING_BRACKET.contains(myBuilder.getTokenType()) && (isInline ? myInline > 0 : myIndent >= indent)) {
+			IElementType currentToken = myBuilder.getTokenType();
+			IElementType nextToken = myBuilder.lookAhead(1);
+
+			if (ASSIGNMENTS.contains(nextToken)) { // key-val pair
+				parseKeyVal(indent);
+
+			} else if (currentToken == NEON_ARRAY_BULLET) {
+				PsiBuilder.Marker markItem = mark();
+				advanceLexer();
+				parseValue(indent + 1);
+				markItem.done(NeonElementTypes.ITEM);
+
+			} else {
+				parseValue(indent);
+
+			}
+
+			if (myBuilder.getTokenType() == NEON_INDENT) advanceLexer();
+		}
+
+//		marker.done(ARRAY);
 	}
 
 	private void parseKeyVal(int indent) {
@@ -74,15 +127,15 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		eolSeen = false;
 
 		// key colon value
-		assert myBuilder.getTokenType() == NEON_COLON : "Expected assignment operator";
+		assert ASSIGNMENTS.contains(myBuilder.getTokenType()) : "Expected assignment operator";
 		advanceLexer();
 
 		// value
 		if (myBuilder.getTokenType() == NEON_INDENT) {
 			advanceLexer(); // read indent
-//			PsiBuilder.Marker val = mark();
+			PsiBuilder.Marker val = mark();
 			parseArray(myIndent);
-//			val.done(COMPOUND_VALUE);
+			val.done(ARRAY);
 		} else {
 			parseValue(indent);
 		}
@@ -97,50 +150,6 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		advanceLexer();
 		key.done(KEY);
 	}
-
-	private void parseCompoundValue(int indent) {
-		IElementType type = myBuilder.getTokenType();
-
-		advanceLexer();
-	}
-
-	private void parseArray(int indent) {
-		PsiBuilder.Marker marker = mark();
-
-		while (myIndent >= indent && myBuilder.getTokenType() != null) {
-			if (myBuilder.getTokenType() == NEON_ARRAY_BULLET) {
-				PsiBuilder.Marker markItem = mark();
-				advanceLexer();
-				parseValue(indent + 1);
-				markItem.done(NeonElementTypes.ITEM);
-			} else {
-				parseKeyVal(indent + 1);
-			}
-
-			if (myBuilder.getTokenType() == NEON_INDENT) advanceLexer();
-		}
-
-		marker.done(ARRAY);
-	}
-
-	// arguments in parenthesis
-	private void parseArguments() {
-		assert myBuilder.getTokenType() == NEON_LPAREN : "Expected left parenthesis";
-
-		advanceLexer();
-
-		myInline++;
-		PsiBuilder.Marker marker = mark();
-		while (myBuilder.getTokenType() != NEON_RPAREN) {
-			parseValue(0);
-			if (myBuilder.getTokenType() == NEON_ITEM_DELIMITER) advanceLexer();
-		}
-		marker.done(ARGS);
-		myInline--;
-
-		advanceLexer();
-	}
-
 
 
 	/***  helpers ***/

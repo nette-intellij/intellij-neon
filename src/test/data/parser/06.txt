@@ -19,8 +19,8 @@ NeonFile:06.neon
               PsiWhiteSpace(' ')
               Neon entity
                 PsiElement([Neon] literal)('annotations')
-                PsiElement([Neon] ()('(')
                 Neon array
+                  PsiElement([Neon] ()('(')
                   Neon scalar
                     PsiElement([Neon] literal)('%appDir%/models/At')
-                PsiElement([Neon] ))(')')
+                  PsiElement([Neon] ))(')')

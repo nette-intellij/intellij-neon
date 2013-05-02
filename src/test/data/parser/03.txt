@@ -23,14 +23,11 @@ NeonFile:03.neon
           PsiWhiteSpace(' ')
           Neon entity
             PsiElement([Neon] literal)('Nette\Application\Diagnostics\RoutingPanel::initialize')
-            PsiElement([Neon] ()('(')
             Neon array
-              NeonPsiElementImpl([Neon] Item)
-                PsiElement([Neon] -)('-')
-                PsiWhiteSpace(' ')
-                Neon scalar
-                  PsiElement([Neon] literal)('test')
-            PsiElement([Neon] ))(')')
+              PsiElement([Neon] ()('(')
+              Neon scalar
+                PsiElement([Neon] literal)('test')
+              PsiElement([Neon] ))(')')
         PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key

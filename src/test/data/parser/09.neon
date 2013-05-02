@@ -1,0 +1,2 @@
+parameters:
+	entity: Column(pepa, type="integer", defaultValue = 1)

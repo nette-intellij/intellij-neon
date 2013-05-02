@@ -1,0 +1,5 @@
+common:
+	days: [ Mon, Tue, Wed ]
+
+production:
+	days: [ Sat, Sun ]
