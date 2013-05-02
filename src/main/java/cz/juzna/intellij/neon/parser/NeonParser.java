@@ -33,7 +33,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 		passEmpty(); // process beginning of file
 		parseValue(0);
-		assert (this.myBuilder.eof()) : "Not all tokens were passed.";
+		myAssert(this.myBuilder.eof(), "Not all tokens were passed");
 
 		// end
 		fileMarker.done(root);
@@ -120,14 +120,14 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	}
 
 	private void parseKeyVal(int indent) {
-		assert NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()) : "Expected literal or string";
+		myAssert(NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()), "Expected literal or string");
 
 		PsiBuilder.Marker keyValPair = mark();
 		parseKey();
 		eolSeen = false;
 
 		// key colon value
-		assert ASSIGNMENTS.contains(myBuilder.getTokenType()) : "Expected assignment operator";
+		myAssert(ASSIGNMENTS.contains(myBuilder.getTokenType()), "Expected assignment operator");
 		advanceLexer();
 
 		// value
@@ -144,7 +144,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	}
 
 	private void parseKey() {
-		assert NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()) : "Expected literal or string";
+		myAssert(NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()), "Expected literal or string");
 
 		PsiBuilder.Marker key = mark();
 		advanceLexer();
@@ -167,6 +167,13 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 //			dropEolMarker();
 		}
 		this.myBuilder.advanceLexer();
+	}
+
+	private void myAssert(boolean condition, String message) {
+		if ( ! condition) {
+			myBuilder.error(message + ", got " + myBuilder.getTokenType());
+			advanceLexer();
+		}
 	}
 
 	private void dropEolMarker() {
