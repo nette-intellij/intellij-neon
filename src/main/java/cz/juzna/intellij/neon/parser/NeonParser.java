@@ -11,8 +11,6 @@ import org.jetbrains.annotations.NotNull;
  * Neon parser, convert tokens (output from lexer) into syntax tree
  */
 public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
-	private boolean debug = true; // compile time option
-
 	private PsiBuilder myBuilder;
 	private boolean eolSeen = false;
 	private int myIndent;
@@ -30,8 +28,6 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		myIndent = 0;
 		eolSeen = false;
 
-		debug("start");
-
 		// begin
 		PsiBuilder.Marker fileMarker = mark();
 
@@ -41,17 +37,12 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 		// end
 		fileMarker.done(root);
-
-		debug("stop");
-
 		return builder.getTreeBuilt();
 	}
 
 	private void parseValue(int indent) {
 		IElementType currentToken = myBuilder.getTokenType();
 		IElementType nextToken = myBuilder.lookAhead(1);
-
-		debug("parseValue, indent = " + indent);
 
 		if (NeonTokenTypes.STRING_LITERALS.contains(currentToken) && nextToken == NEON_COLON || currentToken == NeonTokenTypes.NEON_ARRAY_BULLET) {
 			parseArray(indent);
@@ -76,7 +67,6 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	}
 
 	private void parseKeyVal(int indent) {
-		debug("parseKeyVal, indent = " + indent);
 		assert NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()) : "Expected literal or string";
 
 		PsiBuilder.Marker keyValPair = mark();
@@ -195,13 +185,4 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			advanceLexer();
 		}
 	}
-
-
-
-	private void debug(String message) {
-		if (this.debug) {
-			System.out.println(message + "\t" + (myBuilder.getTokenType() != null ? myBuilder.getTokenType().toString() : "") + ":" + myBuilder.getTokenText());
-		}
-	}
-
 }
