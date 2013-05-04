@@ -6,16 +6,14 @@ import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
+import cz.juzna.intellij.neon.completion.schema.SchemaProvider;
 import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
 import cz.juzna.intellij.neon.psi.NeonScalar;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Complete keywords
@@ -61,6 +59,31 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 
 		PsiElement curr = params.getPosition().getOriginalElement();
 		boolean hasSomething = false;
+
+
+		// hit autocompletion twice -> autodetect
+//		if (params.getInvocationCount() >= 2)
+		{
+			SchemaProvider schemaProvider = new SchemaProvider();
+			Map<String, Collection<String>> tmp = schemaProvider.getKnownTypes(curr.getProject());
+
+			// dodgy: remap type
+			HashMap<String, String[]> tmp2 = new HashMap<String, String[]>();
+			for (String k : tmp.keySet()) {
+				tmp2.put(k, tmp.get(k).toArray(new String[tmp.get(k).size()]));
+			}
+
+			String[] parent = getKeyChain(curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
+			for(String keyName : getCompletionForSection(tmp2, parent)) {
+				hasSomething = true;
+				results.addElement(LookupElementBuilder.create(keyName));
+			}
+
+			if (hasSomething && params.getInvocationCount() <= 1) {
+				results.stopHere();
+			}
+		}
+
 
 		if (curr.getParent() instanceof NeonKey) { // key autocompletion
 			String[] parent = getKeyChain(curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
