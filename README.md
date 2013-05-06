@@ -29,7 +29,7 @@ This plugin aims to add supports for this language into PhpStorm (or the whole I
 **Unstable build** is available [here](http://juzna.cz/intellij-neon.jar).
 
 
-If you prefer your own build from *master*, open this project in *IntelliJ IDEA* as a *Plugin project*, go to *Build* -> *Prepare for deployment* and install it in your PhoStorm.
+If you prefer your own build from *master*, open this project in *IntelliJ IDEA* as a *Plugin project*, go to *Build* -> *Prepare for deployment* and install it in your PhpStorm.
 
 
 ## Development
