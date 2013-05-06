@@ -1,6 +1,6 @@
 # Neon in IntelliJ IDEA / PhpStorm
 
-<strong style="color:red;">Current status: very broken!!!</strong>
+**Current status: stable, basic functions**
 
 [Neon](http://ne-on.org/) is a YAML-like language useful for configuration. It is part of [Nette framework](http://nette.org)
  and it's very nice! You should definitely use it.
