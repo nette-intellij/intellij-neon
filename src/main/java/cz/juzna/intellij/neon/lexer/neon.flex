@@ -7,6 +7,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 /**
  * @author Jan Dolecek
  * @author Jan Tvrdík
+ * @author Michael Moravec
  */
 %%
 
@@ -40,9 +41,9 @@ WHITESPACE = [\t ]+
         return NEON_STRING;
     }
 
-    "-" / [ \n] { return NEON_ARRAY_BULLET; }
+    "-" / [ \t\n] { return NEON_ARRAY_BULLET; }
     "-" $ { return NEON_ARRAY_BULLET; }
-    ":" / [ \n,\]})] { return NEON_COLON; }
+    ":" / [ \t\n,\]})] { return NEON_COLON; }
     ":" $ { return NEON_COLON; }
     "," { return NEON_ITEM_DELIMITER; }
     "=" { return NEON_ASSIGNMENT; }
