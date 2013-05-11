@@ -14,6 +14,7 @@
 		<colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage" />
 		<lang.syntaxHighlighterFactory key="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory" />
 		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
+		<lang.psiStructureViewFactory language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory" />
 
 		<!-- code settings (ident, tabs?) -->
 		<codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider" />
