@@ -1,0 +1,9 @@
+# parsing errors
+a: 1
+b:
+
+parameters:
+	c: x
+	d:
+
+nette:

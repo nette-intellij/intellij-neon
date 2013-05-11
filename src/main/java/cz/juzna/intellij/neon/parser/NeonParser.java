@@ -85,6 +85,9 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 			val.done(ARRAY);
 
+		} else if(currentToken == NEON_INDENT) {
+			// no value
+
 		} else {
 			// dunno
 			advanceLexer();
@@ -133,9 +136,13 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		// value
 		if (myBuilder.getTokenType() == NEON_INDENT) {
 			advanceLexer(); // read indent
-			PsiBuilder.Marker val = mark();
-			parseArray(myIndent);
-			val.done(ARRAY);
+			if (myIndent > indent) {
+				PsiBuilder.Marker val = mark();
+				parseArray(myIndent);
+				val.done(ARRAY);
+			} else {
+				// myBuilder.error("value missing"); // actually not an error, but null
+			}
 		} else {
 			parseValue(indent);
 		}
