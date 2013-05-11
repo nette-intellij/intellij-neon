@@ -59,9 +59,9 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 				PsiBuilder.Marker valArray = mark();
 
-				advanceLexer(); // opening bracket
+				advanceLexer(NEON_LPAREN); // opening bracket
 				parseArray(1000000);
-				advanceLexer(); // closing bracket
+				advanceLexer(NEON_RPAREN); // closing bracket
 
 				valArray.done(ARRAY);
 
@@ -73,23 +73,26 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 				val.done(SCALAR_VALUE);
 			}
 
-		} else if (OPEN_BRACKET.contains(myBuilder.getTokenType())) { // array
+		} else if (OPEN_BRACKET.contains(currentToken)) { // array
 			PsiBuilder.Marker val = mark();
 			myInline++;
 
+			IElementType closing = closingBrackets.get(currentToken);
+
 			advanceLexer(); // opening bracket
 			parseArray(1000000);
-			advanceLexer(); // closing bracket
+			advanceLexer(closing); // closing bracket
 
 			myInline--;
 
 			val.done(ARRAY);
 
 		} else if(currentToken == NEON_INDENT) {
-			// no value
+			// no value -> null
 
 		} else {
 			// dunno
+			myBuilder.error("unexpected token " + currentToken);
 			advanceLexer();
 		}
 	}
@@ -180,6 +183,16 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 			myBuilder.advanceLexer();
 		} while (myBuilder.getTokenType() == NEON_INDENT && myBuilder.lookAhead(1) == NEON_INDENT); // keep going if we're still indented
+	}
+
+	private void advanceLexer(IElementType expectedToken) {
+		if (myBuilder.getTokenType() == expectedToken) {
+			advanceLexer();
+
+		} else {
+			myBuilder.error("unexpected token " + myBuilder.getTokenType() + ", expected " + expectedToken);
+
+		}
 	}
 
 	private void myAssert(boolean condition, String message) {

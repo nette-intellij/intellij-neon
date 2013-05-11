@@ -1,8 +1,11 @@
 package cz.juzna.intellij.neon.lexer;
 
+import com.google.common.collect.ImmutableMap;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
+
+import java.util.Map;
 
 /**
  * Types of tokens returned form lexer
@@ -64,4 +67,12 @@ public interface NeonTokenTypes
 		NEON_LBRACE_CURLY, NEON_RBRACE_CURLY, 
 		NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE
 	);
+
+	// brackets
+	public static final Map<IElementType, IElementType> closingBrackets = ImmutableMap.of(
+		NEON_LPAREN, NEON_RPAREN,
+		NEON_LBRACE_CURLY, NEON_RBRACE_CURLY,
+		NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE
+	);
+
 }
