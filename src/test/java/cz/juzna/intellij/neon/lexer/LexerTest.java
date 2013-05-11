@@ -71,6 +71,21 @@ public class LexerTest extends UsefulTestCase {
 	}
 
 	@Test
+	public void testTabAfterKey() throws Exception {
+		doTest("name: \t'Jan'\nsurname:\t \t 'Dolecek'", new Pair[] {
+				Pair.of(NEON_LITERAL, "name"),
+				Pair.of(NEON_COLON, ":"),
+				Pair.of(NEON_WHITESPACE, " \t"),
+				Pair.of(NEON_STRING, "'Jan'"),
+				Pair.of(NEON_INDENT, "\n"),
+				Pair.of(NEON_LITERAL, "surname"),
+				Pair.of(NEON_COLON, ":"),
+				Pair.of(NEON_WHITESPACE, "\t \t "),
+				Pair.of(NEON_STRING, "'Dolecek'"),
+		});
+	}
+
+	@Test
 	public void test01() throws Exception {
 		doTestFromFile();
 	}
