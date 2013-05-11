@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 public class NeonLanguage extends Language {
 	// singleton
 	public static final NeonLanguage INSTANCE = new NeonLanguage();
-	public static final String MIME_TYPE = "application/x-neon";
+	public static final String MIME_TYPE = "text/x-neon";
 
 	public NeonLanguage() {
 		super("neon", MIME_TYPE);
