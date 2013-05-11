@@ -111,8 +111,12 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 				parseValue(indent + 1);
 				markItem.done(NeonElementTypes.ITEM);
 
-			} else {
+			} else if(isInline) {
 				parseValue(indent);
+
+			} else {
+				myBuilder.error("expected key-val pair or array item");
+				advanceLexer();
 
 			}
 
