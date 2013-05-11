@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class NeonTokenType extends IElementType {
 	public NeonTokenType(@NotNull String debugName) {
-		super(debugName, NeonLanguage.LANGUAGE);
+		super(debugName, NeonLanguage.INSTANCE);
 	}
 
 	public String toString() {

@@ -15,7 +15,7 @@ public class NeonLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 {
 	public CommonCodeStyleSettings getDefaultCommonSettings()
 	{
-		CommonCodeStyleSettings defaultSettings = new CommonCodeStyleSettings(NeonLanguage.LANGUAGE);
+		CommonCodeStyleSettings defaultSettings = new CommonCodeStyleSettings(NeonLanguage.INSTANCE);
 		IndentOptions indentOptions = defaultSettings.initIndentOptions();
 		indentOptions.INDENT_SIZE = 4;
 //		indentOptions.USE_TAB_CHARACTER = true;
@@ -31,7 +31,7 @@ public class NeonLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 
 	@NotNull
 	public Language getLanguage() {
-		return NeonLanguage.LANGUAGE;
+		return NeonLanguage.INSTANCE;
 	}
 
 	public String getCodeSample(@NotNull SettingsType settingsType) {

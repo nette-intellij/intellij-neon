@@ -1,22 +1,18 @@
 package cz.juzna.intellij.neon;
 
-
 import com.intellij.lang.Language;
-import com.intellij.openapi.fileTypes.SingleLazyInstanceSyntaxHighlighterFactory;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
-import com.intellij.psi.templateLanguages.TemplateLanguage;
-import cz.juzna.intellij.neon.editor.NeonSyntaxHighlighter;
-
+import org.jetbrains.annotations.NotNull;
 
 public class NeonLanguage extends Language {
 	// singleton
-	public static final NeonLanguage LANGUAGE = new NeonLanguage();
+	public static final NeonLanguage INSTANCE = new NeonLanguage();
+	public static final String MIME_TYPE = "application/x-neon";
 
 	public NeonLanguage() {
-		super("neon", "application/x-neon");
+		super("neon", MIME_TYPE);
 	}
 
+	@NotNull
 	@Override
 	public String getDisplayName() {
 		return "Neon";

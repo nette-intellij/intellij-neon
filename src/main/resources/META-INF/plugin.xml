@@ -4,7 +4,7 @@
 	<description>Nette Object Notation - ne-on.org</description>
 	<version>0.2</version>
 	<vendor>juzna.cz</vendor>
-	<idea-version since-build="111.0"/>
+	<idea-version since-build="111.0" />
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.jetbrains.php</depends>
 
@@ -16,7 +16,7 @@
 		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
 		<lang.psiStructureViewFactory language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory" />
 
-		<!-- code settings (ident, tabs?) -->
+		<!-- code settings (indent, tabs?) -->
 		<codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider" />
 		<langCodeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider" />
 

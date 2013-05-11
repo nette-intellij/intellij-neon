@@ -7,7 +7,6 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.NeonLanguage;
 import cz.juzna.intellij.neon.file.NeonFileType;
-import cz.juzna.intellij.neon.lexer.NeonTokenType;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import cz.juzna.intellij.neon.psi.NeonFile;
 import cz.juzna.intellij.neon.psi.NeonSection;
@@ -17,13 +16,13 @@ import java.util.HashMap;
 
 public class NeonFileImpl extends PsiFileBase implements NeonFile {
 	public NeonFileImpl(FileViewProvider viewProvider) {
-		super(viewProvider, NeonLanguage.LANGUAGE);
+		super(viewProvider, NeonLanguage.INSTANCE);
 	}
 
 	@NotNull
 	@Override
 	public FileType getFileType() {
-		return NeonFileType.NEON_FILE_TYPE;
+		return NeonFileType.INSTANCE;
 	}
 
 	@Override

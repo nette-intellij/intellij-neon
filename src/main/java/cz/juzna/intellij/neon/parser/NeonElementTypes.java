@@ -1,17 +1,15 @@
 package cz.juzna.intellij.neon.parser;
 
-import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.NeonLanguage;
-import cz.juzna.intellij.neon.parser.NeonElementType;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 
 /**
  * Types of elements returned from parser
  */
 public interface NeonElementTypes {
-	public static final IFileElementType FILE = new IFileElementType(NeonLanguage.LANGUAGE);
+	public static final IFileElementType FILE = new IFileElementType(NeonLanguage.INSTANCE);
 
 	public static final NeonElementType KEY_VALUE_PAIR = new NeonElementType("Key value pair");
 	public static final NeonElementType KEY = new NeonElementType("Key");

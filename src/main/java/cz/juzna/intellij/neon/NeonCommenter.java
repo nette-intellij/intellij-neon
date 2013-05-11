@@ -1,11 +1,13 @@
 package cz.juzna.intellij.neon;
 
 import com.intellij.lang.Commenter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Comment line/block
  */
 public class NeonCommenter implements Commenter {
+	@NotNull
 	@Override
 	public String getLineCommentPrefix() {
 		return "#";

@@ -19,7 +19,7 @@ public class NeonCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
 		return new CodeStyleAbstractConfigurable(settings, originalSetting, getConfigurableDisplayName()) {
 			@Override
 			protected CodeStyleAbstractPanel createPanel(CodeStyleSettings settings) {
-				return new TabbedLanguageCodeStylePanel(NeonLanguage.LANGUAGE, getCurrentSettings(), settings) {
+				return new TabbedLanguageCodeStylePanel(NeonLanguage.INSTANCE, getCurrentSettings(), settings) {
 					@Override
 					protected void initTabs(CodeStyleSettings settings) {
 						addIndentOptionsTab(settings);
@@ -36,6 +36,6 @@ public class NeonCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
 
 	@Override
 	public String getConfigurableDisplayName() {
-		return NeonLanguage.LANGUAGE.getDisplayName();
+		return NeonLanguage.INSTANCE.getDisplayName();
 	}
 }

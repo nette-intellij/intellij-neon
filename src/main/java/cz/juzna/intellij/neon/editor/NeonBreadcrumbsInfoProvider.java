@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * Breadcrumbs info about which section are we editing now (just above the editor, below tabs)
  */
 public class NeonBreadcrumbsInfoProvider extends BreadcrumbsInfoProvider {
-	private final Language[] ourLanguages = { NeonLanguage.LANGUAGE };
+	private final Language[] ourLanguages = { NeonLanguage.INSTANCE};
 
 	@Override
 	public Language[] getLanguages() {

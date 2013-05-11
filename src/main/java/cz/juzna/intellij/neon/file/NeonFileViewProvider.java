@@ -23,7 +23,6 @@ public class NeonFileViewProvider extends SingleRootFileViewProvider {
 		super(psiManager, virtualFile, b, language);
 	}
 
-
 	@Override
 	public boolean supportsIncrementalReparse(@NotNull Language language) {
 		return false;

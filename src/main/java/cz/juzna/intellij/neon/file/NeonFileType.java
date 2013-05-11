@@ -1,6 +1,5 @@
 package cz.juzna.intellij.neon.file;
 
-
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import cz.juzna.intellij.neon.Neon;
 import cz.juzna.intellij.neon.NeonIcons;
@@ -9,11 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-
 public class NeonFileType extends LanguageFileType {
-	public static final NeonFileType NEON_FILE_TYPE = new NeonFileType();
+	public static final NeonFileType INSTANCE = new NeonFileType();
 	public static final String DEFAULT_EXTENSION = "neon";
-
 
 	/**
 	 * All extensions which are associated with this plugin.
@@ -24,17 +21,17 @@ public class NeonFileType extends LanguageFileType {
 
 
 	protected NeonFileType() {
-		super(NeonLanguage.LANGUAGE);
+		super(NeonLanguage.INSTANCE);
 	}
 
 	@NotNull
 	public String getName() {
-		return Neon.languageName;
+		return Neon.LANGUAGE_NAME;
 	}
 
 	@NotNull
 	public String getDescription() {
-		return Neon.languageDescription;
+		return Neon.LANGUAGE_DESCRIPTION;
 	}
 
 	@NotNull
@@ -42,6 +39,7 @@ public class NeonFileType extends LanguageFileType {
 		return DEFAULT_EXTENSION;
 	}
 
+	@NotNull
 	public Icon getIcon() {
 		return NeonIcons.FILETYPE_ICON;
 	}

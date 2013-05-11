@@ -6,7 +6,6 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.FileViewProviderFactory;
 import com.intellij.psi.PsiManager;
 
-
 public class NeonFileViewProviderFactory implements FileViewProviderFactory {
     @Override
     public FileViewProvider createFileViewProvider(VirtualFile virtualFile, Language language, PsiManager psiManager, boolean physical) {
