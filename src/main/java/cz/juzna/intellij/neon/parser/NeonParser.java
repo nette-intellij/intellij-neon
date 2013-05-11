@@ -154,19 +154,21 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 	/***  helpers ***/
 
+	/**
+	 * Go to next token; if there is more whitespace, skip to the last
+	 */
 	private void advanceLexer() {
 		if (this.myBuilder.eof()) return;
 
-		IElementType type = this.myBuilder.getTokenType();
-		this.eolSeen = this.eolSeen || type == NEON_INDENT;
-		if (type == NEON_INDENT) {
-//			this.myAfterLastEolMarker = mark();
-			this.myIndent = this.myBuilder.getTokenText().length() - 1;
-		}
-		else {
-//			dropEolMarker();
-		}
-		this.myBuilder.advanceLexer();
+		do {
+			IElementType type = myBuilder.getTokenType();
+			this.eolSeen = this.eolSeen || type == NEON_INDENT;
+			if (type == NEON_INDENT) {
+				myIndent = myBuilder.getTokenText().length() - 1;
+			}
+
+			myBuilder.advanceLexer();
+		} while (myBuilder.getTokenType() == NEON_INDENT && myBuilder.lookAhead(1) == NEON_INDENT); // keep going if we're still indented
 	}
 
 	private void myAssert(boolean condition, String message) {
