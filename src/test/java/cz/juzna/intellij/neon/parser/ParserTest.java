@@ -2,8 +2,8 @@ package cz.juzna.intellij.neon.parser;
 
 import com.intellij.testFramework.ParsingTestCase;
 import com.intellij.testFramework.PlatformTestCase;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class ParserTest extends ParsingTestCase {
 
@@ -69,6 +69,11 @@ public class ParserTest extends ParsingTestCase {
 
 	@Test
 	public void test09() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void test10() {
 		doTest(true, false);
 	}
 

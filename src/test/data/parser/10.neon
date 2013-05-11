@@ -1,0 +1,13 @@
+common:
+	parameters:
+		foo: 2
+
+		x: dummy
+
+	bar: 2
+# comment with lower indent must not return the parser
+	baz: 3
+
+# comment with lower indent must not return the parser
+
+	baq: 4
