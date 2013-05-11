@@ -4,6 +4,7 @@ import com.intellij.lang.Language;
 import com.intellij.psi.PsiElement;
 import com.intellij.xml.breadcrumbs.BreadcrumbsInfoProvider;
 import cz.juzna.intellij.neon.NeonLanguage;
+import cz.juzna.intellij.neon.psi.NeonEntity;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +21,7 @@ public class NeonBreadcrumbsInfoProvider extends BreadcrumbsInfoProvider {
 
 	@Override
 	public boolean acceptElement(@NotNull PsiElement e) {
-		return (e instanceof NeonKeyValPair);
+		return (e instanceof NeonKeyValPair) || (e instanceof NeonEntity);
 	}
 
 	@NotNull
@@ -28,6 +29,11 @@ public class NeonBreadcrumbsInfoProvider extends BreadcrumbsInfoProvider {
 	public String getElementInfo(@NotNull PsiElement e) {
 		if (e instanceof NeonKeyValPair) {
 			return ((NeonKeyValPair) e).getKeyText();
+
+		} else if (e instanceof NeonEntity) {
+			String name = ((NeonEntity) e).getName();
+			return name != null ? name : "??";
+
 		} else {
 			return "??";
 		}
