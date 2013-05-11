@@ -33,7 +33,12 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 		passEmpty(); // process beginning of file
 		parseValue(0);
-		myAssert(this.myBuilder.eof(), "Not all tokens were passed");
+		while (! this.myBuilder.eof()) {
+			if (myBuilder.getTokenType() != NEON_INDENT) {
+				myBuilder.error("unexpected token at end of file");
+			}
+			myBuilder.advanceLexer();
+		}
 
 		// end
 		fileMarker.done(root);
