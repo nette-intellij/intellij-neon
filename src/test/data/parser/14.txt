@@ -12,8 +12,6 @@ NeonFile:14.neon
         PsiWhiteSpace(' ')
         Neon scalar
           PsiElement([Neon] literal)('1')
-        PsiErrorElement:unexpected token [Neon] ,
-          <empty list>
         PsiElement([Neon] ,)(',')
         PsiWhiteSpace(' ')
         Neon scalar
