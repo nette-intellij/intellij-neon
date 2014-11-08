@@ -57,9 +57,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			PsiBuilder.Marker val = mark();
 			parseArray(indent);
 			val.done(ARRAY);
-		}
-
-		else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
+		} else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
 			PsiBuilder.Marker val = mark();
 			advanceLexer();
 
@@ -96,7 +94,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 			val.done(ARRAY);
 
-		} else if(currentToken == NEON_INDENT) {
+		} else if (currentToken == NEON_INDENT) {
 			// no value -> null
 
 		} else {
@@ -106,12 +104,16 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		}
 	}
 
-	private void parseArray(int indent) {
+	private void parseArray(int indent, boolean onlyBullets)
+	{
 //		PsiBuilder.Marker marker = mark();
 		boolean isInline = myInline > 0;
 
 		while (myBuilder.getTokenType() != null && ! CLOSING_BRACKET.contains(myBuilder.getTokenType()) && (isInline ? myInline > 0 : myIndent >= indent)) {
 			IElementType currentToken = myBuilder.getTokenType();
+			if(onlyBullets && currentToken != NEON_ARRAY_BULLET) {
+				return;
+			}
 			IElementType nextToken = myBuilder.lookAhead(1);
 
 			if (ASSIGNMENTS.contains(nextToken)) { // key-val pair
@@ -140,6 +142,10 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 //		marker.done(ARRAY);
 	}
 
+	private void parseArray(int indent) {
+		parseArray(indent, false);
+	}
+
 	private void parseKeyVal(int indent) {
 		myAssert(NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()), "Expected literal or string");
 
@@ -150,9 +156,17 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		// key colon value
 		myAssert(ASSIGNMENTS.contains(myBuilder.getTokenType()), "Expected assignment operator");
 		advanceLexer();
+		if(myBuilder.getTokenType() == NEON_INDENT && myBuilder.lookAhead(1) == NEON_ARRAY_BULLET) {
+			//array-after-key syntax
+			advanceLexer(); //read indent
+			PsiBuilder.Marker val = mark();
+			parseArray(myIndent, myIndent == indent);
+			val.done(ARRAY);
+		} else {
+			// value
+			parseValueOrArray(indent);
+		}
 
-		// value
-		parseValueOrArray(indent);
 
 		keyValPair.done(KEY_VALUE_PAIR);
 	}
