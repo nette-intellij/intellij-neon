@@ -1,0 +1,14 @@
+NeonFile:16.neon
+  Neon array
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      PsiWhiteSpace(' ')
+      Neon array
+        PsiElement([Neon] [)('[')
+        Neon scalar
+          PsiElement([Neon] literal)('1')
+        PsiElement([Neon] ,)(',')
+        PsiWhiteSpace(' ')
+        Neon scalar
+          PsiElement([Neon] literal)('2')
+        PsiElement([Neon] ])(']')

@@ -123,6 +123,8 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 				parseValue(indent + 1);
 				markItem.done(NeonElementTypes.ITEM);
 
+			} else if(isInline && currentToken == NEON_ITEM_DELIMITER) {
+				advanceLexer();
 			} else if(isInline) {
 				parseValue(indent);
 
