@@ -42,6 +42,7 @@ public class ClassCompletionProvider extends CompletionProvider<CompletionParame
 		// Prepare list of possible variants
 		for (String name : phpIndex.getAllClassNames(results.getPrefixMatcher())) {
 			variants.addAll(phpIndex.getClassesByName(name));
+			variants.addAll(phpIndex.getInterfacesByName(name));
 		}
 
 		// Add variants
