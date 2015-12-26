@@ -162,7 +162,8 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			PsiBuilder.Marker val = mark();
 			parseArray(myIndent, myIndent == indent);
 			val.done(ARRAY);
-		} else {
+		} else  if((myBuilder.getTokenType() != NEON_INDENT && myBuilder.getTokenType() != null)
+				|| (myBuilder.getTokenType() == NEON_INDENT && (myBuilder.getTokenText().length() - 1) > myIndent)){
 			// value
 			parseValueOrArray(indent);
 		}

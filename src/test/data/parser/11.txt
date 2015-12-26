@@ -36,5 +36,7 @@ NeonFile:11.neon
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n')
           PsiElement([Neon] indent)('\n')
-    Neon scalar
-      PsiElement([Neon] literal)('nette:')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('nette')
+      PsiElement([Neon] :)(':')

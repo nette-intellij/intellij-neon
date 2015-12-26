@@ -121,4 +121,10 @@ public class ParserTest extends ParsingTestCase {
 	public void test19() {
 		doTest(true, true);
 	}
+
+	@Test
+	public void test20() {
+		doTest(true, true);
+	}
+
 }
