@@ -17,6 +17,7 @@ public interface NeonElementTypes {
 	public static final NeonElementType HASH = new NeonElementType("Hash");
 	public static final NeonElementType ITEM = new NeonElementType("Item");
 	public static final NeonElementType ENTITY = new NeonElementType("Entity");
+	public static final NeonElementType CHAINED_ENTITY = new NeonElementType("Chained entity");
 	public static final NeonElementType ARRAY = new NeonElementType("Array");
 	public static final NeonElementType ARGS = new NeonElementType("Args");
 	public static final NeonElementType SEQUENCE = new NeonElementType("Sequence");

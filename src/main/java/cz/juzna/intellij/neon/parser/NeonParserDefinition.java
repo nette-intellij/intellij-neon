@@ -64,6 +64,7 @@ public class NeonParserDefinition implements ParserDefinition {
 		else if (type == NeonElementTypes.SEQUENCE) return new NeonSectionImpl(node);
 		else if (type == NeonElementTypes.SCALAR_VALUE) return new NeonScalarImpl(node);
 		else if (type == NeonElementTypes.ENTITY) return new NeonEntityImpl(node);
+		else if (type == NeonElementTypes.CHAINED_ENTITY) return new NeonChainedEntityImpl(node);
 		else if (type == NeonElementTypes.ARGS) return new NeonArrayImpl(node); // FIXME: will it work?
 		else return new NeonPsiElementImpl(node);
 	}

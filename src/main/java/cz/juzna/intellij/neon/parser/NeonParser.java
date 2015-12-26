@@ -62,37 +62,22 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			advanceLexer();
 
 			if (myBuilder.getTokenType() == NEON_LPAREN) {
-				myInline++;
+				parseInlineArray();
 
-				PsiBuilder.Marker valArray = mark();
-
-				advanceLexer(NEON_LPAREN); // opening bracket
-				parseArray(1000000);
-				advanceLexer(NEON_RPAREN); // closing bracket
-
-				valArray.done(ARRAY);
-
-				myInline--;
-
-				val.done(ENTITY);
-
+				if (NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType())) {
+					val.rollbackTo();
+					val = mark();
+					parseChainedEntity();
+					val.done(CHAINED_ENTITY);
+				} else {
+					val.done(ENTITY);
+				}
 			} else {
 				val.done(SCALAR_VALUE);
 			}
 
 		} else if (OPEN_BRACKET.contains(currentToken)) { // array
-			PsiBuilder.Marker val = mark();
-			myInline++;
-
-			IElementType closing = closingBrackets.get(currentToken);
-
-			advanceLexer(); // opening bracket
-			parseArray(1000000);
-			advanceLexer(closing); // closing bracket
-
-			myInline--;
-
-			val.done(ARRAY);
+			parseInlineArray();
 
 		} else if (currentToken == NEON_INDENT) {
 			// no value -> null
@@ -193,6 +178,41 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		PsiBuilder.Marker key = mark();
 		advanceLexer();
 		key.done(KEY);
+	}
+
+	private void parseInlineArray()
+	{
+		IElementType currentToken = myBuilder.getTokenType();
+		PsiBuilder.Marker val = mark();
+		myInline++;
+
+		IElementType closing = closingBrackets.get(currentToken);
+
+		advanceLexer(currentToken); // opening bracket
+		parseArray(1000000);
+		advanceLexer(closing); // closing bracket
+
+		myInline--;
+
+		val.done(ARRAY);
+	}
+
+	private void parseChainedEntity() {
+		while (true) {
+			PsiBuilder.Marker inlineEntity = mark();
+			advanceLexer();
+			parseInlineArray();
+			inlineEntity.done(ENTITY);
+			if (myBuilder.getTokenType() == NEON_INDENT || myBuilder.getTokenType() == null) {
+				return;
+			} else if (myBuilder.lookAhead(1) != NEON_LPAREN) {
+				//last entity without attributes
+				PsiBuilder.Marker inlineEntity2 = mark();
+				advanceLexer();
+				inlineEntity2.done(ENTITY);
+				return;
+			}
+		}
 	}
 
 
