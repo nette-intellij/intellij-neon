@@ -57,35 +57,43 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			PsiBuilder.Marker val = mark();
 			parseArray(indent);
 			val.done(ARRAY);
-		} else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
-			PsiBuilder.Marker val = mark();
-			advanceLexer();
-
-			if (myBuilder.getTokenType() == NEON_LPAREN) {
-				parseInlineArray();
-
-				if (NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType())) {
-					val.rollbackTo();
-					val = mark();
-					parseChainedEntity();
-					val.done(CHAINED_ENTITY);
-				} else {
-					val.done(ENTITY);
-				}
-			} else {
-				val.done(SCALAR_VALUE);
-			}
-
-		} else if (OPEN_BRACKET.contains(currentToken)) { // array
-			parseInlineArray();
-
 		} else if (currentToken == NEON_INDENT) {
 			// no value -> null
 
+		} else if (OPEN_BRACKET.contains(currentToken)) { // array
+			PsiBuilder.Marker val = mark();
+			boolean result = parseInlineArray();
+			if (!result || myBuilder.getTokenType() == NEON_INDENT || myBuilder.getTokenType() == null) {
+				val.drop();
+			} else {
+				parseScalarOrEntity(val);
+			}
+		} else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
+			PsiBuilder.Marker val = mark();
+			advanceLexer();
+			parseScalarOrEntity(val);
 		} else {
 			// dunno
 			myBuilder.error("unexpected token " + currentToken);
 			advanceLexer();
+		}
+	}
+
+	private void parseScalarOrEntity(PsiBuilder.Marker val) {
+
+		if (myBuilder.getTokenType() == NEON_LPAREN) {
+			parseInlineArray();
+
+			if (STRING_LITERALS.contains(myBuilder.getTokenType())) {
+				val.rollbackTo();
+				val = mark();
+				parseChainedEntity();
+				val.done(CHAINED_ENTITY);
+			} else {
+				val.done(ENTITY);
+			}
+		} else {
+			val.done(SCALAR_VALUE);
 		}
 	}
 
@@ -180,7 +188,8 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		key.done(KEY);
 	}
 
-	private void parseInlineArray()
+
+	private boolean parseInlineArray()
 	{
 		IElementType currentToken = myBuilder.getTokenType();
 		PsiBuilder.Marker val = mark();
@@ -190,11 +199,11 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 		advanceLexer(currentToken); // opening bracket
 		parseArray(1000000);
-		advanceLexer(closing); // closing bracket
-
+		boolean ok = advanceLexer(closing); // closing bracket
 		myInline--;
-
 		val.done(ARRAY);
+
+		return ok;
 	}
 
 	private void parseChainedEntity() {
@@ -236,13 +245,14 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		} while (myBuilder.getTokenType() == NEON_INDENT && myBuilder.lookAhead(1) == NEON_INDENT); // keep going if we're still indented
 	}
 
-	private void advanceLexer(IElementType expectedToken) {
+	private boolean advanceLexer(IElementType expectedToken) {
 		if (myBuilder.getTokenType() == expectedToken) {
 			advanceLexer();
+			return true;
 
 		} else {
 			myBuilder.error("unexpected token " + myBuilder.getTokenType() + ", expected " + expectedToken);
-
+			return false;
 		}
 	}
 
