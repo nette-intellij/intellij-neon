@@ -62,38 +62,24 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 		} else if (OPEN_BRACKET.contains(currentToken)) { // array
 			PsiBuilder.Marker val = mark();
-			boolean result = parseInlineArray();
-			if (!result || myBuilder.getTokenType() == NEON_INDENT || myBuilder.getTokenType() == null) {
-				val.drop();
+			parseInlineArray();
+			if (myBuilder.getTokenType() == NEON_LPAREN){
+				parseEntity(val);
 			} else {
-				parseScalarOrEntity(val);
+				val.drop();
 			}
 		} else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
 			PsiBuilder.Marker val = mark();
 			advanceLexer();
-			parseScalarOrEntity(val);
+			if (myBuilder.getTokenType() == NEON_LPAREN) {
+				parseEntity(val);
+			} else {
+				val.done(SCALAR_VALUE);
+			}
 		} else {
 			// dunno
 			myBuilder.error("unexpected token " + currentToken);
 			advanceLexer();
-		}
-	}
-
-	private void parseScalarOrEntity(PsiBuilder.Marker val) {
-
-		if (myBuilder.getTokenType() == NEON_LPAREN) {
-			parseInlineArray();
-
-			if (STRING_LITERALS.contains(myBuilder.getTokenType())) {
-				val.rollbackTo();
-				val = mark();
-				parseChainedEntity();
-				val.done(CHAINED_ENTITY);
-			} else {
-				val.done(ENTITY);
-			}
-		} else {
-			val.done(SCALAR_VALUE);
 		}
 	}
 
@@ -188,7 +174,6 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		key.done(KEY);
 	}
 
-
 	private boolean parseInlineArray()
 	{
 		IElementType currentToken = myBuilder.getTokenType();
@@ -204,6 +189,19 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		val.done(ARRAY);
 
 		return ok;
+	}
+
+	private void parseEntity(PsiBuilder.Marker val)
+	{
+		parseInlineArray();
+		if (STRING_LITERALS.contains(myBuilder.getTokenType())) {
+			val.rollbackTo();
+			val = mark();
+			parseChainedEntity();
+			val.done(CHAINED_ENTITY);
+		} else {
+			val.done(ENTITY);
+		}
 	}
 
 	private void parseChainedEntity() {
