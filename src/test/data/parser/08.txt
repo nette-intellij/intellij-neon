@@ -26,8 +26,8 @@ NeonFile:08.neon
               PsiElement([Neon] literal)('Wed')
             PsiWhiteSpace(' ')
             PsiElement([Neon] ])(']')
+            PsiElement([Neon] indent)('\n')
         PsiElement([Neon] indent)('\n')
-    PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
         PsiElement([Neon] literal)('production')

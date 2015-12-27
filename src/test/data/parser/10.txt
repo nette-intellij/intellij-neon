@@ -19,7 +19,7 @@ NeonFile:10.neon
               PsiWhiteSpace(' ')
               Neon scalar
                 PsiElement([Neon] literal)('2')
-            PsiElement([Neon] indent)('\n')
+                PsiElement([Neon] indent)('\n')
             PsiElement([Neon] indent)('\n\t\t')
             Neon key-val pair
               Neon key
@@ -28,7 +28,7 @@ NeonFile:10.neon
               PsiWhiteSpace(' ')
               Neon scalar
                 PsiElement([Neon] literal)('dummy')
-            PsiElement([Neon] indent)('\n')
+                PsiElement([Neon] indent)('\n')
             PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key
@@ -37,7 +37,7 @@ NeonFile:10.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('2')
-        PsiElement([Neon] indent)('\n')
+            PsiElement([Neon] indent)('\n')
         PsiComment([Neon] comment)('# comment with lower indent must not return the parser')
         PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
@@ -47,10 +47,10 @@ NeonFile:10.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('3')
-        PsiElement([Neon] indent)('\n')
-        PsiElement([Neon] indent)('\n')
-        PsiComment([Neon] comment)('# comment with lower indent must not return the parser')
-        PsiElement([Neon] indent)('\n')
+            PsiElement([Neon] indent)('\n')
+            PsiElement([Neon] indent)('\n')
+            PsiComment([Neon] comment)('# comment with lower indent must not return the parser')
+            PsiElement([Neon] indent)('\n')
         PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key

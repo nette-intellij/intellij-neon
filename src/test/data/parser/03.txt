@@ -36,8 +36,8 @@ NeonFile:03.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('@httpRequestFactory::createHttpRequest')
+            PsiElement([Neon] indent)('\n')
         PsiElement([Neon] indent)('\n')
-    PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
         PsiElement([Neon] literal)('panels')
