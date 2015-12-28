@@ -1,0 +1,19 @@
+NeonFile:28.neon
+  Neon array
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      PsiWhiteSpace(' ')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('x')
+          PsiElement([Neon] :)(':')
+          PsiElement([Neon] indent)('\n    ')
+          Neon array
+            Neon key-val pair
+              Neon key
+                PsiElement([Neon] literal)('a')
+              PsiElement([Neon] :)(':')
+              PsiWhiteSpace(' ')
+              Neon scalar
+                PsiElement([Neon] literal)('10')
