@@ -56,7 +56,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			PsiBuilder.Marker val = mark();
 			parseArray(indent);
 			val.done(ARRAY);
-		} else if (currentToken == NEON_INDENT) {
+		} else if (currentToken == NEON_INDENT || currentToken == null) {
 			// no value -> null
 
 		} else if (OPEN_BRACKET.contains(currentToken)) { // array
