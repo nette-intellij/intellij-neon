@@ -54,8 +54,8 @@ NeonFile:26.neon
               Neon scalar
                 PsiElement([Neon] literal)('20')
             PsiElement([Neon] indent)('\n')
-        PsiElement([Neon] -)('-')
-    PsiErrorElement:expected key-val pair or array item
-      <empty list>
-    PsiWhiteSpace(' ')
-    PsiElement([Neon] literal)('y')
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      PsiWhiteSpace(' ')
+      Neon scalar
+        PsiElement([Neon] literal)('y')

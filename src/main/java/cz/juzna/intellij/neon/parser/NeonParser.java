@@ -104,7 +104,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 				PsiBuilder.Marker markArray = mark();
 				parseKeyVal(indent);
 				String prevIndent = myIndentString;
-				advanceLexer();
+				passEmpty();
 				if ((prevIndent + "  ").equals(myIndentString)) {
 					parseArray(indent + 2);
 				}
