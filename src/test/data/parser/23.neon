@@ -1,0 +1,8 @@
+#allowed tab/space mixing
+a:
+  b: 1
+  c: 2
+d:
+	e:
+	 - 3
+	 - 4

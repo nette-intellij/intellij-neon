@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
  * Neon parser, convert tokens (output from lexer) into syntax tree
  */
 public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
-	private enum IndentType { TABS, SPACES }
 
 	private PsiBuilder myBuilder;
 	private boolean eolSeen = false;
@@ -19,7 +18,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	private boolean myHasTabs = false; // FIXME: use this
 	private PsiBuilder.Marker myAfterLastEolMarker;
 	private int myInline;
-	private IndentType myIndentType;
+	private String myIndentString;
 
 
 	@NotNull
@@ -30,7 +29,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		myBuilder = builder;
 		myIndent = 0;
 		eolSeen = false;
-		myIndentType = null;
+		myIndentString = "";
 
 		// begin
 		PsiBuilder.Marker fileMarker = mark();
@@ -260,17 +259,18 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	private void validateTabsSpaces() {
 		assert myBuilder.getTokenType() == NEON_INDENT;
 		String text = myBuilder.getTokenText().replace("\n", "");
-		if (text.length() == 0) return; // no real indent
-
-		// first indet -> detect
-		if (myIndentType == null) {
-			myIndentType = text.charAt(0) == '\t' ? IndentType.TABS : IndentType.SPACES;
-
-		} else {
-			if (text.contains(myIndentType == IndentType.TABS ? " " : "\t")) {
-				myBuilder.error("tab/space mixing");
-			}
+		if (text.isEmpty() && myBuilder.lookAhead(1) == NEON_INDENT) {
+			return;
 		}
+		if (text.isEmpty()) {
+			myIndentString = "";
+			return;
+		}
+		int min = Math.min(myIndentString.length(), text.length());
+		if (!text.substring(0, min).equals(myIndentString.substring(0, min))) {
+			myBuilder.error("tab/space mixing");
+		}
+		myIndentString = text;
 	}
 
 	private void myAssert(boolean condition, String message) {
