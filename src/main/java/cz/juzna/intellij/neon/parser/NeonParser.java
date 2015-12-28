@@ -88,6 +88,9 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		boolean isInline = myInline > 0;
 
 		while (myBuilder.getTokenType() != null && ! CLOSING_BRACKET.contains(myBuilder.getTokenType()) && (isInline ? myInline > 0 : myIndent >= indent)) {
+			if (!isInline && myIndent != indent) {
+				myBuilder.error("bad indent");
+			}
 			IElementType currentToken = myBuilder.getTokenType();
 			if(onlyBullets && currentToken != NEON_ARRAY_BULLET) {
 				return;
