@@ -25,7 +25,7 @@ NeonFile:09.neon
                 PsiElement([Neon] =)('=')
                 Neon scalar
                   PsiElement([Neon] string)('"integer"')
-              PsiElement([Neon] ,)(',')
+                PsiElement([Neon] ,)(',')
               PsiWhiteSpace(' ')
               Neon key-val pair
                 Neon key

@@ -14,7 +14,6 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 	private PsiBuilder myBuilder;
 	private int myIndent;
-	private int myInline;
 	private String myIndentString;
 
 
@@ -31,7 +30,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		PsiBuilder.Marker fileMarker = myBuilder.mark();
 
 		passEmpty(); // process beginning of file
-		parseValue(0);
+		parseValueOrArray(0);
 		while (!myBuilder.eof()) {
 			if (myBuilder.getTokenType() != NEON_INDENT) {
 				myBuilder.error("unexpected token at end of file");
@@ -44,15 +43,10 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		return builder.getTreeBuilt();
 	}
 
-	private void parseValue(int indent) {
+	private void parseValue() {
 		IElementType currentToken = myBuilder.getTokenType();
-		IElementType nextToken = myBuilder.lookAhead(1);
 
-		if (NeonTokenTypes.STRING_LITERALS.contains(currentToken) && nextToken == NEON_COLON || currentToken == NeonTokenTypes.NEON_ARRAY_BULLET) {
-			PsiBuilder.Marker val = myBuilder.mark();
-			parseArray(indent);
-			val.done(ARRAY);
-		} else if (currentToken == NEON_INDENT || currentToken == null) {
+		if (currentToken == NEON_INDENT || currentToken == null) {
 			// no value -> null
 
 		} else if (OPEN_BRACKET.contains(currentToken)) { // array
@@ -79,10 +73,8 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	}
 
 	private void parseArray(int indent, boolean onlyBullets) {
-		boolean isInline = myInline > 0;
-
-		while (myBuilder.getTokenType() != null && !CLOSING_BRACKET.contains(myBuilder.getTokenType()) && (isInline ? myInline > 0 : myIndent >= indent)) {
-			if (!isInline && myIndent != indent) {
+		while (myBuilder.getTokenType() != null && !CLOSING_BRACKET.contains(myBuilder.getTokenType()) && myIndent >= indent) {
+			if (myIndent != indent) {
 				myBuilder.error("bad indent");
 			}
 			IElementType currentToken = myBuilder.getTokenType();
@@ -112,19 +104,15 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 				advanceLexer();
 				parseValueOrArray(indent);
 				markItem.done(NeonElementTypes.ITEM);
-
-			} else if(isInline && currentToken == NEON_ITEM_DELIMITER) {
-				advanceLexer();
-			} else if(isInline) {
-				parseValue(indent);
-
 			} else {
 				myBuilder.error("expected key-val pair or array item");
 				advanceLexer();
 
 			}
 
-			if (myBuilder.getTokenType() == NEON_INDENT) advanceLexer();
+			if (myBuilder.getTokenType() == NEON_INDENT) {
+				advanceLexer();
+			}
 		}
 	}
 
@@ -157,15 +145,20 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	}
 
 	private void parseValueOrArray(int indent) {
-		if (myBuilder.getTokenType() == NEON_INDENT) {
+		IElementType currentToken = myBuilder.getTokenType();
+		if (currentToken == NEON_INDENT) {
 			advanceLexer(); // read indent
 			if (myIndent > indent) { //null otherwise
 				PsiBuilder.Marker val = myBuilder.mark();
 				parseArray(myIndent);
 				val.done(ARRAY);
 			}
-		} else if (myBuilder.getTokenType() != null) {
-			parseValue(indent);
+		} else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken) && myBuilder.lookAhead(1) == NEON_COLON || currentToken == NeonTokenTypes.NEON_ARRAY_BULLET) {
+			PsiBuilder.Marker val = myBuilder.mark();
+			parseArray(indent);
+			val.done(ARRAY);
+		} else if (currentToken != null) {
+			parseValue();
 		}
 	}
 
@@ -180,17 +173,38 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	private boolean parseInlineArray() {
 		IElementType currentToken = myBuilder.getTokenType();
 		PsiBuilder.Marker val = myBuilder.mark();
-		myInline++;
 
 		IElementType closing = closingBrackets.get(currentToken);
 
 		advanceLexer(currentToken); // opening bracket
-		parseArray(1000000);
+		passEmpty();
+		while (myBuilder.getTokenType() != null && !CLOSING_BRACKET.contains(myBuilder.getTokenType())) {
+			if (STRING_LITERALS.contains(myBuilder.getTokenType()) && ASSIGNMENTS.contains(myBuilder.lookAhead(1))) { // key-val pair
+				PsiBuilder.Marker keyValPair = myBuilder.mark();
+				parseKey();
+				advanceLexer();
+				parseValue();
+				readInlineArraySeparator();
+
+				keyValPair.done(KEY_VALUE_PAIR);
+			} else {
+				parseValue();
+				readInlineArraySeparator();
+			}
+			passEmpty();
+		}
 		boolean ok = advanceLexer(closing); // closing bracket
-		myInline--;
 		val.done(ARRAY);
 
 		return ok;
+	}
+
+	private void readInlineArraySeparator() {
+		if (myBuilder.getTokenType() == NEON_INDENT || myBuilder.getTokenType() == NEON_ITEM_DELIMITER) {
+			advanceLexer();
+		} else if (!CLOSING_BRACKET.contains(myBuilder.getTokenType())) {
+			myBuilder.error("Expected indent, delimiter or closing bracket");
+		}
 	}
 
 	private void parseEntity(PsiBuilder.Marker val) {
