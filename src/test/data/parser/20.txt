@@ -10,7 +10,7 @@ NeonFile:20.neon
           Neon key
             PsiElement([Neon] literal)('b')
           PsiElement([Neon] :)(':')
-        PsiElement([Neon] indent)('\n')
+          PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
         PsiElement([Neon] literal)('c')

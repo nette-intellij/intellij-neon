@@ -1,6 +1,4 @@
 NeonFile:11.neon
-  PsiComment([Neon] comment)('# parsing errors')
-  PsiElement([Neon] indent)('\n')
   Neon array
     Neon key-val pair
       Neon key
@@ -15,7 +13,7 @@ NeonFile:11.neon
         PsiElement([Neon] literal)('b')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n')
-    PsiElement([Neon] indent)('\n')
+      PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
         PsiElement([Neon] literal)('parameters')
@@ -35,7 +33,7 @@ NeonFile:11.neon
             PsiElement([Neon] literal)('d')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n')
-        PsiElement([Neon] indent)('\n')
+          PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
         PsiElement([Neon] literal)('nette')
