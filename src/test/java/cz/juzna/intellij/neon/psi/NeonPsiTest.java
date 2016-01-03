@@ -16,7 +16,7 @@ public class NeonPsiTest extends LightPlatformCodeInsightFixtureTestCase {
 	}
 
 	protected NeonPsiElement getPsiElement() {
-		return (NeonPsiElement) myFixture.configureByFile(getTestDataPath() + "/" + getTestName(true) + ".neon").getFirstChild();
+		return ((NeonFile) myFixture.configureByFile(getTestDataPath() + "/" + getTestName(true) + ".neon")).getValue();
 	}
 
 	@Test

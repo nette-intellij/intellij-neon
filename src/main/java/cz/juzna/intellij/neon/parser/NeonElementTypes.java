@@ -20,7 +20,6 @@ public interface NeonElementTypes {
 	public static final NeonElementType CHAINED_ENTITY = new NeonElementType("Chained entity");
 	public static final NeonElementType ARRAY = new NeonElementType("Array");
 	public static final NeonElementType ARGS = new NeonElementType("Args");
-	public static final NeonElementType SEQUENCE = new NeonElementType("Sequence");
 	public static final NeonElementType COMPOUND_VALUE = new NeonElementType("Compound value");
 	public static final NeonElementType SCALAR_VALUE = new NeonElementType("Scalar value");
 	public static final NeonElementType REFERENCE = new NeonElementType("Reference");

@@ -61,7 +61,6 @@ public class NeonParserDefinition implements ParserDefinition {
 		else if (type == NeonElementTypes.KEY) return new NeonKeyImpl(node);
 		else if (type == NeonElementTypes.COMPOUND_VALUE) return new NeonArrayImpl(node);
 		else if (type == NeonElementTypes.ARRAY) return new NeonArrayImpl(node);
-		else if (type == NeonElementTypes.SEQUENCE) return new NeonSectionImpl(node);
 		else if (type == NeonElementTypes.SCALAR_VALUE) return new NeonScalarImpl(node);
 		else if (type == NeonElementTypes.ENTITY) return new NeonEntityImpl(node);
 		else if (type == NeonElementTypes.CHAINED_ENTITY) return new NeonChainedEntityImpl(node);

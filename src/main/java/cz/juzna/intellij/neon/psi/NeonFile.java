@@ -8,9 +8,11 @@ import java.util.HashMap;
  * Neon file - just a wrapper for the whole file
  */
 public interface NeonFile extends PsiFile, NeonPsiElement {
+
+
 	/**
-	 * get sections of config file
-	 * (assumes first level hash-map consists of *config section*)
+	 * returns root value
 	 */
-	public HashMap<String, NeonSection> getSections();
+	public NeonPsiElement getValue();
+
 }

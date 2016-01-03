@@ -73,13 +73,10 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 	 *
 	 */
 	private void getServicesFromNeonFile(List<String> result, NeonFile file) {
-		for(NeonSection section: file.getSections().values()) {
-			// without sections, i.e. the section is actually an extension
-			if (section.getName().equals("services") && (section.getValue() instanceof NeonArray)) addServiceFromNeonArray(result, (NeonArray) section.getValue());
-
-			if (section.getValue() instanceof NeonArray) {
-				HashMap<String,NeonValue> map = ((NeonArray) section.getValue()).getMap();
-				if (map.containsKey("services")) addServiceFromNeonArray(result, (NeonArray) map.get("services"));
+		if (file.getValue() instanceof NeonArray) {
+			HashMap<String,NeonValue> map = ((NeonArray) file.getValue()).getMap();
+			if (map.containsKey("services")) {
+				addServiceFromNeonArray(result, (NeonArray) map.get("services"));
 			}
 		}
 	}
