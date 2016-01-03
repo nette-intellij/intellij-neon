@@ -209,13 +209,11 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
 	private void parseEntity(PsiBuilder.Marker val) {
 		parseInlineArray();
+		val.done(ENTITY);
 		if (STRING_LITERALS.contains(myBuilder.getTokenType())) {
-			val.rollbackTo();
-			val = myBuilder.mark();
+			val = val.precede();
 			parseChainedEntity();
 			val.done(CHAINED_ENTITY);
-		} else {
-			val.done(ENTITY);
 		}
 	}
 
@@ -223,15 +221,14 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		while (true) {
 			PsiBuilder.Marker inlineEntity = myBuilder.mark();
 			advanceLexer();
+			if (myBuilder.getTokenType() != NEON_LPAREN) {
+				//last entity without attributes
+				inlineEntity.done(ENTITY);
+				return;
+			}
 			parseInlineArray();
 			inlineEntity.done(ENTITY);
 			if (myBuilder.getTokenType() == NEON_INDENT || myBuilder.getTokenType() == null) {
-				return;
-			} else if (myBuilder.lookAhead(1) != NEON_LPAREN) {
-				//last entity without attributes
-				PsiBuilder.Marker inlineEntity2 = myBuilder.mark();
-				advanceLexer();
-				inlineEntity2.done(ENTITY);
 				return;
 			}
 		}

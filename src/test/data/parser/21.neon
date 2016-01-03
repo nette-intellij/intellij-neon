@@ -1,2 +1,4 @@
 a: ent1(1) ent2(2)
-b: ent1(3) ent2
+b: ent1() foo() ent2
+c: ent1() ent2
+d: ent1() ent2
