@@ -5,7 +5,7 @@ import com.intellij.psi.PsiNamedElement;
 /**
  * Key-value pair, part of NeonHash
  */
-public interface NeonKeyValPair extends PsiNamedElement {
+public interface NeonKeyValPair extends PsiNamedElement, NeonPsiElement {
 	// key
 	public NeonKey getKey();
 	public String getKeyText();
