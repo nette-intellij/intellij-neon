@@ -22,7 +22,7 @@ public class NeonSectionImpl extends NeonKeyValPairImpl implements NeonSection {
 	@Override
 	public NeonKey getParentSection() {
 		if (getNode().getFirstChildNode().getElementType() == NeonElementTypes.COMPOUND_KEY) {
-			return (NeonKey) getNode().getFirstChildNode().getPsi();
+			return (NeonKey) getNode().getPsi().getFirstChild();
 		} else {
 			return null;
 		}

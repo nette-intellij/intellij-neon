@@ -29,9 +29,13 @@ public class NeonEntityImpl extends NeonPsiElementImpl implements NeonEntity {
 
 	@Override
 	public NeonArray getArgs() {
-		ASTNode children[] = getNode().getChildren(TokenSet.create(NeonElementTypes.ARGS));
-		if (children.length > 0) return (NeonArray) children[0].getPsi(); // should be hash I guess
-		else return null;
+		ASTNode children[] = getNode().getChildren(TokenSet.create(NeonElementTypes.ARRAY));
+		if (children.length > 0) {
+			return (NeonArray) children[0].getPsi(); // should be hash I guess
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override

@@ -47,7 +47,10 @@ public class NeonKeyValPairImpl extends NeonPsiElementImpl implements NeonKeyVal
 
 	@Override
 	public NeonValue getValue() {
-		return (NeonValue) getNode().getLastChildNode().getPsi();
+		if (getLastChild() instanceof NeonValue) {
+			return (NeonValue) getLastChild();
+		}
+		return null;
 	}
 
 	@Override
