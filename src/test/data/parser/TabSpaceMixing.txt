@@ -1,0 +1,49 @@
+NeonFile:TabSpaceMixing.neon
+  PsiComment([Neon] comment)('#allowed tab/space mixing')
+  PsiElement([Neon] indent)('\n')
+  Neon array
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('a')
+      PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n  ')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('b')
+          PsiElement([Neon] :)(':')
+          PsiWhiteSpace(' ')
+          Neon scalar
+            PsiElement([Neon] literal)('1')
+        PsiElement([Neon] indent)('\n  ')
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('c')
+          PsiElement([Neon] :)(':')
+          PsiWhiteSpace(' ')
+          Neon scalar
+            PsiElement([Neon] literal)('2')
+        PsiElement([Neon] indent)('\n')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('d')
+      PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n\t')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('e')
+          PsiElement([Neon] :)(':')
+          PsiElement([Neon] indent)('\n\t ')
+          Neon array
+            NeonPsiElementImpl([Neon] Item)
+              PsiElement([Neon] -)('-')
+              PsiWhiteSpace(' ')
+              Neon scalar
+                PsiElement([Neon] literal)('3')
+            PsiElement([Neon] indent)('\n\t ')
+            NeonPsiElementImpl([Neon] Item)
+              PsiElement([Neon] -)('-')
+              PsiWhiteSpace(' ')
+              Neon scalar
+                PsiElement([Neon] literal)('4')

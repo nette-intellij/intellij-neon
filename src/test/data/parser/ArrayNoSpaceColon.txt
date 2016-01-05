@@ -1,0 +1,13 @@
+NeonFile:ArrayNoSpaceColon.neon
+  Neon array
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] string)('"a"')
+      PsiElement([Neon] :)(':')
+      Neon scalar
+        PsiElement([Neon] string)('"b"')
+    PsiElement([Neon] indent)('\n')
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      Neon scalar
+        PsiElement([Neon] string)('"c"')

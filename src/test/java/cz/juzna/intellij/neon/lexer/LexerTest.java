@@ -86,47 +86,47 @@ public class LexerTest extends UsefulTestCase {
 	}
 
 	@Test
-	public void test01() throws Exception {
+	public void testArray1() throws Exception {
 		doTestFromFile();
 	}
 
 	@Test
-	public void test02() throws Exception {
+	public void testArray2() throws Exception {
 		doTestFromFile();
 	}
 
 	@Test
-	public void test03() throws Exception {
+	public void testArray3() throws Exception {
 		doTestFromFile();
 	}
 
 	@Test
-	public void test04() throws Exception {
+	public void testArray4() throws Exception {
 		doTestFromFile();
 	}
 
 	@Test
-	public void test05() throws Exception {
+	public void testArray5() throws Exception {
 		doTestFromFile();
 	}
 
 	@Test
-	public void test06() throws Exception {
+	public void testArray6() throws Exception {
 		doTestFromFile();
 	}
 
 	@Test
-	public void test07() throws Exception {
+	public void testArray10() throws Exception {
 		doTestFromFile();
 	}
 
 	@Test
-	public void test20() throws Exception {
+	public void testArrayEntity() throws Exception {
 		doTestFromFile();
 	}
 
 	@Test
-	public void test29() throws Exception {
+	public void testArrayNoSpaceColon() throws Exception {
 		doTestFromFile();
 	}
 

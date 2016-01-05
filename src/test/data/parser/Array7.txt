@@ -1,0 +1,40 @@
+NeonFile:Array7.neon
+  Neon array
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('a')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
+      Neon scalar
+        PsiElement([Neon] literal)('1')
+    PsiElement([Neon] indent)('\n')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('b')
+      PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n')
+      PsiElement([Neon] indent)('\n')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('parameters')
+      PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n\t')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('c')
+          PsiElement([Neon] :)(':')
+          PsiWhiteSpace(' ')
+          Neon scalar
+            PsiElement([Neon] literal)('x')
+        PsiElement([Neon] indent)('\n\t')
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('d')
+          PsiElement([Neon] :)(':')
+          PsiElement([Neon] indent)('\n')
+          PsiElement([Neon] indent)('\n')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('nette')
+      PsiElement([Neon] :)(':')

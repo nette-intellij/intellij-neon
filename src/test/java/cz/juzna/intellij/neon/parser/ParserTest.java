@@ -21,169 +21,182 @@ public class ParserTest extends ParsingTestCase {
 		doTest(true);
 		if (!suppressErrors) {
 			Assert.assertFalse(
-				"PsiFile contains error elements",
-				toParseTreeText(myFile, true, includeRanges()).contains("PsiErrorElement")
+					"PsiFile contains error elements",
+					toParseTreeText(myFile, true, includeRanges()).contains("PsiErrorElement")
 			);
 		}
 	}
 
 	@Test
-	public void test01() {
+	public void testArray1() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test02() {
+	public void testArray2() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test03() {
+	public void testArray3() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test04() {
+	public void testArray4() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test05() {
+	public void testArray5() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test06() {
+	public void testArray6() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test07() {
+	public void testArray7() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test08() {
+	public void testArray8() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test09() {
+	public void testArray9() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test10() {
+	public void testArray10() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test11() {
+	public void testArrayComment() {
 		doTest(true, false);
 	}
 
 	@Test
-	public void test12() {
+	public void testArrayEntity() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testArrayEntity2() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testArrayInline() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testArrayInline2() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testArrayInline3() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void tesArrayNull() {
+		doTest(true, false);
+	}
+
+
+	@Test
+	public void testReal1() {
+		doTest(true, false);
+	}
+
+
+	@Test
+	public void testArrayAfterKey() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testEntityChain() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testEntityArrayValue() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testTabSpaceMixing() {
+		doTest(true, false);
+	}
+
+
+	@Test
+	public void testKeyAfterBullet1() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testKeyAfterBulletArrayAfterKey() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testKeyAfterBullet2() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testKeyAfterBulletFalse() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testArrayNoSpaceColon() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testArrayNull() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testErrorNoSpaceColon() {
 		doTest(true, true);
 	}
 
 	@Test
-	public void test13() {
+	public void testErrorInlineArray() {
 		doTest(true, true);
 	}
 
 	@Test
-	public void test14() {
+	public void testErrorClosingBracket2() {
 		doTest(true, true);
 	}
 
 	@Test
-	public void test15() {
+	public void testErrorClosingBracket() {
 		doTest(true, true);
 	}
 
 	@Test
-	public void test16() {
+	public void testErrorTabSpaceMixing() {
 		doTest(true, true);
 	}
 
 	@Test
-	public void test17() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test18() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test19() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test20() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test21() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test22() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test23() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test24() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test25() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test26() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test27() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test28() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test29() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test30() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test31() {
-		doTest(true, true);
-	}
-
-	@Test
-	public void test32() {
+	public void testErrorIndent() {
 		doTest(true, true);
 	}
 

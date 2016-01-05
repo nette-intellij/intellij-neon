@@ -1,0 +1,57 @@
+NeonFile:Array3.neon
+  PsiComment([Neon] comment)('# factories')
+  PsiElement([Neon] indent)('\n')
+  Neon array
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('services')
+      PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n\t')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('ropanel1')
+          PsiElement([Neon] :)(':')
+          PsiWhiteSpace(' ')
+          Neon scalar
+            PsiElement([Neon] literal)('Nette\Application\Diagnostics\RoutingPanel::initialize')
+        PsiElement([Neon] indent)('\n\t')
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('ropanel2')
+          PsiElement([Neon] :)(':')
+          PsiWhiteSpace(' ')
+          Neon entity
+            PsiElement([Neon] literal)('Nette\Application\Diagnostics\RoutingPanel::initialize')
+            Neon array
+              PsiElement([Neon] ()('(')
+              Neon scalar
+                PsiElement([Neon] literal)('test')
+              PsiElement([Neon] ))(')')
+        PsiElement([Neon] indent)('\n\t')
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('httpRequest')
+          PsiElement([Neon] :)(':')
+          PsiWhiteSpace(' ')
+          Neon scalar
+            PsiElement([Neon] literal)('@httpRequestFactory::createHttpRequest')
+            PsiElement([Neon] indent)('\n')
+        PsiElement([Neon] indent)('\n')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('panels')
+      PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n\t')
+      Neon array
+        NeonPsiElementImpl([Neon] Item)
+          PsiElement([Neon] -)('-')
+          PsiWhiteSpace(' ')
+          Neon scalar
+            PsiElement([Neon] literal)('Nette\Application\Diagnostics\RoutingPanel::initialize')
+        PsiElement([Neon] indent)('\n\t')
+        NeonPsiElementImpl([Neon] Item)
+          PsiElement([Neon] -)('-')
+          PsiWhiteSpace(' ')
+          Neon scalar
+            PsiElement([Neon] literal)('@httpRequestFactory::start')
