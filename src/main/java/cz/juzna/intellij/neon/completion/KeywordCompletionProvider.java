@@ -96,7 +96,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 				results.addElement(element);
 			}
 		}
-		else if (curr.getParent() instanceof NeonScalar) { // value autocompletion
+		if (curr.getParent() instanceof NeonScalar) { // value autocompletion
 			for(LookupElementBuilder x: KEYWORD_LOOKUPS) results.addElement(x);
 
 			String[] parent = getKeyChain(curr);
