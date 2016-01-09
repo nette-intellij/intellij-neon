@@ -2,12 +2,14 @@ NeonFile:EntityChain.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('a')
+        Neon scalar
+          PsiElement([Neon] literal)('a')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
       Neon chained entity
         Neon entity
-          PsiElement([Neon] literal)('ent1')
+          Neon scalar
+            PsiElement([Neon] literal)('ent1')
           Neon array
             PsiElement([Neon] ()('(')
             Neon scalar
@@ -15,7 +17,8 @@ NeonFile:EntityChain.neon
             PsiElement([Neon] ))(')')
         PsiWhiteSpace(' ')
         Neon entity
-          PsiElement([Neon] literal)('ent2')
+          Neon scalar
+            PsiElement([Neon] literal)('ent2')
           Neon array
             PsiElement([Neon] ()('(')
             Neon scalar
@@ -24,51 +27,61 @@ NeonFile:EntityChain.neon
     PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('b')
+        Neon scalar
+          PsiElement([Neon] literal)('b')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
       Neon chained entity
         Neon entity
-          PsiElement([Neon] literal)('ent1')
+          Neon scalar
+            PsiElement([Neon] literal)('ent1')
           Neon array
             PsiElement([Neon] ()('(')
             PsiElement([Neon] ))(')')
         PsiWhiteSpace(' ')
         Neon entity
-          PsiElement([Neon] literal)('foo')
+          Neon scalar
+            PsiElement([Neon] literal)('foo')
           Neon array
             PsiElement([Neon] ()('(')
             PsiElement([Neon] ))(')')
         PsiWhiteSpace(' ')
         Neon entity
-          PsiElement([Neon] literal)('ent2')
+          Neon scalar
+            PsiElement([Neon] literal)('ent2')
     PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('c')
+        Neon scalar
+          PsiElement([Neon] literal)('c')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
       Neon chained entity
         Neon entity
-          PsiElement([Neon] literal)('ent1')
+          Neon scalar
+            PsiElement([Neon] literal)('ent1')
           Neon array
             PsiElement([Neon] ()('(')
             PsiElement([Neon] ))(')')
         PsiWhiteSpace(' ')
         Neon entity
-          PsiElement([Neon] literal)('ent2')
+          Neon scalar
+            PsiElement([Neon] literal)('ent2')
     PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('d')
+        Neon scalar
+          PsiElement([Neon] literal)('d')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
       Neon chained entity
         Neon entity
-          PsiElement([Neon] literal)('ent1')
+          Neon scalar
+            PsiElement([Neon] literal)('ent1')
           Neon array
             PsiElement([Neon] ()('(')
             PsiElement([Neon] ))(')')
         PsiWhiteSpace(' ')
         Neon entity
-          PsiElement([Neon] literal)('ent2')
+          Neon scalar
+            PsiElement([Neon] literal)('ent2')

@@ -2,13 +2,15 @@ NeonFile:Array4.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('php')
+        Neon scalar
+          PsiElement([Neon] literal)('php')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n\t')
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('date.timezone')
+            Neon scalar
+              PsiElement([Neon] literal)('date.timezone')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar

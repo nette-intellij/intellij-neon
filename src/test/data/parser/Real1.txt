@@ -2,7 +2,8 @@ NeonFile:Real1.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('services')
+        Neon scalar
+          PsiElement([Neon] literal)('services')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n')
       PsiComment([Neon] comment)('# aliases for back compatibility')
@@ -10,7 +11,8 @@ NeonFile:Real1.neon
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('application')
+            Neon scalar
+              PsiElement([Neon] literal)('application')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -18,7 +20,8 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('router')
+            Neon scalar
+              PsiElement([Neon] literal)('router')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -26,7 +29,8 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('session')
+            Neon scalar
+              PsiElement([Neon] literal)('session')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -34,7 +38,8 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('user')
+            Neon scalar
+              PsiElement([Neon] literal)('user')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -42,7 +47,8 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('cacheStorage')
+            Neon scalar
+              PsiElement([Neon] literal)('cacheStorage')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -53,11 +59,13 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Caching\Storages\FileJournal')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Caching\Storages\FileJournal')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon entity
-            PsiElement([Neon] literal)('self')
+            Neon scalar
+              PsiElement([Neon] literal)('self')
             Neon array
               PsiElement([Neon] ()('(')
               Neon scalar
@@ -66,11 +74,13 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Caching\Storages\FileStorage')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Caching\Storages\FileStorage')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon entity
-            PsiElement([Neon] literal)('self')
+            Neon scalar
+              PsiElement([Neon] literal)('self')
             Neon array
               PsiElement([Neon] ()('(')
               Neon scalar
@@ -79,17 +89,20 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('templateCacheStorage')
+            Neon scalar
+              PsiElement([Neon] literal)('templateCacheStorage')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n        ')
           Neon array
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('class')
+                Neon scalar
+                  PsiElement([Neon] literal)('class')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon entity
-                PsiElement([Neon] literal)('Nette\Caching\Storages\PhpFileStorage')
+                Neon scalar
+                  PsiElement([Neon] literal)('Nette\Caching\Storages\PhpFileStorage')
                 Neon array
                   PsiElement([Neon] ()('(')
                   Neon scalar
@@ -98,7 +111,8 @@ NeonFile:Real1.neon
             PsiElement([Neon] indent)('\n        ')
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('autowired')
+                Neon scalar
+                  PsiElement([Neon] literal)('autowired')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar
@@ -109,13 +123,15 @@ NeonFile:Real1.neon
             PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Http\Request')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Http\Request')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n        ')
           Neon array
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('class')
+                Neon scalar
+                  PsiElement([Neon] literal)('class')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar
@@ -123,7 +139,8 @@ NeonFile:Real1.neon
             PsiElement([Neon] indent)('\n        ')
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('factory')
+                Neon scalar
+                  PsiElement([Neon] literal)('factory')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar
@@ -132,7 +149,8 @@ NeonFile:Real1.neon
             PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Http\Response')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Http\Response')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -140,7 +158,8 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Http\Context')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Http\Context')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -148,7 +167,8 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Http\User')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Http\User')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -156,13 +176,15 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Http\Session')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Http\Session')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n        ')
           Neon array
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('class')
+                Neon scalar
+                  PsiElement([Neon] literal)('class')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar
@@ -170,7 +192,8 @@ NeonFile:Real1.neon
             PsiElement([Neon] indent)('\n        ')
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('setup')
+                Neon scalar
+                  PsiElement([Neon] literal)('setup')
               PsiElement([Neon] :)(':')
               PsiElement([Neon] indent)('\n            ')
               PsiComment([Neon] comment)('# - setOptions')
@@ -180,7 +203,8 @@ NeonFile:Real1.neon
               PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Application\Routers\RouteList')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Application\Routers\RouteList')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -188,11 +212,13 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Application\PresenterFactory')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Application\PresenterFactory')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon entity
-            PsiElement([Neon] literal)('self')
+            Neon scalar
+              PsiElement([Neon] literal)('self')
             Neon array
               PsiElement([Neon] ()('(')
               Neon scalar
@@ -201,13 +227,15 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Application\Application')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Application\Application')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n        ')
           Neon array
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('class')
+                Neon scalar
+                  PsiElement([Neon] literal)('class')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar
@@ -215,7 +243,8 @@ NeonFile:Real1.neon
             PsiElement([Neon] indent)('\n        ')
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('setup')
+                Neon scalar
+                  PsiElement([Neon] literal)('setup')
               PsiElement([Neon] :)(':')
               PsiElement([Neon] indent)('\n            ')
               Neon array
@@ -223,7 +252,8 @@ NeonFile:Real1.neon
                   PsiElement([Neon] -)('-')
                   PsiWhiteSpace(' ')
                   Neon entity
-                    PsiElement([Neon] literal)('$catchExceptions')
+                    Neon scalar
+                      PsiElement([Neon] literal)('$catchExceptions')
                     Neon array
                       PsiElement([Neon] ()('(')
                       Neon scalar
@@ -241,7 +271,8 @@ NeonFile:Real1.neon
                 PsiElement([Neon] indent)('\n    ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('Nette\Mail\SendmailMailer')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Mail\SendmailMailer')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -250,19 +281,22 @@ NeonFile:Real1.neon
         PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('factories')
+        Neon scalar
+          PsiElement([Neon] literal)('factories')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n    ')
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('httpRequestFactory')
+            Neon scalar
+              PsiElement([Neon] literal)('httpRequestFactory')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n        ')
           Neon array
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('class')
+                Neon scalar
+                  PsiElement([Neon] literal)('class')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar
@@ -270,7 +304,8 @@ NeonFile:Real1.neon
             PsiElement([Neon] indent)('\n        ')
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('setup')
+                Neon scalar
+                  PsiElement([Neon] literal)('setup')
               PsiElement([Neon] :)(':')
               PsiElement([Neon] indent)('\n            ')
               Neon array
@@ -278,7 +313,8 @@ NeonFile:Real1.neon
                   PsiElement([Neon] -)('-')
                   PsiWhiteSpace(' ')
                   Neon entity
-                    PsiElement([Neon] literal)('setEncoding')
+                    Neon scalar
+                      PsiElement([Neon] literal)('setEncoding')
                     Neon array
                       PsiElement([Neon] ()('(')
                       Neon scalar
@@ -287,7 +323,8 @@ NeonFile:Real1.neon
                 PsiElement([Neon] indent)('\n        ')
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('internal')
+                Neon scalar
+                  PsiElement([Neon] literal)('internal')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar

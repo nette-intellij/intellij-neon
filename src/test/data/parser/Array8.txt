@@ -12,7 +12,8 @@ NeonFile:Array8.neon
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('foo')
+            Neon scalar
+              PsiElement([Neon] literal)('foo')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar

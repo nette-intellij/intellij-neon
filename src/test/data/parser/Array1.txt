@@ -2,7 +2,8 @@ NeonFile:Array1.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('name')
+        Neon scalar
+          PsiElement([Neon] literal)('name')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
       Neon scalar
@@ -10,7 +11,8 @@ NeonFile:Array1.neon
     PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('surname')
+        Neon scalar
+          PsiElement([Neon] literal)('surname')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
       Neon scalar

@@ -2,19 +2,22 @@ NeonFile:ArrayComment.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('common')
+        Neon scalar
+          PsiElement([Neon] literal)('common')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n\t')
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('parameters')
+            Neon scalar
+              PsiElement([Neon] literal)('parameters')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n\t\t')
           Neon array
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('foo')
+                Neon scalar
+                  PsiElement([Neon] literal)('foo')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar
@@ -23,7 +26,8 @@ NeonFile:ArrayComment.neon
             PsiElement([Neon] indent)('\n\t\t')
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('x')
+                Neon scalar
+                  PsiElement([Neon] literal)('x')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar
@@ -32,7 +36,8 @@ NeonFile:ArrayComment.neon
             PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('bar')
+            Neon scalar
+              PsiElement([Neon] literal)('bar')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -42,7 +47,8 @@ NeonFile:ArrayComment.neon
         PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('baz')
+            Neon scalar
+              PsiElement([Neon] literal)('baz')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -54,7 +60,8 @@ NeonFile:ArrayComment.neon
         PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('baq')
+            Neon scalar
+              PsiElement([Neon] literal)('baq')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar

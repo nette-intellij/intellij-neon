@@ -2,19 +2,22 @@ NeonFile:Array6.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('nette')
+        Neon scalar
+          PsiElement([Neon] literal)('nette')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n\t')
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('debugger')
+            Neon scalar
+              PsiElement([Neon] literal)('debugger')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n\t\t')
           Neon array
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('browser')
+                Neon scalar
+                  PsiElement([Neon] literal)('browser')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon scalar

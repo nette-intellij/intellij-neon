@@ -6,7 +6,8 @@ NeonFile:KeyAfterBullet1.neon
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('a')
+            Neon scalar
+              PsiElement([Neon] literal)('a')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -14,7 +15,8 @@ NeonFile:KeyAfterBullet1.neon
         PsiElement([Neon] indent)('\n  ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('b')
+            Neon scalar
+              PsiElement([Neon] literal)('b')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar

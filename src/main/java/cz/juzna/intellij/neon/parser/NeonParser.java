@@ -61,10 +61,9 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		} else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
 			PsiBuilder.Marker val = myBuilder.mark();
 			advanceLexer();
+			val.done(SCALAR_VALUE);
 			if (myBuilder.getTokenType() == NEON_LPAREN) {
-				parseEntity(val);
-			} else {
-				val.done(SCALAR_VALUE);
+				parseEntity(val.precede());
 			}
 		} else {
 			// dunno
@@ -167,7 +166,9 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		myAssert(NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()), "Expected literal or string");
 
 		PsiBuilder.Marker key = myBuilder.mark();
+		PsiBuilder.Marker scalar = myBuilder.mark();
 		advanceLexer();
+		scalar.done(SCALAR_VALUE);
 		key.done(KEY);
 	}
 
@@ -221,7 +222,9 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	private void parseChainedEntity() {
 		while (true) {
 			PsiBuilder.Marker inlineEntity = myBuilder.mark();
+			PsiBuilder.Marker scalar = myBuilder.mark();
 			advanceLexer();
+			scalar.done(SCALAR_VALUE);
 			if (myBuilder.getTokenType() != NEON_LPAREN) {
 				//last entity without attributes
 				inlineEntity.done(ENTITY);

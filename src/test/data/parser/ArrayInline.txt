@@ -56,12 +56,14 @@ NeonFile:ArrayInline.neon
           PsiWhiteSpace(' ')
           Neon key-val pair
             Neon key
-              PsiElement([Neon] literal)('3')
+              Neon scalar
+                PsiElement([Neon] literal)('3')
             PsiElement([Neon] :)(':')
             PsiElement([Neon] indent)('\n')
           Neon key-val pair
             Neon key
-              PsiElement([Neon] literal)('4')
+              Neon scalar
+                PsiElement([Neon] literal)('4')
             PsiElement([Neon] :)(':')
             PsiWhiteSpace(' ')
             Neon scalar

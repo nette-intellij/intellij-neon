@@ -4,7 +4,8 @@ NeonFile:ErrorClosingBracket.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('a')
+        Neon scalar
+          PsiElement([Neon] literal)('a')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
       Neon array

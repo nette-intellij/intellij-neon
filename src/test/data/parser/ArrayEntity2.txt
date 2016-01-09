@@ -2,17 +2,20 @@ NeonFile:ArrayEntity2.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('parameters')
+        Neon scalar
+          PsiElement([Neon] literal)('parameters')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n\t')
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('entity')
+            Neon scalar
+              PsiElement([Neon] literal)('entity')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon entity
-            PsiElement([Neon] literal)('Column')
+            Neon scalar
+              PsiElement([Neon] literal)('Column')
             Neon array
               PsiElement([Neon] ()('(')
               Neon scalar
@@ -21,7 +24,8 @@ NeonFile:ArrayEntity2.neon
               PsiWhiteSpace(' ')
               Neon key-val pair
                 Neon key
-                  PsiElement([Neon] literal)('type')
+                  Neon scalar
+                    PsiElement([Neon] literal)('type')
                 PsiElement([Neon] =)('=')
                 Neon scalar
                   PsiElement([Neon] string)('"integer"')
@@ -29,7 +33,8 @@ NeonFile:ArrayEntity2.neon
               PsiWhiteSpace(' ')
               Neon key-val pair
                 Neon key
-                  PsiElement([Neon] literal)('defaultValue')
+                  Neon scalar
+                    PsiElement([Neon] literal)('defaultValue')
                 PsiWhiteSpace(' ')
                 PsiElement([Neon] =)('=')
                 PsiWhiteSpace(' ')

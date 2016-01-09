@@ -4,7 +4,8 @@ NeonFile:ArrayAfterKey.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('foo')
+        Neon scalar
+          PsiElement([Neon] literal)('foo')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n')
       Neon array
@@ -22,7 +23,8 @@ NeonFile:ArrayAfterKey.neon
         PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('lorem')
+        Neon scalar
+          PsiElement([Neon] literal)('lorem')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n')
       Neon array

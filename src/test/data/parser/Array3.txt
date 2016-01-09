@@ -4,13 +4,15 @@ NeonFile:Array3.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('services')
+        Neon scalar
+          PsiElement([Neon] literal)('services')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n\t')
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('ropanel1')
+            Neon scalar
+              PsiElement([Neon] literal)('ropanel1')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -18,11 +20,13 @@ NeonFile:Array3.neon
         PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('ropanel2')
+            Neon scalar
+              PsiElement([Neon] literal)('ropanel2')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon entity
-            PsiElement([Neon] literal)('Nette\Application\Diagnostics\RoutingPanel::initialize')
+            Neon scalar
+              PsiElement([Neon] literal)('Nette\Application\Diagnostics\RoutingPanel::initialize')
             Neon array
               PsiElement([Neon] ()('(')
               Neon scalar
@@ -31,7 +35,8 @@ NeonFile:Array3.neon
         PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('httpRequest')
+            Neon scalar
+              PsiElement([Neon] literal)('httpRequest')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -40,7 +45,8 @@ NeonFile:Array3.neon
         PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('panels')
+        Neon scalar
+          PsiElement([Neon] literal)('panels')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n\t')
       Neon array

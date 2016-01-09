@@ -2,25 +2,29 @@ NeonFile:Array5.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('nette')
+        Neon scalar
+          PsiElement([Neon] literal)('nette')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n\t')
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('application')
+            Neon scalar
+              PsiElement([Neon] literal)('application')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n\t\t')
           Neon array
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('mapping')
+                Neon scalar
+                  PsiElement([Neon] literal)('mapping')
               PsiElement([Neon] :)(':')
               PsiElement([Neon] indent)('\n\t\t\t')
               Neon array
                 Neon key-val pair
                   Neon key
-                    PsiElement([Neon] literal)('*')
+                    Neon scalar
+                      PsiElement([Neon] literal)('*')
                   PsiElement([Neon] :)(':')
                   PsiWhiteSpace(' ')
                   Neon scalar

@@ -2,23 +2,27 @@ NeonFile:ArrayEntity.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('doctrine')
+        Neon scalar
+          PsiElement([Neon] literal)('doctrine')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n\t')
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('metadata')
+            Neon scalar
+              PsiElement([Neon] literal)('metadata')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n\t\t')
           Neon array
             Neon key-val pair
               Neon key
-                PsiElement([Neon] literal)('At')
+                Neon scalar
+                  PsiElement([Neon] literal)('At')
               PsiElement([Neon] :)(':')
               PsiWhiteSpace(' ')
               Neon entity
-                PsiElement([Neon] literal)('annotations')
+                Neon scalar
+                  PsiElement([Neon] literal)('annotations')
                 Neon array
                   PsiElement([Neon] ()('(')
                   Neon scalar

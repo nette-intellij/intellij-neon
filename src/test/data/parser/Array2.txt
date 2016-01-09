@@ -4,7 +4,8 @@ NeonFile:Array2.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('services')
+        Neon scalar
+          PsiElement([Neon] literal)('services')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n\t')
       Neon array
@@ -16,7 +17,8 @@ NeonFile:Array2.neon
         PsiElement([Neon] indent)('\n\t')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('articles')
+            Neon scalar
+              PsiElement([Neon] literal)('articles')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar

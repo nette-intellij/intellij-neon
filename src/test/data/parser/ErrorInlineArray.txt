@@ -57,7 +57,8 @@ NeonFile:ErrorInlineArray.neon
         PsiElement([Neon] [)('[')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('foo')
+            Neon scalar
+              PsiElement([Neon] literal)('foo')
           PsiElement([Neon] :)(':')
           PsiElement([Neon] indent)('\n    ')
         PsiErrorElement:unexpected token [Neon] -
@@ -79,7 +80,8 @@ NeonFile:ErrorInlineArray.neon
         PsiElement([Neon] [)('[')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('foo')
+            Neon scalar
+              PsiElement([Neon] literal)('foo')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar
@@ -89,7 +91,8 @@ NeonFile:ErrorInlineArray.neon
         PsiWhiteSpace(' ')
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('lorem')
+            Neon scalar
+              PsiElement([Neon] literal)('lorem')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon scalar

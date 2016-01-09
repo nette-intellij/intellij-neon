@@ -4,17 +4,20 @@ NeonFile:ErrorClosingBracket2.neon
   Neon array
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('a')
+        Neon scalar
+          PsiElement([Neon] literal)('a')
       PsiElement([Neon] :)(':')
       PsiElement([Neon] indent)('\n    ')
       Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] literal)('foo')
+            Neon scalar
+              PsiElement([Neon] literal)('foo')
           PsiElement([Neon] :)(':')
           PsiWhiteSpace(' ')
           Neon entity
-            PsiElement([Neon] literal)('Bar')
+            Neon scalar
+              PsiElement([Neon] literal)('Bar')
             Neon array
               PsiElement([Neon] ()('(')
               PsiWhiteSpace(' ')
