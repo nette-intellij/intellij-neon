@@ -75,7 +75,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 			}
 
 			String[] parent = getKeyChain(curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
-			for(String keyName : getCompletionForSection(tmp2, parent)) {
+			for (String keyName : getCompletionForSection(tmp2, parent)) {
 				hasSomething = true;
 				results.addElement(LookupElementBuilder.create(keyName));
 			}
@@ -89,7 +89,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		boolean incompleteKey = isIncompleteKey(curr);
 		if (curr.getParent() instanceof NeonKey || incompleteKey) { // key autocompletion
 			String[] parent = getKeyChain(incompleteKey ? curr.getParent() : curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
-			for(String keyName : getCompletionForSection(knownKeys, parent)) {
+			for (String keyName : getCompletionForSection(knownKeys, parent)) {
 				hasSomething = true;
 				LookupElementBuilder element = LookupElementBuilder.create(keyName + (incompleteKey ? ": " : ""))
 						.withPresentableText(keyName);
@@ -97,20 +97,18 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 			}
 		}
 		if (curr.getParent() instanceof NeonScalar) { // value autocompletion
-			for(LookupElementBuilder x: KEYWORD_LOOKUPS) results.addElement(x);
-
-			String[] parent = getKeyChain(curr);
-
-			// try suggest keys (perhaps this wannabe value will turn into a key, once assignment operator is written
-			for(String keyName : getCompletionForSection(knownKeys, parent)) {
-				hasSomething = true;
-				results.addElement(LookupElementBuilder.create(keyName));
+			for (LookupElementBuilder x : KEYWORD_LOOKUPS) {
+				results.addElement(x);
 			}
 
+
 			// smart values
-			if ( ! hasSomething) for(String value : getCompletionForSection(knownValues, parent)) {
-				hasSomething = true;
-				results.addElement(LookupElementBuilder.create(value));
+			if (!hasSomething) {
+				String[] parent = getKeyChain(curr);
+				for (String value : getCompletionForSection(knownValues, parent)) {
+					hasSomething = true;
+					results.addElement(LookupElementBuilder.create(value));
+				}
 			}
 		}
 
