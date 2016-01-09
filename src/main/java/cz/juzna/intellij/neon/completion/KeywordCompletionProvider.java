@@ -122,7 +122,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 	private String[] getCompletionForSection(HashMap<String, String[]> options, String[] parent) {
 		List<String> ret = new ArrayList<String>();
 
-		for (int i = 0; i < parent.length; i++) {
+		for (int i = 0; i <= (parent.length > 0 ? 1 : 0); i++) {
 			String parentName = StringUtils.join(parent, ".", i, parent.length);
 
 			String[] found = options.get(parentName);
