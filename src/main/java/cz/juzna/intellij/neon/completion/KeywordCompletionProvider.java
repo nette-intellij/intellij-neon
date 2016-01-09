@@ -41,7 +41,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 
 		knownKeys.put("", new String[]{
 				"parameters", "nette", "services", "php", "extensions", "application", "forms",
-				"http", "latte", "mail", "routing", "security", "session", "tracy", "database", "di", "inject"
+				"http", "latte", "mail", "routing", "security", "session", "tracy", "database", "di", "inject", "decorator"
 		});
 
 		knownKeys.put("nette", new String[]{
@@ -66,7 +66,9 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		String[] databaseOptions = new String[]{"dsn", "user", "password", "options", "debugger", "explain", "reflection", "conventions", "autowired"};
 
 		knownKeys.put("database", databaseOptions);
-		knownKeysPattern.put(Pattern.compile("^database.[\\w_-]+$"), databaseOptions);
+		knownKeysPattern.put(Pattern.compile("^database\\.[\\w_-]+$"), databaseOptions);
+
+		knownKeysPattern.put(Pattern.compile("^decorator\\.[\\w_\\\\]+$"), new String[]{"setup", "tags", "inject"});
 
 		knownValues.put("http.frames", new String[]{"DENY", "SAMEORIGIN", "ALLOW-FROM "});
 
