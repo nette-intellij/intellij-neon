@@ -5,11 +5,12 @@ import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiErrorElement;
 import com.intellij.util.ProcessingContext;
 import cz.juzna.intellij.neon.completion.schema.SchemaProvider;
-import cz.juzna.intellij.neon.psi.NeonKey;
-import cz.juzna.intellij.neon.psi.NeonKeyValPair;
-import cz.juzna.intellij.neon.psi.NeonScalar;
+import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
+import cz.juzna.intellij.neon.parser.NeonParser;
+import cz.juzna.intellij.neon.psi.*;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -85,11 +86,14 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		}
 
 
-		if (curr.getParent() instanceof NeonKey) { // key autocompletion
-			String[] parent = getKeyChain(curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
+		boolean incompleteKey = isIncompleteKey(curr);
+		if (curr.getParent() instanceof NeonKey || incompleteKey) { // key autocompletion
+			String[] parent = getKeyChain(incompleteKey ? curr.getParent() : curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
 			for(String keyName : getCompletionForSection(knownKeys, parent)) {
 				hasSomething = true;
-				results.addElement(LookupElementBuilder.create(keyName));
+				LookupElementBuilder element = LookupElementBuilder.create(keyName + (incompleteKey ? ": " : ""))
+						.withPresentableText(keyName);
+				results.addElement(element);
 			}
 		}
 		else if (curr.getParent() instanceof NeonScalar) { // value autocompletion
@@ -149,6 +153,24 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 
 	public static String getKeyChainString(PsiElement el) {
 		return StringUtils.join(getKeyChain(el), ".");
+	}
+
+	private static boolean isIncompleteKey(PsiElement el) {
+		if (!NeonTokenTypes.STRING_LITERALS.contains(el.getNode().getElementType())) {
+			return false;
+		}
+		//error element
+		if (el.getParent() instanceof NeonArray
+				&& el.getPrevSibling() instanceof PsiErrorElement
+				&& ((PsiErrorElement) el.getPrevSibling()).getErrorDescription().equals(NeonParser.EXPECTED_ARRAY_ITEM)) {
+			return true;
+		}
+		//first scalar in file
+		if (el.getParent() instanceof NeonScalar && el.getParent().getParent() instanceof NeonFile) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

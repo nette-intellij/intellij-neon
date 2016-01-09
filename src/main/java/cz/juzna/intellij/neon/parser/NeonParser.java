@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
+	public static final String EXPECTED_ARRAY_ITEM = "expected key-val pair or array item";
 	private PsiBuilder myBuilder;
 	private int myIndent;
 	private String myIndentString;
@@ -105,7 +106,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 				parseValueOrArray(indent);
 				markItem.done(NeonElementTypes.ITEM);
 			} else {
-				myBuilder.error("expected key-val pair or array item");
+				myBuilder.error(EXPECTED_ARRAY_ITEM);
 				advanceLexer();
 
 			}
