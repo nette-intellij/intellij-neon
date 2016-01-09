@@ -15,6 +15,8 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Complete keywords
@@ -28,6 +30,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 	// CompletionResultSet wants list of LookupElements
 	private List<LookupElementBuilder> KEYWORD_LOOKUPS = new ArrayList<LookupElementBuilder>();
 	private HashMap<String, String[]> knownKeys = new HashMap<String, String[]>();
+	private HashMap<Pattern, String[]> knownKeysPattern = new HashMap<Pattern, String[]>();
 	private HashMap<String, String[]> knownValues = new HashMap<String, String[]>();
 	private HashMap<String, String> deprecatedKeys = new HashMap<String, String>();
 
@@ -59,7 +62,11 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		knownKeys.put("di", new String[]{"debugger", "accessors"});
 		knownKeys.put("tracy", new String[]{"email", "fromEmail", "logSeverity", "editor", "browser", "errorTemplate",
 				"strictMode", "maxLen", "maxDepth", "showLocation", "scream", "bar", "blueScreen"});
-		knownKeys.put("database", new String[]{"dsn", "user", "password", "options", "debugger", "explain", "reflection", "conventions", "autowired"});
+
+		String[] databaseOptions = new String[]{"dsn", "user", "password", "options", "debugger", "explain", "reflection", "conventions", "autowired"};
+
+		knownKeys.put("database", databaseOptions);
+		knownKeysPattern.put(Pattern.compile("^database.[\\w_-]+$"), databaseOptions);
 
 		knownValues.put("http.frames", new String[]{"DENY", "SAMEORIGIN", "ALLOW-FROM "});
 
@@ -114,7 +121,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		boolean incompleteKey = isIncompleteKey(curr);
 		if (curr.getParent() instanceof NeonKey || incompleteKey) { // key autocompletion
 			String[] parent = getKeyChain(incompleteKey ? curr.getParent() : curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
-			for (String keyName : getCompletionForSection(knownKeys, parent)) {
+			for (String keyName : getCompletionForSection(knownKeys, knownKeysPattern, parent)) {
 				hasSomething = true;
 				LookupElementBuilder element = LookupElementBuilder.create(keyName + (incompleteKey ? ": " : ""))
 						.withPresentableText(keyName);
@@ -141,8 +148,11 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 			results.stopHere();
 		}
 	}
-
 	private String[] getCompletionForSection(HashMap<String, String[]> options, String[] parent) {
+		return getCompletionForSection(options, null, parent);
+	}
+
+	private String[] getCompletionForSection(HashMap<String, String[]> options, HashMap<Pattern, String[]> optionsPattern, String[] parent) {
 		List<String> ret = new ArrayList<String>();
 
 		for (int i = 0; i <= (parent.length > 0 ? 1 : 0); i++) {
@@ -152,6 +162,14 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 			}
 
 			String[] found = options.get(parentName);
+			if (found == null && optionsPattern != null) {
+				for (Pattern pattern : optionsPattern.keySet()) {
+					if (pattern.matcher(parentName).matches()) {
+						found = optionsPattern.get(pattern);
+						break;
+					}
+				}
+			}
 			if (found != null) {
 				Collections.addAll(ret, found);
 			}
