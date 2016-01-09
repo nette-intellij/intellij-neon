@@ -149,10 +149,6 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		return names.toArray(new String[names.size()]);
 	}
 
-	public static String getKeyChainString(PsiElement el) {
-		return StringUtils.join(getKeyChain(el), ".");
-	}
-
 	private static boolean isIncompleteKey(PsiElement el) {
 		if (!NeonTokenTypes.STRING_LITERALS.contains(el.getNode().getElementType())) {
 			return false;
