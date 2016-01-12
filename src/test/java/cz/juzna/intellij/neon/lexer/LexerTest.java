@@ -126,6 +126,11 @@ public class LexerTest extends UsefulTestCase {
 	}
 
 	@Test
+	public void testArrayIndentedFile() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
 	public void testArrayNoSpaceColon() throws Exception {
 		doTestFromFile();
 	}

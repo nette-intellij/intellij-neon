@@ -174,6 +174,11 @@ public class ParserTest extends ParsingTestCase {
 	}
 
 	@Test
+	public void testArrayIndentedFile() {
+		doTest(true, false);
+	}
+
+	@Test
 	public void testErrorNoSpaceColon() {
 		doTest(true, true);
 	}

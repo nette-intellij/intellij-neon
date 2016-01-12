@@ -31,12 +31,21 @@ INDENT = \n[\t ]*
 LITERAL_START = [^-:#\"\',=\[\]{}()\x00-\x20!`]|[:-][!#$%&*\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF]
 WHITESPACE = [\t ]+
 
-%state IN_LITERAL
+%states DEFAULT, IN_LITERAL, VYINITIAL
 
 %%
 
 <YYINITIAL> {
 
+    {WHITESPACE} {
+        return NEON_INDENT;
+    }
+    .|\n {
+        retryInState(DEFAULT);
+    }
+}
+
+<DEFAULT> {
     {STRING} {
         return NEON_STRING;
     }
@@ -80,6 +89,6 @@ WHITESPACE = [\t ]+
     [^,:=\]})(\x00-\x20]+ {}
     [ \t]+[^#,:=\]})(\x00-\x20] {}
     ":" / [\x21-x28*\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF] { }
-    ":" { retryInState(YYINITIAL); }
-    .|\n { retryInState(YYINITIAL); }
+    ":" { retryInState(DEFAULT); }
+    .|\n { retryInState(DEFAULT); }
 }

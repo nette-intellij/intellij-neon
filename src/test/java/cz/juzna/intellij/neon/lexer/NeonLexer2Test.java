@@ -48,7 +48,7 @@ public class NeonLexer2Test extends UsefulTestCase {
 		Lexer l = createLexer();
 		l.start("key: 'val'", 4, 5);
 
-		assertEquals(NeonTokenTypes.NEON_WHITESPACE, l.getTokenType());
+		assertEquals(NeonTokenTypes.NEON_INDENT, l.getTokenType());
 		assertEquals(4, l.getTokenStart());
 		assertEquals(5, l.getTokenEnd());
 		assertEquals(" ", l.getTokenText());

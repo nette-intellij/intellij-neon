@@ -31,7 +31,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		PsiBuilder.Marker fileMarker = myBuilder.mark();
 
 		passEmpty(); // process beginning of file
-		parseValueOrArray(0);
+		parseValueOrArray(myIndent);
 		while (!myBuilder.eof()) {
 			if (myBuilder.getTokenType() != NEON_INDENT) {
 				myBuilder.error("unexpected token at end of file");
@@ -251,7 +251,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			IElementType type = myBuilder.getTokenType();
 			if (type == NEON_INDENT) {
 				validateTabsSpaces();
-				myIndent = myBuilder.getTokenText().length() - 1;
+				myIndent = myBuilder.getTokenText().length() - (myBuilder.getCurrentOffset() == 0 ? 0 : 1);
 			}
 
 			myBuilder.advanceLexer();
