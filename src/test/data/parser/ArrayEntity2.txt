@@ -41,3 +41,4 @@ NeonFile:ArrayEntity2.neon
                 Neon scalar
                   PsiElement([Neon] literal)('1')
               PsiElement([Neon] ))(')')
+        PsiElement([Neon] indent)('\n')

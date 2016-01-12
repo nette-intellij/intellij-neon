@@ -22,3 +22,4 @@ NeonFile:Array6.neon
               PsiWhiteSpace(' ')
               Neon scalar
                 PsiElement([Neon] literal)('google-chrome')
+            PsiElement([Neon] indent)('\n')

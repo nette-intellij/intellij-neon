@@ -85,3 +85,4 @@ NeonFile:EntityChain.neon
         Neon entity
           Neon scalar
             PsiElement([Neon] literal)('ent2')
+    PsiElement([Neon] indent)('\n')

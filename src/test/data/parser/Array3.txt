@@ -61,3 +61,4 @@ NeonFile:Array3.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('@httpRequestFactory::start')
+        PsiElement([Neon] indent)('\n')

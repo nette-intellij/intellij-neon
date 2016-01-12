@@ -12,3 +12,4 @@ NeonFile:ErrorNoSpaceColon.neon
         PsiErrorElement:expected key-val pair or array item
           <empty list>
         PsiElement([Neon] literal)('abc:error')
+        PsiElement([Neon] indent)('\n')

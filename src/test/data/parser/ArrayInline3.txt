@@ -12,3 +12,4 @@ NeonFile:ArrayInline3.neon
         Neon scalar
           PsiElement([Neon] literal)('2')
         PsiElement([Neon] ])(']')
+    PsiElement([Neon] indent)('\n')

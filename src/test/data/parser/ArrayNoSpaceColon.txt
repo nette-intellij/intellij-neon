@@ -12,3 +12,4 @@ NeonFile:ArrayNoSpaceColon.neon
       PsiElement([Neon] -)('-')
       Neon scalar
         PsiElement([Neon] string)('"c"')
+    PsiElement([Neon] indent)('\n')

@@ -27,3 +27,4 @@ NeonFile:KeyAfterBullet1.neon
       PsiWhiteSpace(' ')
       Neon scalar
         PsiElement([Neon] literal)('3')
+    PsiElement([Neon] indent)('\n')

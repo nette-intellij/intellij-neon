@@ -44,3 +44,4 @@ NeonFile:Array7.neon
         Neon scalar
           PsiElement([Neon] literal)('nette')
       PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n')

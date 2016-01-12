@@ -15,3 +15,4 @@ NeonFile:Array4.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('Europe/Prague')
+        PsiElement([Neon] indent)('\n')

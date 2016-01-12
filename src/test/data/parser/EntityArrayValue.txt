@@ -25,3 +25,4 @@ NeonFile:EntityArrayValue.neon
           Neon scalar
             PsiElement([Neon] literal)('4')
           PsiElement([Neon] ))(')')
+    PsiElement([Neon] indent)('\n')

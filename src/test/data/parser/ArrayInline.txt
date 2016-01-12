@@ -71,3 +71,4 @@ NeonFile:ArrayInline.neon
             PsiElement([Neon] indent)('\n')
           PsiElement([Neon] ])(']')
         PsiElement([Neon] ])(']')
+    PsiElement([Neon] indent)('\n')

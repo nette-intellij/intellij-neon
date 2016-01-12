@@ -21,3 +21,4 @@ NeonFile:Array9.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('bar')
+        PsiElement([Neon] indent)('\n')

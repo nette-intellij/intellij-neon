@@ -1,9 +1,16 @@
 package cz.juzna.intellij.neon.parser;
 
+import com.intellij.openapi.util.io.FileUtil;
+import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.testFramework.ParsingTestCase;
 import com.intellij.testFramework.PlatformTestCase;
+import com.intellij.testFramework.TestDataFile;
+import org.jetbrains.annotations.NonNls;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ParserTest extends ParsingTestCase {
 
@@ -25,6 +32,10 @@ public class ParserTest extends ParsingTestCase {
 					toParseTreeText(myFile, true, includeRanges()).contains("PsiErrorElement")
 			);
 		}
+	}
+
+	protected String loadFile(@NonNls @TestDataFile String name) throws IOException {
+		return FileUtil.loadFile(new File(myFullDataPath, name), CharsetToolkit.UTF8, true);
 	}
 
 	@Test
@@ -108,16 +119,9 @@ public class ParserTest extends ParsingTestCase {
 	}
 
 	@Test
-	public void tesArrayNull() {
-		doTest(true, false);
-	}
-
-
-	@Test
 	public void testReal1() {
 		doTest(true, false);
 	}
-
 
 	@Test
 	public void testArrayAfterKey() {
@@ -138,7 +142,6 @@ public class ParserTest extends ParsingTestCase {
 	public void testTabSpaceMixing() {
 		doTest(true, false);
 	}
-
 
 	@Test
 	public void testKeyAfterBullet1() {

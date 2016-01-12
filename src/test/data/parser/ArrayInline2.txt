@@ -54,3 +54,4 @@ NeonFile:ArrayInline2.neon
               PsiElement([Neon] literal)('Sun')
             PsiWhiteSpace(' ')
             PsiElement([Neon] ])(']')
+        PsiElement([Neon] indent)('\n')

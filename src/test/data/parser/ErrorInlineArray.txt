@@ -112,3 +112,4 @@ NeonFile:ErrorInlineArray.neon
         Neon scalar
           PsiElement([Neon] string)('"bar"')
         PsiElement([Neon] ])(']')
+    PsiElement([Neon] indent)('\n')

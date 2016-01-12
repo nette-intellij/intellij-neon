@@ -28,3 +28,4 @@ NeonFile:ErrorIndent.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('2')
+        PsiElement([Neon] indent)('\n')

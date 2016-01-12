@@ -5,3 +5,4 @@ NeonFile:ArrayNull.neon
       PsiElement([Neon] indent)('\n')
     NeonPsiElementImpl([Neon] Item)
       PsiElement([Neon] -)('-')
+      PsiElement([Neon] indent)('\n')

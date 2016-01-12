@@ -19,3 +19,4 @@ NeonFile:KeyAfterBulletFalse.neon
               PsiWhiteSpace(' ')
               Neon scalar
                 PsiElement([Neon] literal)('10')
+            PsiElement([Neon] indent)('\n')

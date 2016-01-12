@@ -29,3 +29,4 @@ NeonFile:Array2.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('SuperMailer')
+        PsiElement([Neon] indent)('\n')

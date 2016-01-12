@@ -329,3 +329,4 @@ NeonFile:Real1.neon
               PsiWhiteSpace(' ')
               Neon scalar
                 PsiElement([Neon] literal)('TRUE')
+            PsiElement([Neon] indent)('\n')

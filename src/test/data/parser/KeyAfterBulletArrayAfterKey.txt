@@ -63,3 +63,4 @@ NeonFile:KeyAfterBulletArrayAfterKey.neon
       PsiWhiteSpace(' ')
       Neon scalar
         PsiElement([Neon] literal)('y')
+    PsiElement([Neon] indent)('\n')

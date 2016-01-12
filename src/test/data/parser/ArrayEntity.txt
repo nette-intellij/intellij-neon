@@ -28,3 +28,4 @@ NeonFile:ArrayEntity.neon
                   Neon scalar
                     PsiElement([Neon] literal)('%appDir%/models/At')
                   PsiElement([Neon] ))(')')
+            PsiElement([Neon] indent)('\n')

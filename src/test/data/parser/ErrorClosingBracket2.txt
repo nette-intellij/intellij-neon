@@ -27,3 +27,4 @@ NeonFile:ErrorClosingBracket2.neon
                 <empty list>
   PsiWhiteSpace(' ')
   PsiElement([Neon] ])(']')
+  PsiElement([Neon] indent)('\n')

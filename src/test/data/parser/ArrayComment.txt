@@ -66,3 +66,4 @@ NeonFile:ArrayComment.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('4')
+        PsiElement([Neon] indent)('\n')
