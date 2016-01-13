@@ -3,9 +3,9 @@ package cz.juzna.intellij.neon.editor;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase;
 import com.intellij.psi.PsiElement;
-import cz.juzna.intellij.neon.psi.NeonArray;
-import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.NeonKeyValPair;
+import com.intellij.psi.tree.IElementType;
+import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
+import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -28,10 +28,11 @@ public class NeonStructureViewElement extends PsiTreeElementBase<PsiElement> {
 		PsiElement element = getElement();
 
 		if (element instanceof NeonFile) {
-			if (element.getChildren().length == 1 && element.getChildren()[0] instanceof NeonArray) { // top level array -> show it's elements
-				addArrayElements(elements, element.getChildren()[0]);
-
-			} else { // file children directly
+			NeonPsiElement value = ((NeonFile) element).getValue();
+			if (value instanceof NeonArray) { // top level array -> show it's elements
+				addArrayElements(elements, value);
+			} else if (!(value instanceof NeonScalar)) {
+				// file children directly
 				addArrayElements(elements, element);
 			}
 
