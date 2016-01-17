@@ -20,7 +20,7 @@ public class GoToClassHandler implements GotoDeclarationHandler {
 			return new PsiElement[0];
 		}
 		PhpIndex phpIndex = PhpIndex.getInstance(element.getProject());
-		Collection<PhpClass> classes = phpIndex.getClassesByFQN(((NeonScalar) element.getParent()).getValueText());
+		Collection<PhpClass> classes = phpIndex.getAnyByFQN(((NeonScalar) element.getParent()).getValueText());
 
 		return classes.toArray(new PsiElement[classes.size()]);
 	}
