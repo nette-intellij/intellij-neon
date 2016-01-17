@@ -21,7 +21,7 @@ public class NeonScalarImpl extends NeonPsiElementImpl implements NeonScalar {
 
 	@Override
 	public String getValueText() {
-		String text = getNode().getText();
+		String text = getFirstChild().getText();
 		if (getFirstChild() instanceof LeafPsiElement && ((LeafPsiElement) getFirstChild()).getElementType() == NeonTokenTypes.NEON_STRING) {
 			text = text.substring(1, text.length() - 1);
 		}
