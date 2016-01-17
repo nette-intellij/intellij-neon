@@ -1,0 +1,17 @@
+NeonFile:ItemValueAfterNewLine.neon
+  Neon array
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      PsiElement([Neon] indent)('\n    ')
+      Neon scalar
+        PsiElement([Neon] literal)('a')
+    PsiElement([Neon] indent)('\n')
+    Neon key-val pair
+      Neon key
+        Neon scalar
+          PsiElement([Neon] literal)('b')
+      PsiElement([Neon] :)(':')
+      PsiElement([Neon] indent)('\n    ')
+      Neon scalar
+        PsiElement([Neon] literal)('c')
+    PsiElement([Neon] indent)('\n')

@@ -179,8 +179,8 @@ public class ParserTest extends ParsingTestCase {
 	}
 
 	@Test
-	public void testErrorNoSpaceColon() {
-		doTest(true, true);
+	public void testItemValueAfterNewLine() {
+		doTest(true, false);
 	}
 
 	@Test
