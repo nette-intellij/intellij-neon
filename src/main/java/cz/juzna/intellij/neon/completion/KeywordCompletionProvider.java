@@ -70,6 +70,9 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 
 		knownKeysPattern.put(Pattern.compile("^decorator\\.[\\w_\\\\]+$"), new String[]{"setup", "tags", "inject"});
 
+		String[] serviceKeys = {"class", "create", "factory", "implement", "setup", "tags", "arguments", "autowired", "parameters", "inject"};
+		knownKeysPattern.put(Pattern.compile("^services(\\.[\\w_-]+)?$"), serviceKeys);
+
 		knownValues.put("http.frames", new String[]{"DENY", "SAMEORIGIN", "ALLOW-FROM "});
 
 		deprecatedKeys.put("nette.security.frames", "http.frames");
