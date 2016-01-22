@@ -9,6 +9,7 @@ import com.intellij.psi.PsiErrorElement;
 import com.intellij.util.ProcessingContext;
 import cz.juzna.intellij.neon.completion.schema.SchemaProvider;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
+import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import cz.juzna.intellij.neon.parser.NeonParser;
 import cz.juzna.intellij.neon.psi.*;
 import org.apache.commons.lang.StringUtils;
@@ -96,6 +97,9 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 	                              @NotNull CompletionResultSet results) {
 
 		PsiElement curr = params.getPosition().getOriginalElement();
+		if (curr.getNode().getElementType() == NeonTokenTypes.NEON_COMMENT) {
+			return;
+		}
 		boolean hasSomething = false;
 
 
