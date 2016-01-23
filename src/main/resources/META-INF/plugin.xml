@@ -26,6 +26,7 @@
 		<lang.foldingBuilder language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder" />
 		<completion.contributor language="neon" implementationClass="cz.juzna.intellij.neon.completion.NeonCompletionContributor" />
 		<breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider" />
+		<enterHandlerDelegate implementation="cz.juzna.intellij.neon.editor.NeonEnterHandler"/>
 
 		<gotoDeclarationHandler implementation="cz.juzna.intellij.neon.reference.GoToClassHandler"/>
 	</extensions>
