@@ -212,6 +212,12 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		if (el.getParent() instanceof NeonScalar && el.getParent().getParent() instanceof NeonFile) {
 			return true;
 		}
+		//error element
+		if (el.getParent() instanceof NeonArray
+				&& el.getPrevSibling() instanceof PsiErrorElement
+				&& ((PsiErrorElement) el.getPrevSibling()).getErrorDescription().equals(NeonParser.EXPECTED_ARRAY_ITEM)) {
+			return true;
+		}
 		//new key after new line
 		if (el.getParent() instanceof NeonScalar
 				&& (el.getParent().getParent() instanceof NeonKeyValPair | el.getParent().getParent().getNode().getElementType() == NeonElementTypes.ITEM)
