@@ -251,7 +251,10 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			IElementType type = myBuilder.getTokenType();
 			if (type == NEON_INDENT) {
 				validateTabsSpaces();
-				myIndent = myBuilder.getTokenText().length() - (myBuilder.getCurrentOffset() == 0 ? 0 : 1);
+				myIndent = myBuilder.getTokenText().length();
+				if (myBuilder.getTokenText().charAt(0) == '\n') {
+					myIndent--;
+				}
 			}
 
 			myBuilder.advanceLexer();

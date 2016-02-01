@@ -184,6 +184,11 @@ public class ParserTest extends ParsingTestCase {
 	}
 
 	@Test
+	public void testEmptyLineBeginning() {
+		doTest(true, false);
+	}
+
+	@Test
 	public void testErrorInlineArray() {
 		doTest(true, true);
 	}
