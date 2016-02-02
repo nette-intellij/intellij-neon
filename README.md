@@ -13,11 +13,11 @@ This plugin aims to add supports for this language into PhpStorm (or the whole I
 * comment/uncomment
 * bracket / parenthesis matching
 * code completion
+* go to class
 * ... more to come
 
 
 ## Install
-**Stable version** (not-crashing alpha) is available in official plugin repository:
 
 1. Go to File → Settings in PhpStorm
 2. Select *Plugins* on the left
@@ -26,15 +26,10 @@ This plugin aims to add supports for this language into PhpStorm (or the whole I
 5. Optional: Install also *Nette framework helpers* plugin ;)
 
 
-**Unstable build** is available [here](http://juzna.cz/intellij-neon.jar).
-
-
 If you prefer your own build from *master*, open this project in *IntelliJ IDEA* as a *Plugin project*, go to *Build* -> *Prepare for deployment* and install it in your PhpStorm.
 
 
 ## Development
-This plugin is in its early development phase, it's not complete at all and it will contain many bugs!
- Be careful if you decide to use it.
 
 Please tell me what **features** you'd like in *Issues tab*.
 
