@@ -2,12 +2,16 @@
 	<!-- Plugin info -->
 	<name>NEON support</name>
 	<description>Nette Object Notation - ne-on.org</description>
-	<version>0.3.0</version>
+	<version>0.3.1</version>
 	<vendor>juzna.cz</vendor>
 	<idea-version since-build="139.0" />
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.jetbrains.php</depends>
 	<change-notes><![CDATA[
+	<h2>0.3.1</h2>
+	<ul>
+		<li>Parser: fixed blank line at a file beginning</li>
+	</ul>
 	<h2>0.3.0</h2>
 	<ul>
 		<li>Added structure view</li>
