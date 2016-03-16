@@ -48,8 +48,6 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		knownKeys.put("nette", new String[]{
 				"session", "application", "routing", "security", "mailer", "database", "forms", "latte", "container", "debugger"
 		});
-		knownKeys.put("nette.application", new String[]{"debugger", "errorPresenter", "catchExceptions", "mapping"});
-		knownKeys.put("nette.routing", new String[]{"debugger", "routes"});
 
 		knownKeys.put("application", new String[]{"debugger", "errorPresenter", "catchExceptions", "mapping",
 				"scanDirs", "scanComposer", "scanFilter", "silentLinks"});
@@ -67,28 +65,28 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		String[] databaseOptions = new String[]{"dsn", "user", "password", "options", "debugger", "explain", "reflection", "conventions", "autowired"};
 
 		knownKeys.put("database", databaseOptions);
-		knownKeysPattern.put(Pattern.compile("^database\\.[\\w_-]+$"), databaseOptions);
+		knownKeysPattern.put(Pattern.compile("^database\\|[\\w_-]+$"), databaseOptions);
 
-		knownKeysPattern.put(Pattern.compile("^decorator\\.[\\w_\\\\]+$"), new String[]{"setup", "tags", "inject"});
+		knownKeysPattern.put(Pattern.compile("^decorator\\|[\\w_\\\\]+$"), new String[]{"setup", "tags", "inject"});
 
 		String[] serviceKeys = {"class", "create", "factory", "implement", "setup", "tags", "arguments", "autowired", "parameters", "inject"};
-		knownKeysPattern.put(Pattern.compile("^services\\.([\\w_-]+|#)$"), serviceKeys);
+		knownKeysPattern.put(Pattern.compile("^services\\|([\\\\.\\w_-]+|#)$"), serviceKeys);
 
-		knownValues.put("http.frames", new String[]{"DENY", "SAMEORIGIN", "ALLOW-FROM "});
+		knownValues.put("http|frames", new String[]{"DENY", "SAMEORIGIN", "ALLOW-FROM "});
 
-		deprecatedKeys.put("nette.security.frames", "http.frames");
-		deprecatedKeys.put("nette.mailer", "mail");
-		deprecatedKeys.put("nette.container", "di");
-		deprecatedKeys.put("nette.application", "application");
-		deprecatedKeys.put("nette.cache", "cache");
-		deprecatedKeys.put("nette.database", "database");
-		deprecatedKeys.put("nette.forms", "forms");
-		deprecatedKeys.put("nette.http", "http");
-		deprecatedKeys.put("nette.latte", "latte");
-		deprecatedKeys.put("nette.routing", "routing");
-		deprecatedKeys.put("nette.security", "security");
-		deprecatedKeys.put("nette.session", "session");
-		deprecatedKeys.put("nette.debugger", "tracy");
+		deprecatedKeys.put("nette|security|frames", "http|frames");
+		deprecatedKeys.put("nette|mailer", "mail");
+		deprecatedKeys.put("nette|container", "di");
+		deprecatedKeys.put("nette|application", "application");
+		deprecatedKeys.put("nette|cache", "cache");
+		deprecatedKeys.put("nette|database", "database");
+		deprecatedKeys.put("nette|forms", "forms");
+		deprecatedKeys.put("nette|http", "http");
+		deprecatedKeys.put("nette|latte", "latte");
+		deprecatedKeys.put("nette|routing", "routing");
+		deprecatedKeys.put("nette|security", "security");
+		deprecatedKeys.put("nette|session", "session");
+		deprecatedKeys.put("nette|debugger", "tracy");
 	}
 
 	@Override
@@ -165,7 +163,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		List<String> ret = new ArrayList<String>();
 
 		for (int i = 0; i <= (parent.length > 0 ? 1 : 0); i++) {
-			String parentName = StringUtils.join(parent, ".", i, parent.length);
+			String parentName = StringUtils.join(parent, "|", i, parent.length);
 			if (deprecatedKeys.containsKey(parentName)) {
 				parentName = deprecatedKeys.get(parentName);
 			}
