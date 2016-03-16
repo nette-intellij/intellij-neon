@@ -128,7 +128,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 
 
 		boolean incompleteKey = isIncompleteKey(curr);
-		if (curr.getParent() instanceof NeonKey || incompleteKey) { // key autocompletion
+		if (curr.getParent().getParent() instanceof NeonKey || incompleteKey) { // key autocompletion
 			String[] parent = getKeyChain(incompleteKey ? curr.getParent() : curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
 			for (String keyName : getCompletionForSection(knownKeys, knownKeysPattern, parent)) {
 				hasSomething = true;
@@ -137,7 +137,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 				results.addElement(element);
 			}
 		}
-		if (curr.getParent() instanceof NeonScalar) { // value autocompletion
+		if (curr.getParent() instanceof NeonScalar && !(curr.getParent().getParent() instanceof NeonKey)) { // value autocompletion
 			for (LookupElementBuilder x : KEYWORD_LOOKUPS) {
 				results.addElement(x);
 			}
