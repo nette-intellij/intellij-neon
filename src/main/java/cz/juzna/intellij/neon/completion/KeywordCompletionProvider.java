@@ -42,7 +42,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 
 		knownKeys.put("", new String[]{
 				"parameters", "nette", "services", "php", "extensions", "application", "forms",
-				"http", "latte", "mail", "routing", "security", "session", "tracy", "database", "di", "inject", "decorator"
+				"http", "latte", "mail", "routing", "security", "session", "tracy", "database", "di", "decorator"
 		});
 
 		knownKeys.put("nette", new String[]{
