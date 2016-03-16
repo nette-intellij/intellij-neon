@@ -72,7 +72,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		knownKeysPattern.put(Pattern.compile("^decorator\\.[\\w_\\\\]+$"), new String[]{"setup", "tags", "inject"});
 
 		String[] serviceKeys = {"class", "create", "factory", "implement", "setup", "tags", "arguments", "autowired", "parameters", "inject"};
-		knownKeysPattern.put(Pattern.compile("^services(\\.[\\w_-]+)?$"), serviceKeys);
+		knownKeysPattern.put(Pattern.compile("^services\\.([\\w_-]+|#)$"), serviceKeys);
 
 		knownValues.put("http.frames", new String[]{"DENY", "SAMEORIGIN", "ALLOW-FROM "});
 
@@ -115,7 +115,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 				tmp2.put(k, tmp.get(k).toArray(new String[tmp.get(k).size()]));
 			}
 
-			String[] parent = getKeyChain(curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
+			String[] parent = getKeyChain(resolveKeyElementForChain(curr, false));
 			for (String keyName : getCompletionForSection(tmp2, parent)) {
 				hasSomething = true;
 				results.addElement(LookupElementBuilder.create(keyName));
@@ -129,7 +129,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 
 		boolean incompleteKey = isIncompleteKey(curr);
 		if (curr.getParent().getParent() instanceof NeonKey || incompleteKey) { // key autocompletion
-			String[] parent = getKeyChain(incompleteKey ? curr.getParent() : curr.getParent().getParent().getParent()); // literal -> key -> key-val pair -> any parent
+			String[] parent = getKeyChain(resolveKeyElementForChain(curr, incompleteKey));
 			for (String keyName : getCompletionForSection(knownKeys, knownKeysPattern, parent)) {
 				hasSomething = true;
 				LookupElementBuilder element = LookupElementBuilder.create(keyName + (incompleteKey ? ": " : ""))
@@ -187,6 +187,18 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		return ret.toArray(new String[ret.size()]);
 	}
 
+	private static PsiElement resolveKeyElementForChain(PsiElement el, boolean isIncomplete)
+	{
+		if (isIncomplete) {
+			return el.getParent();
+		} else if (el.getParent().getParent() instanceof NeonFile) {
+			return el.getParent();
+		} else  {
+			// literal -> scalar -> [key ->] key-val pair -> any parent
+			el = el.getParent().getParent();
+			return el instanceof NeonKey ? el.getParent().getParent() : el.getParent();
+		}
+	}
 
 	/**
 	 * Get full name of property at given element (e.g. common.services.myService1.setup)
@@ -197,6 +209,8 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		while (el != null) {
 			if (el instanceof NeonKeyValPair) {
 				names.add(0, ((NeonKeyValPair) el).getKeyText());
+			} else if (el.getNode().getElementType() == NeonElementTypes.ITEM) {
+				names.add(0, "#");
 			}
 
 			el = el.getParent();
