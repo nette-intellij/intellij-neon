@@ -17,13 +17,12 @@ NeonFile:KeyAfterBullet2.neon
                   PsiElement([Neon] literal)('key1')
               PsiElement([Neon] :)(':')
               PsiElement([Neon] indent)('\n\t  ')
-              Neon array
-                Neon key-val pair
-                  Neon key
-                    Neon scalar
-                      PsiElement([Neon] literal)('key3')
-                  PsiElement([Neon] :)(':')
-                  PsiWhiteSpace(' ')
-                  Neon scalar
-                    PsiElement([Neon] literal)('123')
-                PsiElement([Neon] indent)('\n')
+            Neon key-val pair
+              Neon key
+                Neon scalar
+                  PsiElement([Neon] literal)('key3')
+              PsiElement([Neon] :)(':')
+              PsiWhiteSpace(' ')
+              Neon scalar
+                PsiElement([Neon] literal)('123')
+            PsiElement([Neon] indent)('\n')

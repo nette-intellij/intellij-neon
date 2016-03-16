@@ -1,0 +1,71 @@
+NeonFile:KeyAfterBullet3.neon
+  Neon array
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      PsiWhiteSpace(' ')
+      Neon array
+        Neon key-val pair
+          Neon key
+            Neon scalar
+              PsiElement([Neon] literal)('foo')
+          PsiElement([Neon] :)(':')
+          PsiElement([Neon] indent)('\n    ')
+          Neon array
+            Neon key-val pair
+              Neon key
+                Neon scalar
+                  PsiElement([Neon] literal)('bar')
+              PsiElement([Neon] :)(':')
+              PsiWhiteSpace(' ')
+              Neon scalar
+                PsiElement([Neon] literal)('lorem')
+            PsiElement([Neon] indent)('\n    ')
+            NeonPsiElementImpl([Neon] Item)
+              PsiElement([Neon] -)('-')
+              PsiWhiteSpace(' ')
+              Neon scalar
+                PsiElement([Neon] literal)('aa')
+            PsiElement([Neon] indent)('\n    ')
+            Neon key-val pair
+              Neon key
+                Neon scalar
+                  PsiElement([Neon] literal)('bb')
+              PsiElement([Neon] :)(':')
+              PsiWhiteSpace(' ')
+              Neon scalar
+                PsiElement([Neon] literal)('cc')
+            PsiElement([Neon] indent)('\n  ')
+        Neon key-val pair
+          Neon key
+            Neon scalar
+              PsiElement([Neon] literal)('ipsum')
+          PsiElement([Neon] :)(':')
+          PsiElement([Neon] indent)('\n   ')
+          Neon array
+            Neon key-val pair
+              Neon key
+                Neon scalar
+                  PsiElement([Neon] literal)('dolor')
+              PsiElement([Neon] :)(':')
+              PsiWhiteSpace(' ')
+              Neon scalar
+                PsiElement([Neon] literal)('sit')
+            PsiElement([Neon] indent)('\n  ')
+        Neon key-val pair
+          Neon key
+            Neon scalar
+              PsiElement([Neon] literal)('xx')
+          PsiElement([Neon] :)(':')
+          PsiElement([Neon] indent)('\n  \t')
+          Neon scalar
+            PsiElement([Neon] literal)('yy')
+        PsiElement([Neon] indent)('\n  ')
+        Neon key-val pair
+          Neon key
+            Neon scalar
+              PsiElement([Neon] literal)('amet')
+          PsiElement([Neon] :)(':')
+          PsiWhiteSpace(' ')
+          Neon scalar
+            PsiElement([Neon] literal)('1')
+        PsiElement([Neon] indent)('\n')

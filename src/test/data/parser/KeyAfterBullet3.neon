@@ -1,0 +1,9 @@
+- foo:
+    bar: lorem
+    - aa
+    bb: cc
+  ipsum:
+   dolor: sit
+  xx:
+  	yy
+  amet: 1

@@ -159,6 +159,11 @@ public class ParserTest extends ParsingTestCase {
 	}
 
 	@Test
+	public void testKeyAfterBullet3() {
+		doTest(true, false);
+	}
+
+	@Test
 	public void testKeyAfterBulletFalse() {
 		doTest(true, false);
 	}
