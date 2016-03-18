@@ -45,5 +45,6 @@
 		<enterHandlerDelegate implementation="cz.juzna.intellij.neon.editor.NeonEnterHandler"/>
 
 		<gotoDeclarationHandler implementation="cz.juzna.intellij.neon.reference.GoToClassHandler"/>
+		<annotator implementationClass="cz.juzna.intellij.neon.annotator.NeonAnnotator" language="neon"/>
 	</extensions>
 </idea-plugin>
