@@ -17,7 +17,7 @@ NeonFile:ErrorTabSpaceMixing.neon
           PsiWhiteSpace(' ')
           Neon scalar
             PsiElement([Neon] literal)('1')
-        PsiErrorElement:tab/space mixing
+        PsiErrorElement:Tab/space mixing
           <empty list>
         PsiElement([Neon] indent)('\n    ')
         PsiErrorElement:bad indent

@@ -288,9 +288,10 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		}
 		int min = Math.min(myIndentString.length(), text.length());
 		if (!text.substring(0, min).equals(myIndentString.substring(0, min))) {
-			myBuilder.error("tab/space mixing");
+			myBuilder.error("Tab/space mixing");
+		} else {
+			myIndentString = text;
 		}
-		myIndentString = text;
 	}
 
 	private void myAssert(boolean condition, String message) {
