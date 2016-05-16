@@ -36,7 +36,10 @@ public class ClassCompletionProvider extends CompletionProvider<CompletionParame
 								  @NotNull CompletionResultSet results) {
 
 		PsiElement curr = params.getPosition().getOriginalElement();
-		if (!(curr.getParent() instanceof NeonEntity) && !(curr.getParent() instanceof NeonScalar)) return;
+		boolean incompleteKey = CompletionUtil.isIncompleteKey(curr);
+		if (!incompleteKey && !(curr.getParent() instanceof NeonEntity) && !(curr.getParent() instanceof NeonScalar)) {
+			return;
+		}
 
 		Collection<PhpNamedElement> variants = new THashSet<PhpNamedElement>();
 		PhpIndex phpIndex = PhpIndex.getInstance(curr.getProject());
@@ -68,7 +71,7 @@ public class ClassCompletionProvider extends CompletionProvider<CompletionParame
 					return strings;
 				}
 			};
-			lookupItem.handler = PhpReferenceInsertHandler.getInstance();
+			lookupItem.handler = PhpReferenceInsertHandler.getInstance(incompleteKey);
 
 			results.addElement(lookupItem);
 		}
