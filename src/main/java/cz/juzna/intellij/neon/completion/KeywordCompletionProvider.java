@@ -3,20 +3,18 @@ package cz.juzna.intellij.neon.completion;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
+import com.intellij.codeInsight.completion.PrefixMatcher;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiErrorElement;
 import com.intellij.util.ProcessingContext;
 import cz.juzna.intellij.neon.completion.schema.SchemaProvider;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
-import cz.juzna.intellij.neon.parser.NeonParser;
 import cz.juzna.intellij.neon.psi.*;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -101,6 +99,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		boolean hasSomething = false;
 
 
+		PrefixMatcher prefixMatcher = results.getPrefixMatcher();
 		// hit autocompletion twice -> autodetect
 //		if (params.getInvocationCount() >= 2)
 		{
@@ -115,8 +114,10 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 
 			String[] parent = getKeyChain(resolveKeyElementForChain(curr, false));
 			for (String keyName : getCompletionForSection(tmp2, parent)) {
-				hasSomething = true;
-				results.addElement(LookupElementBuilder.create(keyName));
+				if (prefixMatcher.prefixMatches(keyName)) {
+					hasSomething = true;
+					results.addElement(LookupElementBuilder.create(keyName));
+				}
 			}
 
 			if (hasSomething && params.getInvocationCount() <= 1) {
@@ -125,14 +126,16 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		}
 
 
-		boolean incompleteKey = isIncompleteKey(curr);
+		boolean incompleteKey = CompletionUtil.isIncompleteKey(curr);
 		if (curr.getParent().getParent() instanceof NeonKey || incompleteKey) { // key autocompletion
 			String[] parent = getKeyChain(resolveKeyElementForChain(curr, incompleteKey));
 			for (String keyName : getCompletionForSection(knownKeys, knownKeysPattern, parent)) {
-				hasSomething = true;
-				LookupElementBuilder element = LookupElementBuilder.create(keyName + (incompleteKey ? ": " : ""))
-						.withPresentableText(keyName);
-				results.addElement(element);
+				if (prefixMatcher.prefixMatches(keyName)) {
+					hasSomething = true;
+					LookupElementBuilder element = LookupElementBuilder.create(keyName + (incompleteKey ? ": " : ""))
+							.withPresentableText(keyName);
+					results.addElement(element);
+				}
 			}
 		}
 		if (curr.getParent() instanceof NeonScalar && !(curr.getParent().getParent() instanceof NeonKey)) { // value autocompletion
@@ -145,8 +148,10 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 			if (!hasSomething) {
 				String[] parent = getKeyChain(curr);
 				for (String value : getCompletionForSection(knownValues, parent)) {
-					hasSomething = true;
-					results.addElement(LookupElementBuilder.create(value));
+					if (prefixMatcher.prefixMatches(value)) {
+						hasSomething = true;
+						results.addElement(LookupElementBuilder.create(value));
+					}
 				}
 			}
 		}
