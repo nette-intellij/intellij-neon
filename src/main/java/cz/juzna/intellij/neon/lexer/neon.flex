@@ -19,10 +19,10 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %type IElementType
 
 %{
-	private void retryInState(int newState) {
+    private void retryInState(int newState) {
         yybegin(newState);
         yypushback(yylength());
-	}
+    }
 %}
 
 STRING = \'[^\'\n]*\'|\"(\\.|[^\"\\\n])*\"
@@ -31,7 +31,7 @@ INDENT = \n[\t ]*
 LITERAL_START = [^-:#\"\',=\[\]{}()\x00-\x20!`]|[:-][!#$%&*\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF]
 WHITESPACE = [\t ]+
 
-%states DEFAULT, IN_LITERAL, VYINITIAL
+%states DEFAULT, IN_LITERAL, VYINITIAL, IN_MULTILINE_DQ, IN_MULTILINE_SQ
 
 %%
 
@@ -46,6 +46,14 @@ WHITESPACE = [\t ]+
 }
 
 <DEFAULT> {
+    "\"\"\"" / \n((\n|.)*\n)?[ \t]*"\"\"\"" {
+        yybegin(IN_MULTILINE_DQ);
+        return NEON_STRING;
+    }
+    "'''" / \n((\n|.)*\n)?[ \t]*"'''" {
+        yybegin(IN_MULTILINE_SQ);
+        return NEON_STRING;
+    }
     {STRING} {
         return NEON_STRING;
     }
@@ -91,4 +99,17 @@ WHITESPACE = [\t ]+
     ":" / [\x21-x28*\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF] { }
     ":" { retryInState(DEFAULT); }
     .|\n { retryInState(DEFAULT); }
+}
+
+<IN_MULTILINE_DQ> {
+    \n[ \t]*"\"\"\"" {
+        yybegin(DEFAULT);
+    }
+    .|\n {}
+}
+<IN_MULTILINE_SQ> {
+    \n[ \t]*"'''" {
+        yybegin(DEFAULT);
+    }
+    .|\n {}
 }
