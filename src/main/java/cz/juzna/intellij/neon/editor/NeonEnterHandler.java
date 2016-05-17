@@ -36,11 +36,20 @@ public class NeonEnterHandler implements EnterHandlerDelegate {
 			return null;
 		}
 		int offset = editor.getCaretModel().getOffset();
+		Document document = editor.getDocument();
 		PsiElement el = PsiUtilCore.getElementAtOffset(file, offset - 1);
+		PsiElement prev1 = PsiUtilCore.getElementAtOffset(file, offset - el.getText().length() - 1);
+		PsiElement prev2 = PsiUtilCore.getElementAtOffset(file, offset - el.getText().length() - 2);
+		if (prev1.getText().equals("\"") && prev2.getText().equals("\"\"")) {
+			document.insertString(offset, "\n" + el.getText().substring(1) + "\"\"\"");
+			return null;
+		} else if (prev1.getText().equals("'") && prev2.getText().equals("''")) {
+			document.insertString(offset, "\n" + el.getText().substring(1) + "'''");
+			return null;
+		}
 		if (!shouldProcess(el)) {
 			return null;
 		}
-		Document document = editor.getDocument();
 		String indent = getIndentString(file, isKeyAfterBullet(el.getParent()));
 		document.insertString(offset, indent);
 		editor.getCaretModel().moveToOffset(offset + indent.length());
