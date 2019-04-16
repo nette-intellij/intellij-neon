@@ -39,7 +39,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		for (String keyword : KEYWORDS) KEYWORD_LOOKUPS.add(LookupElementBuilder.create(keyword));
 
 		knownKeys.put("", new String[]{
-				"parameters", "nette", "services", "php", "extensions", "application", "forms",
+				"parameters", "nette", "services", "php", "extensions", "application", "forms", "constants", "search",
 				"http", "latte", "mail", "routing", "security", "session", "tracy", "database", "di", "decorator"
 		});
 
@@ -50,28 +50,50 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		knownKeys.put("application", new String[]{"debugger", "errorPresenter", "catchExceptions", "mapping",
 				"scanDirs", "scanComposer", "scanFilter", "silentLinks"});
 		knownKeys.put("forms", new String[]{"messages"});
-		knownKeys.put("http", new String[]{"proxy", "headers", "frames"});
-		knownKeys.put("latte", new String[]{"xhtml", "macros"});
-		knownKeys.put("mail", new String[]{"smtp", "host", "port", "username", "password", "secure", "timeout"});
-		knownKeys.put("routing", new String[]{"debugger", "routes", "cache"});
+		knownKeys.put("http", new String[]{"proxy", "headers", "frames", "csp", "cspReportOnly", "featurePolicy", "cookieSecure"});
+		knownKeys.put("latte", new String[]{"xhtml", "macros", "templateClass", "strictTypes"});
+		knownKeys.put("mail", new String[]{"smtp", "host", "port", "username", "password", "secure", "timeout", "context", "clientHost", "persistent"});
+		knownKeys.put("routing", new String[]{"debugger", "routes", "routeClass", "cache"});
 		knownKeys.put("security", new String[]{"debugger", "users", "roles", "resources"});
-		knownKeys.put("session", new String[]{"debugger", "autoStart", "expiration"});
-		knownKeys.put("di", new String[]{"debugger", "accessors"});
+		knownKeys.put("session", new String[]{"debugger", "autoStart", "expiration", "handler",
+			"cookieSamesite", "cookieDomain", "cookieLifetime", "cookiePath", "cookieSecure", "lazyWrite", "name", "savePath"});
+		knownKeys.put("di", new String[]{"debugger", "accessors", "excluded", "parentClass", "export"});
 		knownKeys.put("tracy", new String[]{"email", "fromEmail", "logSeverity", "editor", "browser", "errorTemplate",
-				"strictMode", "maxLen", "maxDepth", "showLocation", "scream", "bar", "blueScreen"});
+				"strictMode", "maxLength", "maxDepth", "showLocation", "scream", "bar", "blueScreen", "showBar", "editorMapping", "netteMailer"});
 
 		String[] databaseOptions = new String[]{"dsn", "user", "password", "options", "debugger", "explain", "reflection", "conventions", "autowired"};
 
 		knownKeys.put("database", databaseOptions);
 		knownKeysPattern.put(Pattern.compile("^database\\|[\\w_-]+$"), databaseOptions);
 
+		String[] searchOptions = new String[]{"in", "files", "classes", "extends", "implements", "exclude", "tags"};
+
+		knownKeys.put("search", searchOptions);
+		knownKeysPattern.put(Pattern.compile("^search\\|[\\w_-]+$"), searchOptions);
+		knownKeysPattern.put(Pattern.compile("^search\\|exclude$"), new String[]{"classes", "extends", "implements"});
+		knownKeysPattern.put(Pattern.compile("^search\\|[\\w_-]+\\|exclude$"), new String[]{"classes", "extends", "implements"});
+
 		knownKeysPattern.put(Pattern.compile("^decorator\\|[\\w_\\\\]+$"), new String[]{"setup", "tags", "inject"});
 
-		String[] serviceKeys = {"class", "create", "factory", "implement", "setup", "tags", "arguments", "autowired", "parameters", "inject"};
+		knownKeysPattern.put(Pattern.compile("^di\\|export$"), new String[]{"parameters", "tags", "types"});
+
+		String[] serviceKeys = {"class", "create", "factory", "implement", "setup", "tags", "arguments", "autowired", "parameters", "inject",
+			"imported", "alteration", "references", "tagged", "type"};
+
 		knownKeysPattern.put(Pattern.compile("^services\\|([\\\\.\\w_-]+|#)$"), serviceKeys);
 
 		knownValues.put("http|frames", new String[]{"DENY", "SAMEORIGIN", "ALLOW-FROM "});
 
+		String[] cspKeys = {"base-uri", "block-all-mixed-content", "child-src", "connect-src", "default-src", "font-src", "form-action", "frame-ancestors",
+			"frame-src", "img-src", "manifest-src", "media-src", "object-src", "plugin-types", "require-sri-for", "sandbox", "script-src", "style-src",
+			"upgrade-insecure-requests", "worker-src", "report-to"};
+
+		knownKeysPattern.put(Pattern.compile("^http\\|csp$"), cspKeys);
+		knownKeysPattern.put(Pattern.compile("^http\\|cspReportOnly$"), cspKeys);
+
+		knownKeysPattern.put(Pattern.compile("^http\\|featurePolicy$"), new String[]{"autoplay", "camera", "encrypted-media", "fullscreen", "geolocation", "microphone", "midi", "payment", "vr"});
+
+		deprecatedKeys.put("di|accessors", "");
 		deprecatedKeys.put("nette|security|frames", "http|frames");
 		deprecatedKeys.put("nette|mailer", "mail");
 		deprecatedKeys.put("nette|container", "di");
