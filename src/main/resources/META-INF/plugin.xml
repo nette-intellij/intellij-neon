@@ -1,13 +1,17 @@
 <idea-plugin version="2">
 	<!-- Plugin info -->
 	<name>NEON support</name>
-	<description>Nette Object Notation - ne-on.org</description>
-	<version>0.4.1</version>
+	<description>NEON (Nette Object Notation; http://ne-on.org) is a custom configuration language similar to YAML.</description>
+	<version>0.5.0</version>
 	<vendor>juzna.cz</vendor>
 	<idea-version since-build="139.0" />
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.jetbrains.php</depends>
 	<change-notes><![CDATA[
+	<h2>0.5.0</h2>
+	<ul>
+		<li>Completion: Nette 3 keywords support</li>
+	</ul>
 	<h2>0.4.1</h2>
 	<ul>
 		<li>Lexer: fixed EAP compatibility</li>
