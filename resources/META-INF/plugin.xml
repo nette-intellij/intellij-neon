@@ -10,7 +10,8 @@
 	<change-notes><![CDATA[
 	<h2>0.5.2</h2>
 	<ul>
-		<li>Added support find usages for PHP classes in neon</li>
+		<li>Added support find usages for PHP classes used in neon</li>
+		<li>Added inspections for used undefined classes</li>
 		<li>Increased minimum compatibility with PHPStorm 2018.3</li>
 	</ul>
 	<h2>0.5.1</h2>
@@ -74,5 +75,10 @@
 
 		<gotoDeclarationHandler implementation="cz.juzna.intellij.neon.reference.GoToClassHandler"/>
 		<annotator implementationClass="cz.juzna.intellij.neon.annotator.NeonAnnotator" language="neon"/>
+
+		<localInspection language="neon" shortName="ClassUsages" id="ClassUsages"
+						 displayName="Class usages"
+						 groupName="Neon" enabledByDefault="true"
+						 implementationClass="cz.juzna.intellij.neon.inspections.ClassUsagesInspection"/>
 	</extensions>
 </idea-plugin>

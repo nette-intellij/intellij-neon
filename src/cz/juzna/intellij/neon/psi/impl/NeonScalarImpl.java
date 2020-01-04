@@ -6,6 +6,7 @@ import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.psi.NeonScalar;
+import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,6 +29,10 @@ public class NeonScalarImpl extends NeonPsiElementImpl implements NeonScalar {
 			text = text.substring(1, text.length() - 1);
 		}
 		return text;
+	}
+
+	public boolean isPhpScalar() {
+		return NeonPhpUtil.isPhpClassScalar(this);
 	}
 
 	@Override

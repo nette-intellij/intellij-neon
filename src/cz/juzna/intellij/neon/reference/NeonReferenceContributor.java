@@ -7,7 +7,6 @@ import com.intellij.util.ProcessingContext;
 import cz.juzna.intellij.neon.NeonLanguage;
 import cz.juzna.intellij.neon.psi.impl.NeonScalarImpl;
 import cz.juzna.intellij.neon.reference.references.NeonPhpClassReference;
-import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class NeonReferenceContributor extends PsiReferenceContributor {
@@ -23,7 +22,7 @@ public class NeonReferenceContributor extends PsiReferenceContributor {
 						}
 
 						String name = ((NeonScalarImpl) element).getName();
-						if (name != null && NeonPhpUtil.isPhpClassScalar(element)) {
+						if (name != null && ((NeonScalarImpl) element).isPhpScalar()) {
 							return new PsiReference[]{
 									new NeonPhpClassReference((NeonScalarImpl) element, new TextRange(0, name.length() + 1))};
 						}

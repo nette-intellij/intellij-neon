@@ -1,7 +1,9 @@
 package cz.juzna.intellij.neon.util;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiRecursiveElementVisitor;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ExtendsList;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
@@ -9,6 +11,7 @@ import cz.juzna.intellij.neon.psi.impl.NeonScalarImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class NeonPhpUtil {
@@ -33,6 +36,14 @@ public class NeonPhpUtil {
 				properties.add((NeonScalarImpl) element);
 			}
 		}
+	}
+
+	public static Collection<PhpClass> getClassesByFQN(Project project, String className) {
+		return getPhpIndex(project).getAnyByFQN(className);
+	}
+
+	private static PhpIndex getPhpIndex(Project project) {
+		return PhpIndex.getInstance(project);
 	}
 
 	public static boolean isPhpClassScalar(@NotNull PsiElement element) {
