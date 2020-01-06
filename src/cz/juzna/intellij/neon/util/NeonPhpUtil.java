@@ -1,5 +1,6 @@
 package cz.juzna.intellij.neon.util;
 
+import com.intellij.lang.ASTNode;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiRecursiveElementVisitor;
@@ -9,6 +10,7 @@ import com.jetbrains.php.lang.psi.elements.ExtendsList;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import cz.juzna.intellij.neon.psi.impl.NeonScalarImpl;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,6 +58,22 @@ public class NeonPhpUtil {
 	}
 
 	@NotNull
+	public static PsiElement replaceChildNode(@NotNull PsiElement psiElement, @NotNull PsiElement newElement, @Nullable ASTNode keyNode) {
+		ASTNode newKeyNode = newElement.getFirstChild().getNode();
+		if (newKeyNode == null) {
+			return psiElement;
+		}
+
+		if (keyNode == null) {
+			psiElement.getNode().addChild(newKeyNode);
+
+		} else {
+			psiElement.getNode().replaceChild(keyNode, newKeyNode);
+		}
+		return psiElement;
+	}
+
+	@NotNull
 	private static List<PsiElement> collectPsiElementsRecursive(@NotNull PsiElement psiElement) {
 		final List<PsiElement> elements = new ArrayList<PsiElement>();
 		elements.add(psiElement.getContainingFile());
@@ -70,7 +88,7 @@ public class NeonPhpUtil {
 		return elements;
 	}
 
-	private static String normalizeClassName(@NotNull String className) {
-		return className.startsWith("\\") ? className : ("\\" + className);
+	private static String normalizeClassName(@Nullable String className) {
+		return className == null ? "" : (className.startsWith("\\") ? className : ("\\" + className));
 	}
 }

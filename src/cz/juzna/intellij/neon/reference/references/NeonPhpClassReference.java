@@ -23,13 +23,15 @@ public class NeonPhpClassReference extends PsiReferenceBase<PsiElement> implemen
 	@NotNull
 	@Override
 	public ResolveResult[] multiResolve(boolean b) {
-		List<NeonScalarImpl> classes = new ArrayList<NeonScalarImpl>();
-		NeonPhpUtil.findNeonPhpClasses(classes, getElement().getContainingFile());
-		if (classes.size() == 0) {
-			return new ResolveResult[0];
+		List<ResolveResult> results = new ArrayList<ResolveResult>();
+		for (PhpClass phpClass : NeonPhpUtil.getClassesByFQN(getElement().getProject(), className)) {
+			if (NeonPhpUtil.isReferenceFor(className, phpClass)) {
+				results.add(new PsiElementResolveResult(phpClass));
+			}
 		}
 
-		List<ResolveResult> results = new ArrayList<ResolveResult>();
+		List<NeonScalarImpl> classes = new ArrayList<NeonScalarImpl>();
+		NeonPhpUtil.findNeonPhpClasses(classes, getElement().getContainingFile());
 		for (NeonScalarImpl method : classes) {
 			results.add(new PsiElementResolveResult(method));
 		}
@@ -41,13 +43,21 @@ public class NeonPhpClassReference extends PsiReferenceBase<PsiElement> implemen
 	@Override
 	public PsiElement resolve() {
 		ResolveResult[] resolveResults = multiResolve(false);
-		return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
+		return resolveResults.length > 0 ? resolveResults[0].getElement() : null;
 	}
 
 	@NotNull
 	@Override
 	public Object[] getVariants() {
 		return new Object[0];
+	}
+
+	@Override
+	public PsiElement handleElementRename(@NotNull String newName) {
+		if (getElement() instanceof NeonScalarImpl && ((NeonScalarImpl) getElement()).isPhpScalar()) {
+			((NeonScalarImpl) getElement()).setName(newName);
+		}
+		return getElement();
 	}
 
 	@Override

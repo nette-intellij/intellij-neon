@@ -1,22 +1,33 @@
 <idea-plugin version="2">
 	<!-- Plugin info -->
 	<name>NEON support</name>
-	<description>NEON (Nette Object Notation; http://ne-on.org) is a custom configuration language similar to YAML.</description>
 	<version>0.5.2</version>
 	<vendor>juzna.cz</vendor>
 	<idea-version since-build="183.2407.10" />
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.jetbrains.php</depends>
+
+	<description><![CDATA[
+		<p>Provides support for <a href="http://ne-on.org">NEON</a> (Nette Object Notation;) is a custom configuration language similar to YAML.</p>
+
+		<h2>IMPORTANT notes</h2>
+
+		<ul>
+			<li><b>Refactoring for class names is supported only from PHP to Latte</b></li>
+		</ul>
+	]]></description>
+
 	<change-notes><![CDATA[
 	<h2>0.5.2</h2>
 	<ul>
 		<li>Added support find usages for PHP classes used in neon</li>
 		<li>Added inspections for used undefined classes</li>
+		<li>Added support for refactoring class names</li>
 		<li>Increased minimum compatibility with PHPStorm 2018.3</li>
 	</ul>
 	<h2>0.5.1</h2>
 	<ul>
-		<li>build: fix java version compatibility</li>
+		<li>Build: fix java version compatibility</li>
 	</ul>
 	<h2>0.5.0</h2>
 	<ul>
