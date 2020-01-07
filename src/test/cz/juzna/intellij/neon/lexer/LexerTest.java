@@ -15,8 +15,6 @@ import java.io.File;
 import java.io.IOException;
 
 import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 /**
  *
