@@ -3,13 +3,16 @@ package cz.juzna.intellij.neon.completion;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiErrorElement;
+import com.intellij.psi.util.PsiTreeUtil;
+import cz.juzna.intellij.neon.config.NeonKeyChain;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import cz.juzna.intellij.neon.parser.NeonParser;
-import cz.juzna.intellij.neon.psi.NeonArray;
-import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.NeonKeyValPair;
-import cz.juzna.intellij.neon.psi.NeonScalar;
+import cz.juzna.intellij.neon.psi.*;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompletionUtil {
 
@@ -35,6 +38,32 @@ public class CompletionUtil {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get full name of property at given element (e.g. common.services.myService1.setup)
+	 */
+	public static NeonKeyChain getKeyChain(PsiElement el) {
+		List<String> names = new ArrayList<String>();
+
+		while (el != null) {
+			if (el instanceof NeonKeyValPair) {
+				names.add(0, ((NeonKeyValPair) el).getKeyText());
+		} else if (el.getNode() != null && el.getNode().getElementType() == NeonElementTypes.ITEM) {
+				names.add(0, "#");
+			}
+
+			el = el.getParent();
+		}
+		return NeonKeyChain.get(names.toArray(new String[names.size()]));
+	}
+
+	@Nullable
+	public static NeonKeyValPair findCurrentKeyValuePair(PsiElement el) {
+		if (el instanceof NeonKeyValPair) {
+			return (NeonKeyValPair) el;
+		}
+		return PsiTreeUtil.getParentOfType(el, NeonKeyValPair.class);
 	}
 
 }

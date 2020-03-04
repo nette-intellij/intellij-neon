@@ -29,9 +29,11 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 	}
 
 	@Override
-	protected void addCompletions(@NotNull CompletionParameters params,
-	                              ProcessingContext ctx,
-	                              @NotNull CompletionResultSet results) {
+	protected void addCompletions(
+		@NotNull CompletionParameters params,
+		ProcessingContext ctx,
+	    @NotNull CompletionResultSet results
+	) {
 		curr = params.getPosition().getOriginalElement();
 		if (curr.getParent() instanceof NeonReference) {
 			for (String service : getAvailableServices()) {
@@ -39,7 +41,6 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 			}
 		}
 	}
-
 
 	/**
 	 * Find all available services
@@ -53,7 +54,6 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 
 		return services;
 	}
-
 
 	/**
 	 * Scans class SystemContainer to find all services in it
@@ -69,9 +69,6 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 		}
 	}
 
-	/**
-	 *
-	 */
 	private void getServicesFromNeonFile(List<String> result, NeonFile file) {
 		if (file.getValue() instanceof NeonArray) {
 			HashMap<String,NeonValue> map = ((NeonArray) file.getValue()).getMap();

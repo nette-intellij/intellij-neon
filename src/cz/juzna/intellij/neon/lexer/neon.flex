@@ -1,7 +1,8 @@
 package cz.juzna.intellij.neon.lexer;
 
+import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import static NeonTokenTypes.*;
+import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 
 /**
  * @author Jan Dolecek
@@ -24,13 +25,19 @@ import static NeonTokenTypes.*;
     }
 %}
 
-STRING = \'[^\'\n]*\'|\"(\\.|[^\"\\\n])*\"
+NUMBER = [+-]?[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?
+IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
+CLASS_NAME=@?(\\?[a-zA-Z_][a-zA-Z0-9_\*]*\\[a-zA-Z_\*][a-zA-Z0-9_\*\\]* | \\[a-zA-Z_\*][a-zA-Z0-9_\*]*)
 COMMENT = \#.*
 INDENT = \n[\t ]*
 LITERAL_START = [^-:#\"\',=\[\]{}()\x00-\x20!`]|[:-][!#$%&*\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF]
 WHITESPACE = [\t ]+
 
-%states DEFAULT, IN_LITERAL, VYINITIAL, IN_MULTILINE_DQ, IN_MULTILINE_SQ
+%states DEFAULT, IN_LITERAL, VYINITIAL
+
+%state SINGLE_QUOTED
+%state DOUBLE_QUOTED
+%state STATIC_FIELD
 
 %%
 
@@ -45,20 +52,41 @@ WHITESPACE = [\t ]+
 }
 
 <DEFAULT> {
-    "\"\"\"" / \n((\n|.)*\n)?[ \t]*"\"\"\"" {
-        yybegin(IN_MULTILINE_DQ);
+
+    {CLASS_NAME} {
+        return NEON_CLASS_NAME;
+    }
+
+    "'"  {
+    	yybegin(SINGLE_QUOTED);
+    	return NEON_SINGLE_QUOTE_LEFT;
+    }
+
+    "\"" {
+        yybegin(DOUBLE_QUOTED);
+        return NEON_DOUBLE_QUOTE_LEFT;
+    }
+
+    {NUMBER} {
+        return NEON_NUMBER;
+    }
+
+    [+-]?[0-9]+({NUMBER})* {
         return NEON_STRING;
     }
-    "'''" / \n((\n|.)*\n)?[ \t]*"'''" {
-        yybegin(IN_MULTILINE_SQ);
-        return NEON_STRING;
+
+    {IDENTIFIER} / ("(") {
+        return NEON_METHOD;
     }
-    {STRING} {
-        return NEON_STRING;
+
+    "::" / ({IDENTIFIER}) {
+        yybegin(STATIC_FIELD);
+        return NEON_DOUBLE_COLON;
     }
 
     "," { return NEON_ITEM_DELIMITER; }
     "=" { return NEON_ASSIGNMENT; }
+    "::" { return NEON_DOUBLE_COLON; }
 
     "(" { return NEON_LPAREN; }
     ")" { return NEON_RPAREN; }
@@ -75,9 +103,24 @@ WHITESPACE = [\t ]+
         return NEON_INDENT;
     }
 
-    {LITERAL_START} {
+    ({LITERAL_START} | {NUMBER} {LITERAL_START}) {
         yybegin(IN_LITERAL);
         return NEON_LITERAL;
+    }
+
+    "%" {LITERAL_START} "%" {
+        yybegin(IN_LITERAL);
+        return NEON_PARAMETER_USAGE;
+    }
+
+    "@" {LITERAL_START} {
+        yybegin(IN_LITERAL);
+        return NEON_KEY_USAGE;
+    }
+
+    {NUMBER} [\s\t] {LITERAL_START} {
+        yybegin(IN_LITERAL);
+        return NEON_STRING;
     }
 
     ":" { return NEON_COLON; }
@@ -87,8 +130,20 @@ WHITESPACE = [\t ]+
         return NEON_WHITESPACE;
     }
 
-    . {
+    [^] {
         return NEON_UNKNOWN;
+    }
+}
+
+<STATIC_FIELD> {
+    {IDENTIFIER} {
+        yybegin(DEFAULT);
+        return NEON_PHP_STATIC_IDENTIFIER;
+    }
+
+    {LITERAL_START} {
+        yybegin(DEFAULT);
+        return NEON_LITERAL;
     }
 }
 
@@ -100,15 +155,24 @@ WHITESPACE = [\t ]+
     .|\n { retryInState(DEFAULT); }
 }
 
-<IN_MULTILINE_DQ> {
-    \n[ \t]*"\"\"\"" {
-        yybegin(DEFAULT);
-    }
-    .|\n {}
+<SINGLE_QUOTED> {
+	"'" {
+		yybegin(DEFAULT);
+		return NEON_SINGLE_QUOTE_RIGHT;
+	}
+	("\\" [^] | [^'\\])+ {
+		return NEON_STRING;
+	}
+	.|\n {}
 }
-<IN_MULTILINE_SQ> {
-    \n[ \t]*"'''" {
-        yybegin(DEFAULT);
-    }
-    .|\n {}
+
+<DOUBLE_QUOTED> {
+	"\"" {
+		yybegin(DEFAULT);
+		return NEON_DOUBLE_QUOTE_RIGHT;
+	}
+	("\\" [^] | [^\"\\])+ {
+		return NEON_STRING;
+	}
+	.|\n {}
 }

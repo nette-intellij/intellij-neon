@@ -25,8 +25,9 @@ public class _NeonLexer implements FlexLexer {
   public static final int DEFAULT = 2;
   public static final int IN_LITERAL = 4;
   public static final int VYINITIAL = 6;
-  public static final int IN_MULTILINE_DQ = 8;
-  public static final int IN_MULTILINE_SQ = 10;
+  public static final int SINGLE_QUOTED = 8;
+  public static final int DOUBLE_QUOTED = 10;
+  public static final int STATIC_FIELD = 12;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -35,31 +36,33 @@ public class _NeonLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5, 5
+     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6, 6
   };
 
   /** 
    * Translates characters to character classes
-   * Chosen bits are [9, 6, 6]
-   * Total runtime size is 1824 bytes
+   * Chosen bits are [8, 6, 7]
+   * Total runtime size is 2320 bytes
    */
   public static int ZZ_CMAP(int ch) {
-    return ZZ_CMAP_A[(ZZ_CMAP_Y[ZZ_CMAP_Z[ch>>12]|((ch>>6)&0x3f)]<<6)|(ch&0x3f)];
+    return ZZ_CMAP_A[(ZZ_CMAP_Y[ZZ_CMAP_Z[ch>>13]|((ch>>7)&0x3f)]<<7)|(ch&0x7f)];
   }
 
-  /* The ZZ_CMAP_Z table has 272 entries */
+  /* The ZZ_CMAP_Z table has 136 entries */
   static final char ZZ_CMAP_Z[] = zzUnpackCMap(
-    "\1\0\1\100\1\200\15\100\u0100\300");
+    "\1\0\1\100\6\200\200\300");
 
   /* The ZZ_CMAP_Y table has 256 entries */
   static final char ZZ_CMAP_Y[] = zzUnpackCMap(
-    "\1\0\1\1\1\2\175\3\1\4\77\3\100\5");
+    "\1\0\1\1\53\2\1\3\22\2\1\4\37\2\1\3\137\2\100\5");
 
-  /* The ZZ_CMAP_A table has 384 entries */
+  /* The ZZ_CMAP_A table has 768 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\12\1\11\1\2\3\5\22\12\1\11\1\15\1\3\1\10\3\14\1\1\1\20\1\21\1\14\1\27"+
-    "\1\16\1\13\14\14\1\26\2\14\1\17\35\14\1\24\1\4\1\25\2\14\1\15\32\14\1\22\1"+
-    "\14\1\23\1\14\6\0\1\6\32\0\210\14\2\7\26\14\100\0");
+    "\11\17\1\16\1\12\3\13\22\17\1\16\1\23\1\25\1\11\1\22\1\36\1\22\1\24\1\26\1"+
+    "\31\1\10\1\1\1\27\1\20\1\3\1\22\12\2\1\21\2\22\1\30\2\22\1\6\4\5\1\4\25\5"+
+    "\1\34\1\7\1\35\1\22\1\5\1\23\4\5\1\4\25\5\1\32\1\22\1\33\1\22\6\0\1\14\32"+
+    "\0\1\37\337\22\1\37\177\22\13\37\35\22\2\15\5\22\1\37\57\22\1\37\40\22\200"+
+    "\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -67,14 +70,18 @@ public class _NeonLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\6\0\1\1\1\2\1\3\2\4\1\5\1\6\1\4"+
+    "\7\0\1\1\1\2\2\3\1\4\3\3\1\5\1\6"+
     "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
-    "\1\17\1\20\1\21\2\1\3\21\1\0\1\22\1\0"+
-    "\1\22\2\0\1\23\4\0\1\22\6\0\1\24\6\0"+
-    "\1\25\1\26";
+    "\1\17\1\20\1\21\1\22\1\23\1\3\1\24\2\1"+
+    "\1\25\1\24\1\26\1\25\1\24\1\27\1\30\1\31"+
+    "\1\0\1\3\1\4\2\3\1\0\1\3\5\0\1\32"+
+    "\3\33\1\0\2\34\1\35\2\0\1\24\1\0\1\36"+
+    "\2\0\1\25\2\3\1\4\1\0\1\4\1\37\1\0"+
+    "\1\34\1\40\1\41\3\0\1\4\1\0\1\4\1\25"+
+    "\1\0\1\25\2\4\2\3";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[57];
+    int [] result = new int[93];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -99,17 +106,21 @@ public class _NeonLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\30\0\60\0\110\0\140\0\170\0\110\0\220"+
-    "\0\110\0\250\0\300\0\330\0\360\0\110\0\u0108\0\110"+
-    "\0\110\0\110\0\110\0\110\0\110\0\110\0\110\0\u0108"+
-    "\0\u0120\0\u0138\0\u0150\0\110\0\u0168\0\u0180\0\u0198\0\u01b0"+
-    "\0\u01c8\0\u01e0\0\u01f8\0\u0138\0\110\0\u0210\0\u0168\0\u0228"+
-    "\0\u0180\0\110\0\u0240\0\u0258\0\u0270\0\u0288\0\u02a0\0\u02b8"+
-    "\0\110\0\u02d0\0\u02e8\0\u0300\0\u0318\0\u0330\0\u0348\0\u02d0"+
-    "\0\u0300";
+    "\0\0\0\40\0\100\0\140\0\200\0\240\0\300\0\140"+
+    "\0\340\0\140\0\u0100\0\u0120\0\u0140\0\u0160\0\u0180\0\u01a0"+
+    "\0\140\0\u01c0\0\u01e0\0\u0200\0\140\0\140\0\140\0\140"+
+    "\0\140\0\140\0\140\0\140\0\140\0\140\0\u0220\0\u0240"+
+    "\0\u0260\0\u0280\0\u02a0\0\u02c0\0\140\0\u02e0\0\u0300\0\140"+
+    "\0\140\0\u0320\0\u0340\0\u0360\0\u0380\0\u03a0\0\u03c0\0\u03e0"+
+    "\0\u03e0\0\u0400\0\u0420\0\u0140\0\u0440\0\u0460\0\140\0\140"+
+    "\0\u0460\0\u0180\0\u0480\0\u04a0\0\u04c0\0\u04e0\0\u0500\0\u0520"+
+    "\0\140\0\u0260\0\140\0\u02c0\0\u0300\0\u0540\0\u0560\0\u0580"+
+    "\0\u05a0\0\u05c0\0\u05e0\0\140\0\u0600\0\u0620\0\u0640\0\140"+
+    "\0\u0360\0\u0660\0\u0680\0\u06a0\0\u06c0\0\u06e0\0\u0700\0\u0720"+
+    "\0\u0740\0\u0760\0\u0780\0\u0660\0\u0680";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[57];
+    int [] result = new int[93];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -132,36 +143,73 @@ public class _NeonLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\5\7\3\0\1\7\1\10\16\7\1\11\1\12\1\10"+
-    "\1\13\1\11\1\0\2\11\1\14\1\15\1\16\1\17"+
-    "\1\11\1\16\1\20\1\21\1\22\1\23\1\24\1\25"+
-    "\1\26\1\27\1\30\1\11\2\31\1\7\2\31\1\0"+
-    "\3\31\1\32\1\7\3\31\4\7\1\31\1\7\1\31"+
-    "\1\7\1\33\1\31\30\0\2\34\1\35\2\34\3\0"+
-    "\22\34\1\36\2\34\3\0\20\34\11\0\1\10\16\0"+
-    "\1\37\1\40\1\0\25\37\2\41\1\0\1\42\1\43"+
-    "\23\41\2\14\1\0\2\14\3\0\20\14\11\0\1\15"+
-    "\22\0\1\11\2\0\2\11\2\0\3\11\1\0\1\11"+
-    "\2\0\1\11\1\0\1\11\1\0\1\11\1\0\2\31"+
-    "\1\0\2\31\1\0\3\31\2\0\3\31\4\0\1\31"+
-    "\1\0\1\31\2\0\1\31\2\34\1\0\2\34\1\0"+
-    "\2\34\1\0\1\44\1\0\3\34\4\0\1\34\1\0"+
-    "\1\34\2\0\1\34\1\0\1\45\1\0\2\45\2\0"+
-    "\2\45\2\0\10\45\1\0\4\45\3\0\1\46\5\0"+
-    "\1\47\17\0\1\50\7\0\1\51\16\0\1\37\1\52"+
-    "\1\0\25\37\1\0\1\53\26\0\2\41\1\0\1\52"+
-    "\1\43\23\41\3\0\1\54\24\0\2\41\1\0\2\41"+
-    "\3\0\20\41\3\0\1\55\25\0\1\56\30\0\1\57"+
-    "\27\0\1\60\30\0\1\61\25\0\1\61\26\0\1\62"+
-    "\1\63\1\57\2\62\3\0\1\62\1\57\16\62\2\64"+
-    "\1\60\1\65\1\64\3\0\1\64\1\60\16\64\2\62"+
-    "\1\57\2\62\3\0\21\62\1\66\1\57\2\62\3\0"+
-    "\20\62\2\64\1\60\2\64\3\0\22\64\1\60\1\67"+
-    "\1\64\3\0\20\64\1\62\1\70\1\57\2\62\3\0"+
-    "\20\62\2\64\1\60\1\71\1\64\3\0\20\64";
+    "\13\10\3\0\1\11\21\10\1\12\1\13\1\14\1\12"+
+    "\2\15\1\16\1\17\1\12\1\20\1\11\1\21\2\12"+
+    "\1\22\1\21\1\23\1\24\1\12\1\21\1\25\1\26"+
+    "\1\27\1\30\1\31\1\32\1\33\1\34\1\35\1\36"+
+    "\1\37\1\12\12\40\1\10\1\0\2\40\1\41\1\10"+
+    "\1\40\1\42\4\40\4\10\1\40\1\10\1\40\1\10"+
+    "\2\40\40\0\7\43\1\44\14\43\1\45\13\43\7\46"+
+    "\1\47\15\46\1\50\12\46\4\51\2\52\3\51\3\0"+
+    "\2\51\2\0\2\53\1\51\13\0\2\51\16\0\1\11"+
+    "\23\0\1\14\35\0\1\12\1\54\1\55\1\56\1\57"+
+    "\4\12\1\0\2\60\2\61\1\60\1\0\1\62\1\63"+
+    "\1\12\13\0\1\12\1\61\2\0\1\64\1\0\2\64"+
+    "\1\0\1\65\1\66\15\0\1\67\11\0\4\70\2\71"+
+    "\1\70\1\72\1\70\3\0\2\70\2\0\2\73\1\70"+
+    "\13\0\2\70\4\0\2\74\2\0\1\75\27\0\12\20"+
+    "\4\0\22\20\16\0\1\22\23\0\1\14\7\12\3\0"+
+    "\1\12\2\0\4\12\4\0\1\12\1\0\1\12\1\0"+
+    "\1\12\1\0\2\12\2\0\10\12\3\0\1\12\2\0"+
+    "\1\12\1\76\2\12\4\0\1\12\1\0\1\12\1\0"+
+    "\1\12\1\0\2\12\11\77\3\0\2\77\2\0\2\100"+
+    "\1\77\13\0\2\77\12\40\2\0\2\40\2\0\1\40"+
+    "\1\0\4\40\4\0\1\40\1\0\1\40\1\0\2\40"+
+    "\11\101\3\0\2\101\1\102\1\0\1\101\1\0\4\101"+
+    "\4\0\1\101\1\0\1\101\1\0\2\101\1\0\11\103"+
+    "\3\0\1\103\2\0\13\103\1\0\4\103\7\43\1\104"+
+    "\14\43\1\0\53\43\7\46\1\105\15\46\1\0\52\46"+
+    "\2\0\1\52\1\0\2\52\34\0\10\51\3\0\1\51"+
+    "\2\0\4\51\4\0\1\51\1\0\1\51\1\0\1\51"+
+    "\1\0\2\51\2\0\1\106\35\0\1\12\1\54\1\55"+
+    "\1\107\1\110\4\12\1\0\2\60\2\61\1\60\1\0"+
+    "\1\62\1\63\1\12\13\0\1\12\1\61\2\0\1\111"+
+    "\36\0\1\112\1\113\15\0\1\112\17\0\11\114\3\0"+
+    "\2\114\2\0\2\115\1\114\13\0\2\114\2\0\1\106"+
+    "\7\12\3\0\1\12\2\0\4\12\4\0\1\12\1\0"+
+    "\1\12\1\0\1\12\1\0\2\12\2\0\10\12\3\0"+
+    "\1\12\2\0\4\12\4\0\1\12\1\0\1\12\1\0"+
+    "\1\12\1\0\2\12\4\0\2\116\2\0\1\116\31\0"+
+    "\1\66\1\0\2\66\1\0\1\65\1\66\31\0\10\70"+
+    "\3\0\1\70\2\0\4\70\4\0\1\70\1\0\1\70"+
+    "\1\0\1\70\1\0\2\70\2\0\1\74\1\0\2\74"+
+    "\1\0\1\65\1\74\31\0\1\75\1\0\2\75\2\0"+
+    "\1\75\33\0\2\117\70\0\1\120\3\0\10\77\3\0"+
+    "\1\77\2\0\4\77\4\0\1\77\1\0\1\77\1\0"+
+    "\1\77\1\0\2\77\1\0\1\121\1\106\1\122\1\123"+
+    "\13\0\1\121\21\0\1\124\36\0\1\125\1\126\15\0"+
+    "\1\125\17\0\2\12\1\111\1\12\1\57\4\12\1\0"+
+    "\2\60\2\61\1\60\1\0\2\63\1\12\13\0\1\12"+
+    "\1\61\2\0\1\113\35\0\2\12\1\113\6\12\1\0"+
+    "\2\60\2\61\1\60\1\0\2\63\1\12\13\0\1\12"+
+    "\1\61\2\0\10\114\3\0\1\114\2\0\4\114\4\0"+
+    "\1\114\1\0\1\114\1\0\1\114\1\0\2\114\2\0"+
+    "\1\116\1\0\2\116\1\0\2\116\31\0\1\117\1\0"+
+    "\2\117\34\0\1\127\36\0\1\130\1\131\15\0\1\130"+
+    "\17\0\1\12\1\54\1\132\1\12\1\110\4\12\1\0"+
+    "\2\60\2\61\1\60\1\0\1\62\1\63\1\12\13\0"+
+    "\1\12\1\61\2\0\1\126\35\0\1\12\1\54\1\133"+
+    "\6\12\1\0\2\60\2\61\1\60\1\0\1\62\1\63"+
+    "\1\12\13\0\1\12\1\61\1\0\1\121\1\106\1\0"+
+    "\1\123\13\0\1\121\21\0\1\131\36\0\1\121\1\106"+
+    "\15\0\1\121\17\0\1\12\1\54\1\132\1\134\1\110"+
+    "\4\12\1\0\2\60\2\61\1\60\1\0\1\62\1\63"+
+    "\1\12\13\0\1\12\1\61\1\12\1\54\1\133\1\134"+
+    "\1\135\4\12\1\0\2\60\2\61\1\60\1\0\1\62"+
+    "\1\63\1\12\13\0\1\12\1\61";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[864];
+    int [] result = new int[1952];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -199,13 +247,15 @@ public class _NeonLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\3\0\1\10\2\0\1\11\1\1\1\11\4\1\1\11"+
-    "\1\1\10\11\4\1\1\11\2\1\1\0\1\1\1\0"+
-    "\1\1\2\0\1\11\4\0\1\11\6\0\1\11\6\0"+
-    "\2\1";
+    "\3\0\1\10\3\0\1\11\1\1\1\11\6\1\1\11"+
+    "\3\1\12\11\6\1\1\11\2\1\2\11\1\1\1\0"+
+    "\4\1\1\0\1\1\5\0\2\11\2\1\1\0\3\1"+
+    "\2\0\1\11\1\0\1\11\2\0\4\1\1\0\1\1"+
+    "\1\11\1\0\2\1\1\11\3\0\1\1\1\0\2\1"+
+    "\1\0\5\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[57];
+    int [] result = new int[93];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -515,124 +565,187 @@ public class _NeonLexer implements FlexLexer {
             { retryInState(DEFAULT);
             } 
             // fall through
-          case 23: break;
+          case 34: break;
           case 2: 
             { return NEON_INDENT;
             } 
             // fall through
-          case 24: break;
+          case 35: break;
           case 3: 
             { yybegin(IN_LITERAL);
         return NEON_LITERAL;
             } 
             // fall through
-          case 25: break;
+          case 36: break;
           case 4: 
-            { return NEON_UNKNOWN;
+            { return NEON_NUMBER;
             } 
             // fall through
-          case 26: break;
+          case 37: break;
           case 5: 
             { return NEON_COMMENT;
             } 
             // fall through
-          case 27: break;
-          case 6: 
-            { return NEON_WHITESPACE;
-            } 
-            // fall through
-          case 28: break;
-          case 7: 
-            { return NEON_ARRAY_BULLET;
-            } 
-            // fall through
-          case 29: break;
-          case 8: 
-            { return NEON_ITEM_DELIMITER;
-            } 
-            // fall through
-          case 30: break;
-          case 9: 
-            { return NEON_ASSIGNMENT;
-            } 
-            // fall through
-          case 31: break;
-          case 10: 
-            { return NEON_LPAREN;
-            } 
-            // fall through
-          case 32: break;
-          case 11: 
-            { return NEON_RPAREN;
-            } 
-            // fall through
-          case 33: break;
-          case 12: 
-            { return NEON_LBRACE_CURLY;
-            } 
-            // fall through
-          case 34: break;
-          case 13: 
-            { return NEON_RBRACE_CURLY;
-            } 
-            // fall through
-          case 35: break;
-          case 14: 
-            { return NEON_LBRACE_SQUARE;
-            } 
-            // fall through
-          case 36: break;
-          case 15: 
-            { return NEON_RBRACE_SQUARE;
-            } 
-            // fall through
-          case 37: break;
-          case 16: 
-            { return NEON_COLON;
-            } 
-            // fall through
           case 38: break;
-          case 17: 
-            { 
+          case 6: 
+            { return NEON_UNKNOWN;
             } 
             // fall through
           case 39: break;
-          case 18: 
-            { return NEON_STRING;
+          case 7: 
+            { return NEON_WHITESPACE;
             } 
             // fall through
           case 40: break;
+          case 8: 
+            { return NEON_ARRAY_BULLET;
+            } 
+            // fall through
+          case 41: break;
+          case 9: 
+            { return NEON_COLON;
+            } 
+            // fall through
+          case 42: break;
+          case 10: 
+            { yybegin(SINGLE_QUOTED);
+    	return NEON_SINGLE_QUOTE_LEFT;
+            } 
+            // fall through
+          case 43: break;
+          case 11: 
+            { yybegin(DOUBLE_QUOTED);
+        return NEON_DOUBLE_QUOTE_LEFT;
+            } 
+            // fall through
+          case 44: break;
+          case 12: 
+            { return NEON_LPAREN;
+            } 
+            // fall through
+          case 45: break;
+          case 13: 
+            { return NEON_ITEM_DELIMITER;
+            } 
+            // fall through
+          case 46: break;
+          case 14: 
+            { return NEON_ASSIGNMENT;
+            } 
+            // fall through
+          case 47: break;
+          case 15: 
+            { return NEON_RPAREN;
+            } 
+            // fall through
+          case 48: break;
+          case 16: 
+            { return NEON_LBRACE_CURLY;
+            } 
+            // fall through
+          case 49: break;
+          case 17: 
+            { return NEON_RBRACE_CURLY;
+            } 
+            // fall through
+          case 50: break;
+          case 18: 
+            { return NEON_LBRACE_SQUARE;
+            } 
+            // fall through
+          case 51: break;
           case 19: 
+            { return NEON_RBRACE_SQUARE;
+            } 
+            // fall through
+          case 52: break;
+          case 20: 
+            { 
+            } 
+            // fall through
+          case 53: break;
+          case 21: 
+            { return NEON_STRING;
+            } 
+            // fall through
+          case 54: break;
+          case 22: 
+            { yybegin(DEFAULT);
+		return NEON_SINGLE_QUOTE_RIGHT;
+            } 
+            // fall through
+          case 55: break;
+          case 23: 
+            { yybegin(DEFAULT);
+		return NEON_DOUBLE_QUOTE_RIGHT;
+            } 
+            // fall through
+          case 56: break;
+          case 24: 
+            { yybegin(DEFAULT);
+        return NEON_LITERAL;
+            } 
+            // fall through
+          case 57: break;
+          case 25: 
+            { yybegin(DEFAULT);
+        return NEON_PHP_STATIC_IDENTIFIER;
+            } 
+            // fall through
+          case 58: break;
+          case 26: 
+            // lookahead expression with fixed lookahead length
+            zzMarkedPos = Character.offsetByCodePoints
+                (zzBufferL/*, zzStartRead, zzEndRead - zzStartRead*/, zzMarkedPos, -1);
+            { return NEON_METHOD;
+            } 
+            // fall through
+          case 59: break;
+          case 27: 
+            { yybegin(IN_LITERAL);
+        return NEON_KEY_USAGE;
+            } 
+            // fall through
+          case 60: break;
+          case 28: 
+            { return NEON_CLASS_NAME;
+            } 
+            // fall through
+          case 61: break;
+          case 29: 
+            { return NEON_DOUBLE_COLON;
+            } 
+            // fall through
+          case 62: break;
+          case 30: 
             // lookahead expression with fixed base length
             zzMarkedPos = Character.offsetByCodePoints
                 (zzBufferL/*, zzStartRead, zzEndRead - zzStartRead*/, zzStartRead, 1);
             { 
             } 
             // fall through
-          case 41: break;
-          case 20: 
-            { yybegin(DEFAULT);
-            } 
-            // fall through
-          case 42: break;
-          case 21: 
-            // lookahead expression with fixed base length
-            zzMarkedPos = Character.offsetByCodePoints
-                (zzBufferL/*, zzStartRead, zzEndRead - zzStartRead*/, zzStartRead, 3);
-            { yybegin(IN_MULTILINE_SQ);
+          case 63: break;
+          case 31: 
+            { yybegin(IN_LITERAL);
         return NEON_STRING;
             } 
             // fall through
-          case 43: break;
-          case 22: 
+          case 64: break;
+          case 32: 
             // lookahead expression with fixed base length
             zzMarkedPos = Character.offsetByCodePoints
-                (zzBufferL/*, zzStartRead, zzEndRead - zzStartRead*/, zzStartRead, 3);
-            { yybegin(IN_MULTILINE_DQ);
-        return NEON_STRING;
+                (zzBufferL/*, zzStartRead, zzEndRead - zzStartRead*/, zzStartRead, 2);
+            { yybegin(STATIC_FIELD);
+        return NEON_DOUBLE_COLON;
             } 
             // fall through
-          case 44: break;
+          case 65: break;
+          case 33: 
+            { yybegin(IN_LITERAL);
+        return NEON_PARAMETER_USAGE;
+            } 
+            // fall through
+          case 66: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

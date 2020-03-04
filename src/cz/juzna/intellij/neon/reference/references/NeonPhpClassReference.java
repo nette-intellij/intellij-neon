@@ -1,8 +1,10 @@
 package cz.juzna.intellij.neon.reference.references;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import cz.juzna.intellij.neon.psi.NeonScalar;
 import cz.juzna.intellij.neon.psi.impl.NeonScalarImpl;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
@@ -17,17 +19,22 @@ public class NeonPhpClassReference extends PsiReferenceBase<PsiElement> implemen
 
 	public NeonPhpClassReference(@NotNull NeonScalarImpl element, TextRange textRange) {
 		super(element, textRange);
-		className = element.getName();
+		className = element.getNormalizedClassName();
 	}
 
 	@NotNull
 	@Override
 	public ResolveResult[] multiResolve(boolean b) {
 		List<ResolveResult> results = new ArrayList<ResolveResult>();
-		for (PhpClass phpClass : NeonPhpUtil.getClassesByFQN(getElement().getProject(), className)) {
+		Project project = getElement().getProject();
+		for (PhpClass phpClass : NeonPhpUtil.getClassesByFQN(project, className)) {
 			if (NeonPhpUtil.isReferenceFor(className, phpClass)) {
 				results.add(new PsiElementResolveResult(phpClass));
 			}
+		}
+
+		for (PhpNamespace phpNamespace : NeonPhpUtil.getNamespacesByName(project, className)) {
+			results.add(new PsiElementResolveResult(phpNamespace));
 		}
 
 		List<NeonScalarImpl> classes = new ArrayList<NeonScalarImpl>();
@@ -66,10 +73,15 @@ public class NeonPhpClassReference extends PsiReferenceBase<PsiElement> implemen
 			return className.equals(((NeonScalar) element).getName());
 		}
 
-		if (!(element instanceof PhpClass)) {
+		if (element instanceof PhpClass) {
+			return NeonPhpUtil.isReferenceFor(className, ((PhpClass) element));
+		}
+
+		if (!(element instanceof PhpNamespace)) {
 			return false;
 		}
-		return NeonPhpUtil.isReferenceFor(className, ((PhpClass) element));
+		String namespace = ((PhpNamespace) element).getParentNamespaceName() + ((PhpNamespace) element).getName();
+		return namespace.equals(className);
 	}
 
 }

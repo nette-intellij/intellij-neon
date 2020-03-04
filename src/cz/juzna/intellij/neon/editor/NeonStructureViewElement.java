@@ -3,9 +3,11 @@ package cz.juzna.intellij.neon.editor;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase;
 import com.intellij.psi.PsiElement;
+import cz.juzna.intellij.neon.NeonIcons;
 import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -43,6 +45,11 @@ public class NeonStructureViewElement extends PsiTreeElementBase<PsiElement> {
 		}
 
 		return elements;
+	}
+
+	@Override
+	public Icon getIcon(boolean open) {
+		return NeonIcons.KEY;
 	}
 
 	private void addArrayElements(List<StructureViewTreeElement> elements, PsiElement firstValue) {

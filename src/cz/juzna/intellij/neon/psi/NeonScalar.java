@@ -7,4 +7,10 @@ import com.intellij.psi.PsiNameIdentifierOwner;
  */
 public interface NeonScalar extends PsiNameIdentifierOwner, NeonValue {
 	public String getValueText();
+
+	public String getNormalizedClassName();
+
+	public boolean isPhpScalar();
+
+	public boolean isInString();
 }

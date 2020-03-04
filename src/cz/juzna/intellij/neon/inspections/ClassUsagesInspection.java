@@ -1,9 +1,11 @@
 package cz.juzna.intellij.neon.inspections;
 
 import com.intellij.codeInspection.*;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor;
+import com.jetbrains.php.lang.psi.elements.PhpNamespace;
 import cz.juzna.intellij.neon.psi.NeonFile;
 import cz.juzna.intellij.neon.psi.impl.NeonScalarImpl;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
@@ -11,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ClassUsagesInspection extends LocalInspectionTool {
@@ -18,7 +21,7 @@ public class ClassUsagesInspection extends LocalInspectionTool {
 	@NotNull
 	@Override
 	public String getShortName() {
-		return "ClassUsages";
+		return "NeonClassUsages";
 	}
 
 	@Nullable
@@ -33,10 +36,21 @@ public class ClassUsagesInspection extends LocalInspectionTool {
 			@Override
 			public void visitElement(PsiElement element) {
 				if (element instanceof NeonScalarImpl && ((NeonScalarImpl) element).isPhpScalar()) {
-					String className = ((NeonScalarImpl) element).getName();
-					if (NeonPhpUtil.getClassesByFQN(element.getProject(), className).size() == 0) {
+					String className = ((NeonScalarImpl) element).getNormalizedClassName();
+					Project project = element.getProject();
+					boolean isValid = true;
+					if (NeonPhpUtil.getClassesByFQN(project, className).size() == 0) {
+						isValid = false;
+
+						Collection<PhpNamespace> namespaces = NeonPhpUtil.getNamespacesByName(project, className);
+						if (namespaces.size() > 0) {
+							isValid = true;
+						}
+					}
+
+					if (!isValid) {
 						String description = "Undefined class '" + className + "'";
-						ProblemDescriptor problem = manager.createProblemDescriptor(element, description, true, ProblemHighlightType.GENERIC_ERROR, isOnTheFly);
+						ProblemDescriptor problem = manager.createProblemDescriptor(element, description, true, ProblemHighlightType.GENERIC_ERROR_OR_WARNING, isOnTheFly);
 						problems.add(problem);
 					}
 
@@ -48,4 +62,5 @@ public class ClassUsagesInspection extends LocalInspectionTool {
 
 		return problems.toArray(new ProblemDescriptor[problems.size()]);
 	}
+
 }

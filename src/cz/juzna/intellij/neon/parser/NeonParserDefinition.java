@@ -58,6 +58,8 @@ public class NeonParserDefinition implements ParserDefinition {
 
 		if (type == NeonElementTypes.KEY_VALUE_PAIR) return new NeonKeyValPairImpl(node);
 		else if (type == NeonElementTypes.KEY) return new NeonKeyImpl(node);
+		else if (type == NeonElementTypes.KEY_USAGE) return new NeonKeyUsageImpl(node);
+		else if (type == NeonElementTypes.PARAMETER_USAGE) return new NeonParameterUsageImpl(node);
 		else if (type == NeonElementTypes.COMPOUND_VALUE) return new NeonArrayImpl(node);
 		else if (type == NeonElementTypes.ARRAY) return new NeonArrayImpl(node);
 		else if (type == NeonElementTypes.SCALAR_VALUE) return new NeonScalarImpl(node);

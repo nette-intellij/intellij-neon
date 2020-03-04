@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin>
 	<!-- Plugin info -->
 	<name>NEON support</name>
 	<version>0.5.2</version>
@@ -64,17 +64,25 @@
 	</change-notes>
 	<!-- IDEA extensions -->
 	<extensions defaultExtensionNs="com.intellij">
-		<fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory" />
+
+		<fileType name="Latte" implementationClass="cz.juzna.intellij.neon.file.NeonFileType" fieldName="INSTANCE"
+				  language="neon" extensions="neon" />
+
 		<colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage" />
-		<lang.syntaxHighlighterFactory key="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory" />
+		<lang.syntaxHighlighterFactory language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory" />
 		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
 		<lang.psiStructureViewFactory language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory" />
+
+		<lang.quoteHandler language="neon" implementationClass="cz.juzna.intellij.neon.editor.action.NeonQuoteHandler"/>
+		<typedHandler implementation="cz.juzna.intellij.neon.editor.action.NeonTypedHandler"/>
 
 		<psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.NeonReferenceContributor"/>
 
 		<!-- code settings (indent, tabs?) -->
 		<codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider" />
 		<langCodeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider" />
+
+		<lang.findUsagesProvider language="neon" implementationClass="cz.juzna.intellij.neon.reference.NeonFindUsagesProvider"/>
 
 		<lang.parserDefinition language="neon" implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition" />
 		<lang.fileViewProviderFactory language="neon" implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory" />
@@ -87,7 +95,7 @@
 		<gotoDeclarationHandler implementation="cz.juzna.intellij.neon.reference.GoToClassHandler"/>
 		<annotator implementationClass="cz.juzna.intellij.neon.annotator.NeonAnnotator" language="neon"/>
 
-		<localInspection language="neon" shortName="ClassUsages" id="ClassUsages"
+		<localInspection language="neon" shortName="NeonClassUsages" id="NeonClassUsages"
 						 displayName="Class usages"
 						 groupName="Neon" enabledByDefault="true"
 						 implementationClass="cz.juzna.intellij.neon.inspections.ClassUsagesInspection"/>

@@ -50,6 +50,18 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		if (currentToken == NEON_INDENT || currentToken == null) {
 			// no value -> null
 
+		} else if (currentToken == NEON_SINGLE_QUOTE_LEFT) { // array
+			PsiBuilder.Marker val = parseSingleQuotedString();
+			if (val != null && myBuilder.getTokenType() == NEON_LPAREN) {
+				parseEntity(val.precede());
+			}
+
+		} else if (currentToken == NEON_DOUBLE_QUOTE_LEFT) { // array
+			PsiBuilder.Marker val = parseDoubleQuotedString();
+			if (val != null && myBuilder.getTokenType() == NEON_LPAREN) {
+				parseEntity(val.precede());
+			}
+
 		} else if (OPEN_BRACKET.contains(currentToken)) { // array
 			PsiBuilder.Marker val = myBuilder.mark();
 			parseInlineArray();
@@ -58,7 +70,13 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			} else {
 				val.drop();
 			}
-		} else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
+		} else if (currentToken == NeonTokenTypes.NEON_PARAMETER_USAGE) {
+			parseScalarValue(PARAMETER_USAGE);
+
+		} else if (currentToken == NeonTokenTypes.NEON_KEY_USAGE) {
+			parseScalarValue(KEY_USAGE);
+
+		} else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken) || currentToken == NeonTokenTypes.NEON_NUMBER) {
 			PsiBuilder.Marker val = myBuilder.mark();
 			advanceLexer();
 			val.done(SCALAR_VALUE);
@@ -69,6 +87,17 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			// dunno
 			myBuilder.error("unexpected token " + currentToken);
 			advanceLexer();
+		}
+	}
+
+	private void parseScalarValue(IElementType markType) {
+		PsiBuilder.Marker usage = myBuilder.mark();
+		PsiBuilder.Marker val = myBuilder.mark();
+		advanceLexer();
+		val.done(SCALAR_VALUE);
+		usage.done(markType);
+		if (myBuilder.getTokenType() == NEON_LPAREN) {
+			parseEntity(val.precede());
 		}
 	}
 
@@ -99,11 +128,21 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 			} else if (ASSIGNMENTS.contains(nextToken)) { // key-val pair
 				parseKeyVal(indent);
 
+			} else if (currentToken == NEON_SINGLE_QUOTE_LEFT) {
+				parseSingleQuotedString();
+
+			} else if (currentToken == NEON_SINGLE_QUOTE_RIGHT) {
+				parseSingleQuotedString();
+
 			} else if (currentToken == NEON_ARRAY_BULLET) {
 				PsiBuilder.Marker markItem = myBuilder.mark();
 				advanceLexer();
 				parseValueOrArray(indent);
 				markItem.done(NeonElementTypes.ITEM);
+
+			} else if (currentToken == NEON_NUMBER) {
+				parseValue();
+
 			} else {
 				myBuilder.error(EXPECTED_ARRAY_ITEM);
 				advanceLexer();
@@ -162,6 +201,59 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		}
 	}
 
+	// NEON_SINGLE_QUOTE_LEFT NEON_STRING? NEON_SINGLE_QUOTE_RIGHT
+	private PsiBuilder.Marker parseSingleQuotedString() {
+		IElementType currentToken = myBuilder.getTokenType();
+
+		if (currentToken != NEON_SINGLE_QUOTE_LEFT) return null;
+
+		PsiBuilder.Marker value = myBuilder.mark();
+		boolean valid = consumeToken(myBuilder, NEON_SINGLE_QUOTE_LEFT);
+		PsiBuilder.Marker string = myBuilder.mark();
+		if (consumeToken(myBuilder, NEON_STRING)) {
+			string.done(STRING);
+		} else {
+			string.drop();
+		}
+
+		valid = valid && consumeToken(myBuilder, NEON_SINGLE_QUOTE_RIGHT);
+
+		if (valid) {
+			value.done(SCALAR_VALUE);
+		} else {
+			value.drop();
+		}
+		return value;
+	}
+
+	// NEON_DOUBLE_QUOTE_LEFT NEON_STRING? NEON_DOUBLE_QUOTE_RIGHT
+	private PsiBuilder.Marker parseDoubleQuotedString() {
+		IElementType currentToken = myBuilder.getTokenType();
+
+		if (currentToken != NEON_DOUBLE_QUOTE_LEFT) return null;
+
+		PsiBuilder.Marker string = myBuilder.mark();
+		boolean valid = consumeToken(myBuilder, NEON_DOUBLE_QUOTE_LEFT);
+		consumeToken(myBuilder, NEON_STRING);
+		valid = valid && consumeToken(myBuilder, NEON_DOUBLE_QUOTE_RIGHT);
+
+		if (valid) {
+			string.done(SCALAR_VALUE);
+		} else {
+			string.drop();
+		}
+		return string;
+	}
+
+	private boolean consumeToken(PsiBuilder builder, IElementType tokenType) {
+		IElementType currentToken = builder.getTokenType();
+		if (currentToken == tokenType) {
+			advanceLexer();
+			return true;
+		}
+		return false;
+	}
+
 	private void parseKey() {
 		myAssert(NeonTokenTypes.STRING_LITERALS.contains(myBuilder.getTokenType()), "Expected literal or string");
 
@@ -202,9 +294,10 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 	}
 
 	private void readInlineArraySeparator() {
-		if (myBuilder.getTokenType() == NEON_INDENT || myBuilder.getTokenType() == NEON_ITEM_DELIMITER) {
+		IElementType tokenType = myBuilder.getTokenType();
+		if (INLINE_ARRAY_ITEMS.contains(tokenType)) {
 			advanceLexer();
-		} else if (!CLOSING_BRACKET.contains(myBuilder.getTokenType())) {
+		} else if (!CLOSING_BRACKET.contains(tokenType)) {
 			myBuilder.error("Expected indent, delimiter or closing bracket");
 		}
 	}
@@ -238,8 +331,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 		}
 	}
 
-
-	/***  helpers ***/
+	/*  helpers */
 
 	/**
 	 * Go to next token; if there is more whitespace, skip to the last

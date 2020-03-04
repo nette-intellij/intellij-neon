@@ -27,6 +27,11 @@ public class NeonScalarImpl extends NeonPsiElementImpl implements NeonScalar {
 
 	@Override
 	public String getValueText() {
+		PsiElement firstChild = getFirstChild();
+		if (firstChild == null) {
+			return getText();
+		}
+
 		String text = getFirstChild().getText();
 		if (getFirstChild() instanceof LeafPsiElement && ((LeafPsiElement) getFirstChild()).getElementType() == NeonTokenTypes.NEON_STRING) {
 			text = text.substring(1, text.length() - 1);
@@ -54,9 +59,18 @@ public class NeonScalarImpl extends NeonPsiElementImpl implements NeonScalar {
 		return NeonPhpUtil.isPhpClassScalar(this);
 	}
 
+	public boolean isInString() {
+		return NeonPhpUtil.isPhpClassScalar(this);
+	}
+
 	@Override
 	public String getName() {
 		return getValueText();
+	}
+
+	@Override
+	public String getNormalizedClassName() {
+		return NeonPhpUtil.normalizeClassName(getValueText());
 	}
 
 	@Nullable
