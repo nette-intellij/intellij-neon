@@ -7,6 +7,7 @@ import com.intellij.psi.*;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
 import cz.juzna.intellij.neon.config.NeonConfiguration;
+import cz.juzna.intellij.neon.config.NeonKeyChain;
 import cz.juzna.intellij.neon.config.NeonService;
 import cz.juzna.intellij.neon.file.NeonFileType;
 import cz.juzna.intellij.neon.psi.*;
@@ -250,19 +251,16 @@ public class NeonPhpUtil {
 		return services;
 	}
 
-	public static void attachNeonKeyUsages(String searchedName, List<ResolveResult> results, PsiElement psiElement) {
-		psiElement.acceptChildren(new PsiRecursiveElementVisitor() {
-			@Override
-			public void visitElement(PsiElement element) {
-				if (element.getParent() instanceof NeonKeyUsage && ((NeonKeyUsage) element.getParent()).getKeyText().equals(searchedName)) {
-					results.add(new PsiElementResolveResult(element.getParent()));
-				} else {
-					super.visitElement(element);
-				}
-			}
-		});
+	public static List<NeonKeyUsage> attachNeonKeyUsages(String searchedName, Project project) {
+		return NeonPsiUtil.acceptAllFiles(
+				NeonFileType.INSTANCE,
+				project,
+				NeonKeyUsage.class,
+				(NeonKeyUsage usage) -> usage.getClassReference() == null && usage.getKeyText().equals(searchedName)
+		);
 	}
 
+	@NotNull
 	public static List<NeonKeyUsage> attachNeonKeyUsagesByTypes(NeonPhpType phpType, Project project) {
 		return NeonPsiUtil.acceptAllFiles(
 				NeonFileType.INSTANCE,
@@ -272,17 +270,23 @@ public class NeonPhpUtil {
 		);
 	}
 
-	public static void attachNeonParameterUsages(String searchedName, List<ResolveResult> results, PsiElement psiElement) {
-		psiElement.acceptChildren(new PsiRecursiveElementVisitor() {
-			@Override
-			public void visitElement(PsiElement element) {
-				if (element.getParent() instanceof NeonParameterUsage && ((NeonParameterUsage) element.getParent()).getKeyText().equals(searchedName)) {
-					results.add(new PsiElementResolveResult(element.getParent()));
-				} else {
-					super.visitElement(element);
-				}
-			}
-		});
+	@NotNull
+	public static List<NeonParameterUsage> attachNeonParameterUsages(String searchedName, Project project) {
+		return NeonPsiUtil.acceptAllFiles(
+				NeonFileType.INSTANCE,
+				project,
+				NeonParameterUsage.class,
+				(NeonParameterUsage usage) -> usage.getKeyText().equals(searchedName)
+		);
+	}
+
+	@NotNull
+	public static List<NeonParameterUsage> attachNeonParameterUsages(NeonKeyChain keyChain, Project project) {
+		return NeonPsiUtil.acceptAllFiles(NeonFileType.INSTANCE, project, NeonParameterUsage.class, (NeonParameterUsage usage) -> {
+				String fullName = "parameters." + usage.getKeyText();
+				NeonKeyChain chain = NeonKeyChain.get(fullName.split("\\."));
+				return keyChain.toDottedString().equals(fullName) || keyChain.isParentOf(chain);
+			});
 	}
 
 	public static Collection<PhpClass> getClassesByFQN(Project project, String className) {

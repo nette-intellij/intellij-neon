@@ -2,7 +2,9 @@ package cz.juzna.intellij.neon.lexer;
 
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import cz.juzna.intellij.neon.NeonLanguage;
 
 /**
  * Types of tokens returned form lexer
@@ -11,6 +13,8 @@ import com.intellij.psi.tree.TokenSet;
  */
 public interface NeonTokenTypes extends _NeonTokenTypes
 {
+	public static final IFileElementType FILE = new IFileElementType(NeonLanguage.INSTANCE);
+
 	IElementType NEON_SYMBOL = new NeonTokenType("symbol"); // use a symbol or brace instead (see below)
 
 	// special tokens (identifier in block header or as array key)
@@ -35,6 +39,12 @@ public interface NeonTokenTypes extends _NeonTokenTypes
 	);
 	TokenSet HIGHLIGHT_KEYWORD_ELEMENTS = TokenSet.create(
 			NEON_NAMESPACE_REFERENCE, NEON_NAMESPACE_RESOLUTION, NEON_IDENTIFIER, NEON_CONCATENATION
+	);
+	TokenSet KEY_VAL_PAIRS = TokenSet.create(
+			KEY_VAL_PAIR, ARRAY_KEY_VALUE_PAIR
+	);
+	TokenSet ARRAYS = TokenSet.create(
+			ARRAY, MAIN_ARRAY
 	);
 	TokenSet CLASS_USAGE_ELEMENTS = TokenSet.create(
 			NEON_NAMESPACE_REFERENCE, NEON_NAMESPACE_RESOLUTION, NEON_IDENTIFIER, NEON_METHOD

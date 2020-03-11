@@ -57,7 +57,7 @@ public class NeonConfiguration {
 		addService("cache.journal", "Nette\\Caching\\Storages\\IJournal");
 		addService("database.default.context", "Nette\\Database\\Context");
 		addService("http.requestFactory", "Nette\\Http\\RequestFactory");
-		addService("latte.latteFactory", "mixed");
+		addService("latte.latteFactory", "Latte\\Engine", new String[]{"nette.latteFactory"});
 		addService("mail.mailer", "Nette\\Mail\\IMailer");
 		addService("application.presenterFactory", "Nette\\Application\\PresenterFactory");
 		addService("latte.templateFactory", "Nette\\Bridges\\ApplicationLatte\\TemplateFactory");
@@ -71,9 +71,14 @@ public class NeonConfiguration {
 	private void initStandardExtensions() {
 		addExtensionItem("parameters", type("array"));
 		addExtensionItem("services", type("array"));
-		addExtensionItem("php", type("array"));
 		addExtensionItem("extensions", type("array"));
 		addExtensionItem("constants", type("array"));
+
+		NeonExtensionItem php = addExtensionItem("php", type("array"));
+
+		for (Map.Entry<String, NeonPhpType> entry : NeonTypesUtil.getPhpDirectives().entrySet()) {
+			addExtensionItem(php.addChild(entry.getKey(), entry.getValue()));
+		}
 
 		// session
 		NeonExtensionItem session = addExtensionItem("session", type("array"));

@@ -29,7 +29,7 @@ public class NeonParserDefinition implements ParserDefinition {
 
 	@Override
 	public IFileElementType getFileNodeType() {
-		return NeonElementTypes.FILE;
+		return NeonTokenTypes.FILE;
 	}
 
 	@NotNull

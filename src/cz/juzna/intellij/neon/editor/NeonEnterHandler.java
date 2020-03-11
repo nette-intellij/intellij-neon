@@ -14,8 +14,6 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsManager;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.psi.util.PsiUtilCore;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
-import cz.juzna.intellij.neon.parser.NeonElementTypes;
-import cz.juzna.intellij.neon.psi.NeonArray;
 import cz.juzna.intellij.neon.psi.NeonFile;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +68,7 @@ public class NeonEnterHandler implements EnterHandlerDelegate {
 		if (parent == null) {
 			return false;
 		}
-		return parent instanceof NeonKeyValPair || parent.getNode().getElementType() == NeonElementTypes.ITEM || isKeyAfterBullet(parent);
+		return parent instanceof NeonKeyValPair || isKeyAfterBullet(parent);
 	}
 
 	@NotNull
@@ -84,13 +82,11 @@ public class NeonEnterHandler implements EnterHandlerDelegate {
 	}
 
 	private boolean isKeyAfterBullet(PsiElement el) {
-		el = el instanceof NeonKeyValPair ? el.getParent() : el;
-
-		return el instanceof NeonArray
-				&& el.getChildren().length == 1
-				&& el.getParent().getNode().getElementType() == NeonElementTypes.ITEM
-				&& el.getPrevSibling().getText().equals(" ")
-				&& el.getParent().getFirstChild().getText().equals("-");
+		if (!(el instanceof NeonKeyValPair)) {
+			return false;
+		}
+		NeonKeyValPair keyValPair = (NeonKeyValPair) el;
+		return keyValPair.getKey() != null && keyValPair.getKey().isArrayBullet();
 	}
 
 }

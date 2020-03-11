@@ -72,6 +72,20 @@ public class NeonKeyChain {
 		return chain.length == level;
 	}
 
+	public boolean isParentOf(NeonKeyChain child) {
+		String[] childList = child.toArray();
+		if (childList.length <= chain.length) {
+			return false;
+		}
+
+		for (int i = 0; i < chain.length; i++) {
+			if (!chain[i].equals(childList[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return stringKey;

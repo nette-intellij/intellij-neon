@@ -1,10 +1,11 @@
 package cz.juzna.intellij.neon.reference.references;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonKeyUsage;
-import cz.juzna.intellij.neon.psi.NeonKeyValPair;
+import cz.juzna.intellij.neon.psi.NeonParameterUsage;
 import cz.juzna.intellij.neon.util.NeonPhpType;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;
@@ -19,8 +20,7 @@ public class NeonKeyReference extends PsiReferenceBase<PsiElement> implements Ps
 	private boolean serviceDefinition;
 	private boolean parameterDefinition;
 	private boolean isArrayBullet;
-	private NeonPhpType phpType = null;
-	//private NeonKeyChain currentKeyChain;
+	private NeonPhpType phpType;
 
 	public NeonKeyReference(@NotNull NeonKey element, TextRange textRange) {
 		super(element, textRange);
@@ -29,10 +29,7 @@ public class NeonKeyReference extends PsiReferenceBase<PsiElement> implements Ps
 		serviceDefinition = element.isServiceDefinition();
 		parameterDefinition = element.isParameterDefinition();
 		isArrayBullet = element.isArrayBullet();
-		if (element.getParent() instanceof NeonKeyValPair && ((NeonKeyValPair) element.getParent()).getScalarValue() != null) {
-			phpType = ((NeonKeyValPair) element.getParent()).getScalarValue().getPhpType();
-		}
-		//currentKeyChain = element.getKeyChain(false).withChildKey(element.getKeyText());
+		phpType = element.getPhpType();
 	}
 
 	@NotNull
@@ -40,17 +37,23 @@ public class NeonKeyReference extends PsiReferenceBase<PsiElement> implements Ps
 	public ResolveResult[] multiResolve(boolean b) {
 		List<ResolveResult> results = new ArrayList<ResolveResult>();
 
+		Project project = getElement().getProject();
 		if (serviceDefinition) {
-			NeonPhpUtil.attachNeonKeyUsages(keyText, results, getElement().getContainingFile());
-			if (results.size() == 0 && phpType != null && isArrayBullet) {
-				List<NeonKeyUsage> usages = NeonPhpUtil.attachNeonKeyUsagesByTypes(phpType, getElement().getProject());
+			for (NeonKeyUsage usage : NeonPhpUtil.attachNeonKeyUsages(keyText, project)) {
+				results.add(new PsiElementResolveResult(usage));
+			}
+			if (results.size() == 0 && isArrayBullet) {
+				List<NeonKeyUsage> usages = NeonPhpUtil.attachNeonKeyUsagesByTypes(phpType, project);
 				for (NeonKeyUsage usage : usages) {
 					results.add(new PsiElementResolveResult(usage));
 				}
 			}
 
 		} else if (parameterDefinition) {
-			NeonPhpUtil.attachNeonParameterUsages(keyText, results, getElement().getContainingFile());
+			List<NeonParameterUsage> usages = NeonPhpUtil.attachNeonParameterUsages(keyText, project);
+			for (NeonParameterUsage usage : usages) {
+				results.add(new PsiElementResolveResult(usage));
+			}
 		}
 
 		return results.toArray(new ResolveResult[results.size()]);

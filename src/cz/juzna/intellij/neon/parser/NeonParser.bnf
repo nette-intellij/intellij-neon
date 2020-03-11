@@ -57,7 +57,19 @@ scalarValue    ::= values+ {
                     methods = [getPhpType]
                 }
 
-arrayOfValues  ::= NEON_LBRACE_SQUARE value+ (NEON_ITEM_DELIMITER value+)* NEON_RBRACE_SQUARE
+arrayOfValues  ::= NEON_LBRACE_SQUARE arrayContent NEON_RBRACE_SQUARE | NEON_LBRACE_CURLY arrayContent NEON_RBRACE_CURLY {
+                    methods = [getKeys]
+                }
+
+private
+arrayContent    ::= arrayValue+ (NEON_ITEM_DELIMITER arrayValue+)*
+
+private
+arrayValue      ::= arrayKeyValuePair | value
+
+arrayKeyValuePair  ::= key value {
+                    methods=[getKeyText]
+                }
 
 private
 keyItem       ::= indent <<useArray>> key?
@@ -65,7 +77,7 @@ keyItem       ::= indent <<useArray>> key?
 key       ::= (keyContainer NEON_COLON) | NEON_ARRAY_BULLET {
                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonKeyElementImpl"
                     implements="cz.juzna.intellij.neon.psi.elements.NeonKeyElement"
-                    methods = [getName setName getNameIdentifier getKeyChain getKeyText getKeyTextElements isServiceDefinition isParameterDefinition isArrayBullet]
+                    methods = [getName setName getNameIdentifier getKeyChain getKeyText getKeyTextElements isServiceDefinition isParameterDefinition isArrayBullet getPhpType]
                 }
 
 private
@@ -79,7 +91,7 @@ indent      ::= <<checkValidIndent>> NEON_INDENT? {
 private
 values       ::= value | NEON_ITEM_DELIMITER
 
-value       ::= statement | classReference | keyUsage | parameterUsage | methodUsage | NEON_LITERAL | string | arrayOfValues
+value       ::= phpStatement | classReference | keyUsage | parameterUsage | methodUsage | NEON_LITERAL | string | arrayOfValues
                 | NEON_NUMBER | NEON_LPAREN | NEON_RPAREN | NEON_LBRACE_CURLY | NEON_RBRACE_CURLY | NEON_IDENTIFIER
                 | NEON_ASSIGNMENT | NEON_DOUBLE_COLON | (NEON_LBRACE_SQUARE NEON_RBRACE_SQUARE) | NEON_DATE_TIME
                 | NEON_PHP_STATIC_IDENTIFIER | NEON_KEY_IDENTIFIER | NEON_CONCATENATION | NEON_UNKNOWN
@@ -93,7 +105,7 @@ wholeString      ::= whileSingleQuotedString | whileDoubleQuotedString | NEON_ST
 
 string      ::= singleQuotedString | doubleQuotedString | NEON_STRING
 
-statement      ::= classReference (NEON_DOUBLE_COLON NEON_PHP_STATIC_IDENTIFIER)
+phpStatement      ::= classReference (NEON_DOUBLE_COLON NEON_PHP_STATIC_IDENTIFIER)
 
 classReference    ::= (NEON_NAMESPACE_RESOLUTION? <<isNamespace>> namespaceReference)? (NEON_NAMESPACE_RESOLUTION <<isNamespace>> namespaceReference)* classUsage {
                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonClassReferenceElementImpl"

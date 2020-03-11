@@ -28,6 +28,7 @@
 		<li>Added support for parameters and services references</li>
 		<li>Added references for used methods after setup key</li>
 		<li>Added parameter and services completion</li>
+		<li>Added completion for PHP directives if it is sub array of key php: or session:</li>
 		<li>Implemented new .bnf parser with improved grammar</li>
 		<li>Increased minimum compatibility with PHPStorm 2018.3</li>
 	</ul>
@@ -119,5 +120,10 @@
 						 displayName="Parameter usages"
 						 groupName="Neon" enabledByDefault="true"
 						 implementationClass="cz.juzna.intellij.neon.inspections.ParameterUsagesInspection"/>
+
+		<localInspection language="neon" shortName="NeonUnusedKey" id="NeonUnusedKey"
+						 displayName="Unused key"
+						 groupName="Neon" enabledByDefault="true"
+						 implementationClass="cz.juzna.intellij.neon.inspections.NeonUnusedKeyInspection"/>
 	</extensions>
 </idea-plugin>

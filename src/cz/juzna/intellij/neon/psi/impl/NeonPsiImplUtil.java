@@ -114,9 +114,18 @@ public class NeonPsiImplUtil {
         return "";
     }
 
+    @NotNull
     public static NeonPhpType getPhpType(NeonMethodUsage psiElement) {
         NeonService service = NeonConfiguration.INSTANCE.findService(psiElement.getServiceName(), psiElement.getProject());
         return service == null ? NeonPhpType.create("mixed") : service.getPhpType();
+    }
+
+    @NotNull
+    public static NeonPhpType getPhpType(NeonKey key) {
+        if (key.getParent() instanceof NeonKeyValPair && ((NeonKeyValPair) key.getParent()).getScalarValue() != null) {
+            return ((NeonKeyValPair) key.getParent()).getScalarValue().getPhpType();
+        }
+        return NeonPhpType.create("mixed");
     }
 
     public static boolean isSetupMethod(NeonMethodUsage methodUsage) {
@@ -296,6 +305,20 @@ public class NeonPsiImplUtil {
             }
         }
         return result;
+    }
+
+    public static List<NeonKey> getKeys(NeonArrayOfValues array) {
+        ArrayList<NeonKey> result = new ArrayList<NeonKey>();
+        for (PsiElement el : array.getChildren()) {
+            if (el instanceof NeonKeyValPair && ((NeonKeyValPair) el).getKey() != null) {
+                result.add(((NeonKeyValPair) el).getKey());
+            }
+        }
+        return result;
+    }
+
+    public static String getKeyText(NeonArrayKeyValuePair keyValuePair) {
+        return keyValuePair.getKey().getKeyText();
     }
 
     public static boolean isEmpty(NeonArrayElement array) {

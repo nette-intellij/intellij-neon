@@ -6,7 +6,6 @@ import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import cz.juzna.intellij.neon.config.NeonKeyChain;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
-import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,8 +61,11 @@ public class CompletionUtil {
 					break;
 				}
 
-			} else if (el.getNode() != null && el.getNode().getElementType() == NeonElementTypes.ITEM) {
-				names.add(0, "#");
+			} else if (el instanceof NeonArrayKeyValuePair) {
+				if (((NeonArrayKeyValuePair) el).getKeyText().length() > 0) {
+					names.add(((NeonArrayKeyValuePair) el).getKeyText());
+				}
+
 			}
 
 			el = el.getParent();

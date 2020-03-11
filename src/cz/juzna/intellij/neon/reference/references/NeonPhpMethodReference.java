@@ -7,7 +7,6 @@ import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import cz.juzna.intellij.neon.config.NeonConfiguration;
 import cz.juzna.intellij.neon.config.NeonService;
-import cz.juzna.intellij.neon.psi.NeonClassUsage;
 import cz.juzna.intellij.neon.psi.NeonMethodUsage;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;

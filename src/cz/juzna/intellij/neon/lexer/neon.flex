@@ -105,6 +105,10 @@ WHITESPACE = [\t ]+
         return NEON_METHOD;
     }
 
+    {IDENTIFIER} / ("::" {IDENTIFIER}) {
+        return NEON_IDENTIFIER;
+    }
+
     {SHORTCUT_CLASS_NAME} "*" {
         yybegin(IN_LITERAL);
         return NEON_LITERAL;

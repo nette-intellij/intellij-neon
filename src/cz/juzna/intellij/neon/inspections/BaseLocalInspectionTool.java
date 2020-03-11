@@ -21,6 +21,16 @@ abstract class BaseLocalInspectionTool extends LocalInspectionTool {
 		addProblem(manager, problems, element, description, ProblemHighlightType.GENERIC_ERROR_OR_WARNING, isOnTheFly);
 	}
 
+	protected void addDeprecated(
+			@NotNull final InspectionManager manager,
+			List<ProblemDescriptor> problems,
+			@NotNull PsiElement element,
+			@NotNull String description,
+			boolean isOnTheFly
+	) {
+		addProblem(manager, problems, element, description, ProblemHighlightType.LIKE_UNUSED_SYMBOL, isOnTheFly);
+	}
+
 	protected void addProblem(
 			@NotNull final InspectionManager manager,
 			List<ProblemDescriptor> problems,

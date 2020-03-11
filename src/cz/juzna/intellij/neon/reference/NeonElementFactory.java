@@ -39,9 +39,9 @@ public class NeonElementFactory {
 		return null;
 	}
 
-	public static NeonNamespaceReference createClassRootUsage(Project project, String name) {
+	public static NeonClassUsage createClassRootUsage(Project project, String name) {
 		final NeonFile file = createKeyWithValue(project, "\\" + name);
-		NeonNamespaceReference firstChild = PsiTreeUtil.findChildOfType(file, NeonNamespaceReference.class);
+		NeonClassUsage firstChild = PsiTreeUtil.findChildOfType(file, NeonClassUsage.class);
 		if (firstChild != null) {
 			try {
 				return firstChild;
