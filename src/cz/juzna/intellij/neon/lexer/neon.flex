@@ -25,11 +25,17 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
     }
 %}
 
+DATE = (\d{4})-(\d{2})-(\d{2})
+DATE_TIME = {DATE}\s(\d{2}):(\d{2}):(\d{2})
+BIN_NUMBER = [+-]?0[bB][01]+*
+OCT_NUMBER = [+-]?0[oO][1-7][0-7]*
+HEX_NUMBER = [+-]?0[xX][0-9a-fA-F]+
 NUMBER = [+-]?[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
-CLASS_NAME=@?(\\?[a-zA-Z_][a-zA-Z0-9_\*]*\\[a-zA-Z_\*][a-zA-Z0-9_\*\\]* | \\[a-zA-Z_\*][a-zA-Z0-9_\*]*)
+SHORTCUT_CLASS_NAME=\\?[a-zA-Z_][a-zA-Z0-9_\\]*
+PARAMETER_USAGE="%" [^%\n]+ "%"
 COMMENT = \#.*
-INDENT = \n[\t ]*
+INDENT = \n+[\t ]*
 LITERAL_START = [^-:#\"\',=\[\]{}()\x00-\x20!`]|[:-][!#$%&*\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF]
 WHITESPACE = [\t ]+
 
@@ -37,6 +43,7 @@ WHITESPACE = [\t ]+
 
 %state SINGLE_QUOTED
 %state DOUBLE_QUOTED
+%state CLASS_REFERENCE
 %state STATIC_FIELD
 
 %%
@@ -53,8 +60,23 @@ WHITESPACE = [\t ]+
 
 <DEFAULT> {
 
-    {CLASS_NAME} {
-        return NEON_CLASS_NAME;
+    "\\" / {IDENTIFIER} {
+        yybegin(CLASS_REFERENCE);
+        return NEON_NAMESPACE_RESOLUTION;
+    }
+
+    {IDENTIFIER} / ("\\") {
+        yybegin(CLASS_REFERENCE);
+        return NEON_NAMESPACE_REFERENCE;
+    }
+
+    {IDENTIFIER} {
+        return NEON_IDENTIFIER;
+    }
+
+    {IDENTIFIER} / {LITERAL_START} {
+        yybegin(IN_LITERAL);
+        return NEON_LITERAL;
     }
 
     "'"  {
@@ -67,8 +89,12 @@ WHITESPACE = [\t ]+
         return NEON_DOUBLE_QUOTE_LEFT;
     }
 
-    {NUMBER} {
+    {NUMBER} | {BIN_NUMBER} | {HEX_NUMBER} | {OCT_NUMBER} {
         return NEON_NUMBER;
+    }
+
+    {DATE_TIME} | {DATE} {
+        return NEON_DATE_TIME;
     }
 
     [+-]?[0-9]+({NUMBER})* {
@@ -79,12 +105,18 @@ WHITESPACE = [\t ]+
         return NEON_METHOD;
     }
 
+    {SHORTCUT_CLASS_NAME} "*" {
+        yybegin(IN_LITERAL);
+        return NEON_LITERAL;
+    }
+
     "::" / ({IDENTIFIER}) {
         yybegin(STATIC_FIELD);
         return NEON_DOUBLE_COLON;
     }
 
     "," { return NEON_ITEM_DELIMITER; }
+    "." { return NEON_CONCATENATION; }
     "=" { return NEON_ASSIGNMENT; }
     "::" { return NEON_DOUBLE_COLON; }
 
@@ -108,9 +140,12 @@ WHITESPACE = [\t ]+
         return NEON_LITERAL;
     }
 
-    "%" {LITERAL_START} "%" {
-        yybegin(IN_LITERAL);
+    {PARAMETER_USAGE} {
         return NEON_PARAMETER_USAGE;
+    }
+
+    "@" / {IDENTIFIER} "\\" {
+        return NEON_KEY_USAGE;
     }
 
     "@" {LITERAL_START} {
@@ -132,6 +167,18 @@ WHITESPACE = [\t ]+
 
     [^] {
         return NEON_UNKNOWN;
+    }
+}
+
+<CLASS_REFERENCE> {
+    {IDENTIFIER} {
+        yybegin(DEFAULT);
+        return NEON_NAMESPACE_REFERENCE;
+    }
+
+    "\\" {
+        yybegin(DEFAULT);
+        return NEON_NAMESPACE_RESOLUTION;
     }
 }
 
@@ -160,9 +207,15 @@ WHITESPACE = [\t ]+
 		yybegin(DEFAULT);
 		return NEON_SINGLE_QUOTE_RIGHT;
 	}
-	("\\" [^] | [^'\\])+ {
+	("\\" [^] | [^'\\%])+ {
 		return NEON_STRING;
 	}
+	{PARAMETER_USAGE} {
+        return NEON_PARAMETER_USAGE;
+    }
+	"%" {
+        return NEON_STRING;
+    }
 	.|\n {}
 }
 
@@ -171,8 +224,14 @@ WHITESPACE = [\t ]+
 		yybegin(DEFAULT);
 		return NEON_DOUBLE_QUOTE_RIGHT;
 	}
-	("\\" [^] | [^\"\\])+ {
+	("\\" [^] | [^\"\\%])+ {
 		return NEON_STRING;
 	}
+	{PARAMETER_USAGE} {
+        return NEON_PARAMETER_USAGE;
+    }
+	"%" {
+        return NEON_STRING;
+    }
 	.|\n {}
 }

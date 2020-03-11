@@ -5,8 +5,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
-import cz.juzna.intellij.neon.psi.NeonScalar;
-import cz.juzna.intellij.neon.psi.impl.NeonScalarImpl;
+import cz.juzna.intellij.neon.psi.NeonClassUsage;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,9 +16,9 @@ import java.util.List;
 public class NeonPhpClassReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 	private String className;
 
-	public NeonPhpClassReference(@NotNull NeonScalarImpl element, TextRange textRange) {
+	public NeonPhpClassReference(@NotNull NeonClassUsage element, TextRange textRange) {
 		super(element, textRange);
-		className = element.getNormalizedClassName();
+		className = element.getClassName();
 	}
 
 	@NotNull
@@ -37,10 +36,9 @@ public class NeonPhpClassReference extends PsiReferenceBase<PsiElement> implemen
 			results.add(new PsiElementResolveResult(phpNamespace));
 		}
 
-		List<NeonScalarImpl> classes = new ArrayList<NeonScalarImpl>();
-		NeonPhpUtil.findNeonPhpClasses(classes, getElement().getContainingFile());
-		for (NeonScalarImpl method : classes) {
-			results.add(new PsiElementResolveResult(method));
+		List<NeonClassUsage> usages = NeonPhpUtil.findNeonPhpUsages(className, getElement().getProject());
+		for (NeonClassUsage usage : usages) {
+			results.add(new PsiElementResolveResult(usage));
 		}
 
 		return results.toArray(new ResolveResult[results.size()]);
@@ -61,16 +59,16 @@ public class NeonPhpClassReference extends PsiReferenceBase<PsiElement> implemen
 
 	@Override
 	public PsiElement handleElementRename(@NotNull String newName) {
-		if (getElement() instanceof NeonScalarImpl && ((NeonScalarImpl) getElement()).isPhpScalar()) {
-			((NeonScalarImpl) getElement()).setName(newName);
+		if (getElement() instanceof NeonClassUsage) {
+			((NeonClassUsage) getElement()).setName(newName);
 		}
 		return getElement();
 	}
 
 	@Override
 	public boolean isReferenceTo(@NotNull PsiElement element) {
-		if (element instanceof NeonScalar) {
-			return className.equals(((NeonScalar) element).getName());
+		if (element instanceof NeonClassUsage) {
+			return className.equals(((NeonClassUsage) element).getClassName());
 		}
 
 		if (element instanceof PhpClass) {

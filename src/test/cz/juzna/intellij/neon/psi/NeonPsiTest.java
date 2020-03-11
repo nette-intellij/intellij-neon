@@ -1,7 +1,9 @@
 package test.cz.juzna.intellij.neon.psi;
 
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
+import cz.juzna.intellij.neon.psi.NeonFile;
 import cz.juzna.intellij.neon.psi.*;
+import cz.juzna.intellij.neon.psi.elements.NeonPsiElement;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -30,7 +32,7 @@ public class NeonPsiTest extends LightPlatformCodeInsightFixtureTestCase {
 		assertSize(4, keys2);
 		assertContainsElements(Arrays.asList("0", "1", "4", "5"), keys2);
 	}
-
+/*
 	@Test
 	public void testArrayNull() {
 		NeonArray array = (NeonArray) getPsiElement();
@@ -60,6 +62,6 @@ public class NeonPsiTest extends LightPlatformCodeInsightFixtureTestCase {
 		Assert.assertEquals("bar", chain.getValues().get(1).getName());
 		assertSize(1, chain.getValues().get(0).getArgs().getValues());
 		assertSize(2, chain.getValues().get(1).getArgs().getValues());
-	}
+	}*/
 
 }

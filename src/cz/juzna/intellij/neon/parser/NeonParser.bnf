@@ -1,0 +1,144 @@
+{
+	parserClass="cz.juzna.intellij.neon.parser.NeonParser"
+	parserUtilClass="cz.juzna.intellij.neon.parser.NeonParserUtil"
+
+	extends="cz.juzna.intellij.neon.psi.impl.elements.NeonPsiElementImpl"
+
+	psiClassPrefix="Neon"
+	psiImplClassSuffix="Impl"
+	psiPackage="cz.juzna.intellij.neon.psi"
+	psiImplPackage="cz.juzna.intellij.neon.psi.impl"
+	psiImplUtilClass="cz.juzna.intellij.neon.psi.impl.NeonPsiImplUtil"
+
+	elementTypeHolderClass="cz.juzna.intellij.neon.lexer._NeonTokenTypes"
+	elementTypeClass="cz.juzna.intellij.neon.parser.NeonElementType"
+	tokenTypeClass="cz.juzna.intellij.neon.lexer.NeonTokenType"
+}
+
+root             ::= NEON_INDENT? (<<checkMainArray>> mainArray | comment | NEON_WHITESPACE | NEON_INDENT)* <<eof>>
+
+mainArray       ::= (mainArrayLine | comment)+ | (NEON_LBRACE_SQUARE (arrayLine)+ NEON_INDENT? NEON_RBRACE_SQUARE) {
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonArrayElement"
+                     methods = [getMap getKeys isEmpty]
+                 }
+
+array       ::= (arrayLine | comment)+ | (NEON_LBRACE_SQUARE (arrayLine)+ NEON_INDENT? NEON_RBRACE_SQUARE) {
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonArrayElement"
+                     methods = [getMap getKeys isEmpty]
+                 }
+
+private
+innerArray       ::= innerArrayLine | comment | (NEON_LBRACE_SQUARE (innerArrayLine)+ NEON_INDENT? NEON_RBRACE_SQUARE)
+
+private
+mainArrayLine    ::= keyValPair
+
+private
+arrayLine    ::= <<checkSubArray>> keyValPair
+
+private
+innerArrayLine    ::= innerKeyValPair
+
+keyValPair    ::= innerKeyValPair {
+//keyValPair    ::= keyItem (scalarValue | scalarValue? <<isSubArray>> array) {
+                    methods = [getKeyText isMainKey getScalarValue getIndent getKey]
+                }
+
+private
+innerKeyValPair    ::= <<isSubArray>> (keyItem keyValPairValue) | (keyItem keyValPairScalarValue)
+
+private
+keyValPairValue ::= comment? (scalarValue | scalarValue? array | <<eof>>)
+
+private
+keyValPairScalarValue ::= comment? (scalarValue | scalarValue? innerArray | <<eof>>)
+
+scalarValue    ::= values+ {
+                    methods = [getPhpType]
+                }
+
+arrayOfValues  ::= NEON_LBRACE_SQUARE value+ (NEON_ITEM_DELIMITER value+)* NEON_RBRACE_SQUARE
+
+private
+keyItem       ::= indent <<useArray>> key?
+
+key       ::= (keyContainer NEON_COLON) | NEON_ARRAY_BULLET {
+                    mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonKeyElementImpl"
+                    implements="cz.juzna.intellij.neon.psi.elements.NeonKeyElement"
+                    methods = [getName setName getNameIdentifier getKeyChain getKeyText getKeyTextElements isServiceDefinition isParameterDefinition isArrayBullet]
+                }
+
+private
+keyContainer   ::= (NEON_CONCATENATION? NEON_LITERAL NEON_CONCATENATION?)+ | wholeString | NEON_NUMBER | NEON_DATE_TIME
+                | (NEON_CONCATENATION? NEON_IDENTIFIER NEON_CONCATENATION?)+ | classReference
+
+indent      ::= <<checkValidIndent>> NEON_INDENT? {
+                    methods=[getIndentCharacters]
+                }
+
+private
+values       ::= value | NEON_ITEM_DELIMITER
+
+value       ::= statement | classReference | keyUsage | parameterUsage | methodUsage | NEON_LITERAL | string | arrayOfValues
+                | NEON_NUMBER | NEON_LPAREN | NEON_RPAREN | NEON_LBRACE_CURLY | NEON_RBRACE_CURLY | NEON_IDENTIFIER
+                | NEON_ASSIGNMENT | NEON_DOUBLE_COLON | (NEON_LBRACE_SQUARE NEON_RBRACE_SQUARE) | NEON_DATE_TIME
+                | NEON_PHP_STATIC_IDENTIFIER | NEON_KEY_IDENTIFIER | NEON_CONCATENATION | NEON_UNKNOWN
+
+private
+comment     ::= (NEON_INDENT* NEON_COMMENT)+
+
+wholeString      ::= whileSingleQuotedString | whileDoubleQuotedString | NEON_STRING {
+                    methods=[getStringValue getStringElement]
+                }
+
+string      ::= singleQuotedString | doubleQuotedString | NEON_STRING
+
+statement      ::= classReference (NEON_DOUBLE_COLON NEON_PHP_STATIC_IDENTIFIER)
+
+classReference    ::= (NEON_NAMESPACE_RESOLUTION? <<isNamespace>> namespaceReference)? (NEON_NAMESPACE_RESOLUTION <<isNamespace>> namespaceReference)* classUsage {
+                    mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonClassReferenceElementImpl"
+                    implements="cz.juzna.intellij.neon.psi.elements.NeonClassReferenceElement"
+                    methods = [getClassName]
+                }
+
+classUsage       ::= NEON_NAMESPACE_RESOLUTION (NEON_IDENTIFIER | NEON_METHOD | NEON_NAMESPACE_REFERENCE) {
+                    mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonClassUsageElementImpl"
+                    implements="cz.juzna.intellij.neon.psi.elements.NeonClassUsageElement"
+                    methods = [getName setName getNameIdentifier getClassName]
+                }
+
+namespaceReference    ::= NEON_NAMESPACE_REFERENCE {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonNamespaceReferenceElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonNamespaceReferenceElement"
+                     methods = [getName setName getNameIdentifier getNamespaceName]
+                 }
+
+keyUsage    ::= (NEON_KEY_USAGE classReference) | NEON_KEY_USAGE {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonKeyUsageElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonKeyUsageElement"
+                     methods = [getKeyText getClassName]
+                 }
+
+parameterUsage    ::= NEON_PARAMETER_USAGE {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonParameterUsageElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonParameterUsageElement"
+                     methods = [getKeyText]
+                 }
+
+methodUsage    ::= NEON_METHOD {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonMethodUsageElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonMethodUsageElement"
+                     methods = [getName setName getNameIdentifier getMethodName isSetupMethod getServiceName getPhpType]
+                 }
+
+private
+whileSingleQuotedString ::= NEON_SINGLE_QUOTE_LEFT NEON_STRING* NEON_SINGLE_QUOTE_RIGHT {pin=1}
+
+private
+whileDoubleQuotedString ::= NEON_DOUBLE_QUOTE_LEFT NEON_STRING* NEON_DOUBLE_QUOTE_RIGHT {pin=1}
+
+private
+singleQuotedString ::= NEON_SINGLE_QUOTE_LEFT (NEON_STRING | parameterUsage)* NEON_SINGLE_QUOTE_RIGHT {pin=1}
+
+private
+doubleQuotedString ::= NEON_DOUBLE_QUOTE_LEFT (NEON_STRING | parameterUsage)* NEON_DOUBLE_QUOTE_RIGHT {pin=1}

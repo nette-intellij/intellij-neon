@@ -34,10 +34,26 @@ public class PhpReferenceInsertHandler implements InsertHandler<LookupElement> {
 		}
 
 		if (!classNamespace.isEmpty()) {
+			int startOffset = context.getEditor().getCaretModel().getOffset();
+			String fileText = context.getEditor().getDocument().getText();
+			String current = fileText.substring(0, startOffset);
+			int lastSpace = current.lastIndexOf(" ");
+			current = current.substring(lastSpace + 1);
+			int index = current.lastIndexOf("\\");
+			String existingNamespace = "";
+			if (index > 0 && current.length() >= index) {
+				existingNamespace = current.substring(0, index) + "\\";
+			}
+
 			String fqn = classNamespace;
-			if (fqn.startsWith("\\")) {
+			if (!existingNamespace.startsWith("\\") && fqn.startsWith("\\")) {
 				fqn = fqn.substring(1);
 			}
+
+			if (fqn.contains(existingNamespace)) {
+				fqn = fqn.replace(existingNamespace, "");
+			}
+
 			if (incompleteKey) {
 				context.getDocument().insertString(context.getTailOffset(), ": ");
 				context.getEditor().getCaretModel().moveToOffset(context.getEditor().getCaretModel().getOffset() + 2);

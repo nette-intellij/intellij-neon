@@ -60,6 +60,18 @@ public class NeonKeyChain {
 		return new NeonKeyChain(list.toArray(new String[0]));
 	}
 
+	public NeonKeyChain withoutParentKey() {
+		List<String> list = new ArrayList<String>(Arrays.asList(chain));
+		if (list.size() > 0) {
+			list.remove(0);
+		}
+		return new NeonKeyChain(list.toArray(new String[0]));
+	}
+
+	public boolean isLevel(int level) {
+		return chain.length == level;
+	}
+
 	@Override
 	public String toString() {
 		return stringKey;
@@ -67,6 +79,10 @@ public class NeonKeyChain {
 
 	private static String toString(String[] chain) {
 		return String.join("|", Arrays.asList(chain));
+	}
+
+	public String toDottedString() {
+		return String.join(".", Arrays.asList(chain));
 	}
 
 	public String[] toArray() {

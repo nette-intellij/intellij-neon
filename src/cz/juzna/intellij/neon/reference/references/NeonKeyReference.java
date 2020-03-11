@@ -1,16 +1,11 @@
 package cz.juzna.intellij.neon.reference.references;
 
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamespace;
-import cz.juzna.intellij.neon.config.NeonKeyChain;
 import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonKeyUsage;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
-import cz.juzna.intellij.neon.psi.NeonScalar;
-import cz.juzna.intellij.neon.psi.impl.NeonScalarImpl;
+import cz.juzna.intellij.neon.util.NeonPhpType;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,16 +18,21 @@ public class NeonKeyReference extends PsiReferenceBase<PsiElement> implements Ps
 
 	private boolean serviceDefinition;
 	private boolean parameterDefinition;
+	private boolean isArrayBullet;
+	private NeonPhpType phpType = null;
+	//private NeonKeyChain currentKeyChain;
 
-	public NeonKeyReference(@NotNull NeonScalar element, TextRange textRange) {
+	public NeonKeyReference(@NotNull NeonKey element, TextRange textRange) {
 		super(element, textRange);
-		PsiElement parent = element.getParent();
 
-		assert parent instanceof NeonKey;
-
-		keyText = ((NeonKey) parent).getKeyText();
-		serviceDefinition = ((NeonKey) parent).isServiceDefinition();
-		parameterDefinition = ((NeonKey) parent).isParameterDefinition();
+		keyText = element.getKeyText();
+		serviceDefinition = element.isServiceDefinition();
+		parameterDefinition = element.isParameterDefinition();
+		isArrayBullet = element.isArrayBullet();
+		if (element.getParent() instanceof NeonKeyValPair && ((NeonKeyValPair) element.getParent()).getScalarValue() != null) {
+			phpType = ((NeonKeyValPair) element.getParent()).getScalarValue().getPhpType();
+		}
+		//currentKeyChain = element.getKeyChain(false).withChildKey(element.getKeyText());
 	}
 
 	@NotNull
@@ -42,6 +42,12 @@ public class NeonKeyReference extends PsiReferenceBase<PsiElement> implements Ps
 
 		if (serviceDefinition) {
 			NeonPhpUtil.attachNeonKeyUsages(keyText, results, getElement().getContainingFile());
+			if (results.size() == 0 && phpType != null && isArrayBullet) {
+				List<NeonKeyUsage> usages = NeonPhpUtil.attachNeonKeyUsagesByTypes(phpType, getElement().getProject());
+				for (NeonKeyUsage usage : usages) {
+					results.add(new PsiElementResolveResult(usage));
+				}
+			}
 
 		} else if (parameterDefinition) {
 			NeonPhpUtil.attachNeonParameterUsages(keyText, results, getElement().getContainingFile());
@@ -53,7 +59,7 @@ public class NeonKeyReference extends PsiReferenceBase<PsiElement> implements Ps
 	@Nullable
 	@Override
 	public PsiElement resolve() {
-		return getElement(); // todo: complete resolving to definitions int DI extensions?
+		return getElement(); // todo: complete resolving to definitions in DI extensions?
 		//ResolveResult[] resolveResults = multiResolve(false);
 		//return resolveResults.length > 0 ? resolveResults[0].getElement() : null;
 	}

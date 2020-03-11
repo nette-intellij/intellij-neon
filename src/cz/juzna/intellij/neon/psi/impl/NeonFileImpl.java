@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 import cz.juzna.intellij.neon.NeonLanguage;
 import cz.juzna.intellij.neon.file.NeonFileType;
 import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.NeonPsiElement;
+import cz.juzna.intellij.neon.psi.elements.NeonPsiElement;
 import org.jetbrains.annotations.NotNull;
 
 public class NeonFileImpl extends PsiFileBase implements NeonFile {

@@ -1,2 +1,9 @@
 intellij-neon.iws
 out/
+src/cz/juzna/intellij/neon/lexer/_NeonLexer.java
+src/cz/juzna/intellij/neon/lexer/_NeonTokenTypes.java
+src/cz/juzna/intellij/neon/parser/_NeonLexer.flex
+src/cz/juzna/intellij/neon/parser/NeonParser.java
+src/cz/juzna/intellij/neon/psi/generated/*
+src/cz/juzna/intellij/neon/psi/impl/generated/*
+gen/

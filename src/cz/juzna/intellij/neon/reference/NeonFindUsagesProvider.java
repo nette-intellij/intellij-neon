@@ -9,7 +9,6 @@ import cz.juzna.intellij.neon.lexer.NeonHighlightingLexer;
 import cz.juzna.intellij.neon.lexer.NeonLexer;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.psi.NeonKey;
-import cz.juzna.intellij.neon.psi.NeonScalar;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +26,7 @@ public class NeonFindUsagesProvider implements FindUsagesProvider {
 
 	@Override
 	public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
-		return psiElement instanceof NeonScalar && psiElement.getParent() instanceof NeonKey;
+		return psiElement instanceof NeonKey;
 	}
 
 	@Nullable
@@ -39,7 +38,7 @@ public class NeonFindUsagesProvider implements FindUsagesProvider {
 	@NotNull
 	@Override
 	public String getType(@NotNull PsiElement element) {
-		if (element instanceof NeonScalar && element.getParent() instanceof NeonKey) {
+		if (element instanceof NeonKey) {
 			return "neon key";
 		} else {
 			return "";
@@ -49,8 +48,8 @@ public class NeonFindUsagesProvider implements FindUsagesProvider {
 	@NotNull
 	@Override
 	public String getDescriptiveName(@NotNull PsiElement element) {
-		if (element instanceof NeonScalar && element.getParent() instanceof NeonKey) {
-			return ((NeonKey) element.getParent()).getKeyText();
+		if (element instanceof NeonKey) {
+			return ((NeonKey) element).getKeyText();
 		} else {
 			return "";
 		}
@@ -59,8 +58,8 @@ public class NeonFindUsagesProvider implements FindUsagesProvider {
 	@NotNull
 	@Override
 	public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
-		if (element instanceof NeonScalar && element.getParent() instanceof NeonKey) {
-			return ((NeonKey) element.getParent()).getKeyText();
+		if (element instanceof NeonKey) {
+			return ((NeonKey) element).getKeyText();
 		} else {
 			return "";
 		}

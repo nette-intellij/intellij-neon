@@ -20,7 +20,7 @@ public class NeonPhpType {
 	private final boolean nullable;
 	private boolean hasClass = false;
 
-private NeonPhpType(String type) {
+	private NeonPhpType(String type) {
 		this(type, false);
 	}
 

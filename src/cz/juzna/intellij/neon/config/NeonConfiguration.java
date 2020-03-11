@@ -1,7 +1,10 @@
 package cz.juzna.intellij.neon.config;
 
+import com.intellij.openapi.project.Project;
+import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
 import cz.juzna.intellij.neon.util.NeonPhpType;
+import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import cz.juzna.intellij.neon.util.NeonTypesUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +15,14 @@ import java.util.regex.Pattern;
 public class NeonConfiguration {
 	public static final NeonConfiguration INSTANCE = new NeonConfiguration();
 
+	public static final String KEY_CLASS = "class";
+	public static final String KEY_SETUP = "setup";
+
 	public static final String[] COMMON_VALUES = {"true", "false", "yes", "no", "null"};
+
+	private Map<String, NeonService> standardServices = new HashMap<>();
+
+	private Map<String, NeonParameter> standardParameters = new HashMap<>();
 
 	private Map<String, Map<String, NeonExtensionItem>> standardExtensions = new HashMap<>();
 
@@ -23,7 +33,39 @@ public class NeonConfiguration {
 	private Map<Pattern, NeonExtensionItem> standardExtensionPatterns = new HashMap<>();
 
 	public NeonConfiguration() {
+		initStandardParameters();
+		initStandardServices();
 		initStandardExtensions();
+	}
+
+	private void initStandardParameters() {
+		addParameter("tempDir", "string");
+		addParameter("appDir", "string");
+		addParameter("wwwDir", "string");
+		addParameter("vendorDir", "string");
+		addParameter("debugMode", "bool");
+		addParameter("productionMode", "bool");
+		addParameter("consoleMode", "bool");
+	}
+
+	private void initStandardServices() {
+		addService("application.application", "Nette\\Application\\Application", new String[]{"application"});
+		addService("cache.storage", "Nette\\Caching\\Storages\\FileStorage", new String[]{"cacheStorage"});
+		addService("database.default.connection", "Nette\\Database\\Connection", new String[]{"database.default"});
+		addService("http.request", "Nette\\Http\\Request", new String[]{"httpRequest"});
+		addService("http.response", "Nette\\Http\\Response", new String[]{"httpResponse"});
+		addService("cache.journal", "Nette\\Caching\\Storages\\IJournal");
+		addService("database.default.context", "Nette\\Database\\Context");
+		addService("http.requestFactory", "Nette\\Http\\RequestFactory");
+		addService("latte.latteFactory", "mixed");
+		addService("mail.mailer", "Nette\\Mail\\IMailer");
+		addService("application.presenterFactory", "Nette\\Application\\PresenterFactory");
+		addService("latte.templateFactory", "Nette\\Bridges\\ApplicationLatte\\TemplateFactory");
+		addService("security.userStorage", "Nette\\Http\\UserStorage");
+		addService("routing.router", "Nette\\Application\\Routers\\RouteList");
+		addService("session.session", "Nette\\Http\\Session", new String[]{"session"});
+		addService("security.user", "Nette\\Security\\User", new String[]{"user"});
+		addService("security.passwords", "Nette\\Security\\Passwords");
 	}
 
 	private void initStandardExtensions() {
@@ -275,6 +317,47 @@ public class NeonConfiguration {
 		return Collections.unmodifiableMap(standardExtensions);
 	}
 
+	@Nullable
+	public NeonParameter findParameter(String parameterName, @NotNull Project project) {
+		NeonParameter out = standardParameters.get(parameterName);
+		if (out != null) {
+			return out;
+		}
+
+		NeonKey key = NeonPhpUtil.findNeonParameterDefinition(parameterName, project);
+		if (key != null) {
+			return new NeonParameter(key.getKeyChain(false).withoutParentKey().withChildKey(key.getKeyText()).toDottedString());
+		}
+		return null;
+	}
+
+	public List<NeonParameter> findParameters(@NotNull Project project) {
+		List<NeonParameter> out = new ArrayList<NeonParameter>(standardParameters.values());
+		for (NeonKey key : NeonPhpUtil.findNeonParameterDefinitions(project)) {
+			out.add(new NeonParameter(key.getKeyChain(false).withoutParentKey().withChildKey(key.getKeyText()).toDottedString()));
+		}
+		return out;
+	}
+
+	public List<NeonService> findServices(@NotNull Project project) {
+		List<NeonService> out = new ArrayList<NeonService>(standardServices.values());
+		out.addAll(NeonPhpUtil.findNeonServiceDefinitions(project));
+		return out;
+	}
+
+	public NeonService findService(String serviceName, @NotNull Project project) {
+		NeonService out = standardServices.get(serviceName);
+		if (out != null) {
+			return out;
+		}
+
+		out = NeonPhpUtil.findNeonServiceDefinition(serviceName, project);
+		if (out != null) {
+			return out;
+		}
+		return null;
+	}
+
 	@NotNull
 	public Map<String, NeonExtensionItem> findExtensions(@NotNull NeonKeyChain chain, @Nullable NeonKeyValPair keyValuePair) {
 		Map<String, NeonExtensionItem> out = standardExtensions.get(chain.toString());
@@ -311,6 +394,30 @@ public class NeonConfiguration {
 			return Collections.emptyMap();
 		}
 		return findExtensions(found.chain.withChildKey(keyValuePair.getKeyText()), null);
+	}
+
+	private void addParameter(@NotNull String name) {
+		addParameter(name, "mixed");
+	}
+
+	private void addParameter(@NotNull String name, @NotNull String phpType) {
+		standardParameters.put(name, new NeonParameter(name, NeonPhpType.create(phpType)));
+	}
+
+	private void addService(@NotNull String name) {
+		addService(name, "mixed");
+	}
+
+	private void addService(@NotNull String name, @NotNull String phpType) {
+		standardServices.put(name, new NeonService(name, NeonPhpType.create(phpType)));
+	}
+
+	private void addService(@NotNull String name, @NotNull String phpType, @NotNull String[] aliases) {
+		NeonService service = new NeonService(name, NeonPhpType.create(phpType), aliases);
+		standardServices.put(name, service);
+		for (String alias : aliases) {
+			standardServices.put(alias, new NeonService(alias, NeonPhpType.create(phpType)));
+		}
 	}
 
 	private void addExtensionPattern(@NotNull Pattern pattern, @NotNull NeonExtensionItem extension) {

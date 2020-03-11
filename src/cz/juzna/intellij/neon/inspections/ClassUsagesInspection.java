@@ -6,8 +6,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
+import cz.juzna.intellij.neon.psi.NeonClassUsage;
 import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.impl.NeonScalarImpl;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,8 +35,8 @@ public class ClassUsagesInspection extends LocalInspectionTool {
 		file.acceptChildren(new PsiRecursiveElementWalkingVisitor() {
 			@Override
 			public void visitElement(PsiElement element) {
-				if (element instanceof NeonScalarImpl && ((NeonScalarImpl) element).isPhpScalar()) {
-					String className = ((NeonScalarImpl) element).getNormalizedClassName();
+				if (element instanceof NeonClassUsage) {
+					String className = ((NeonClassUsage) element).getClassName();
 					Project project = element.getProject();
 					boolean isValid = true;
 					if (NeonPhpUtil.getClassesByFQN(project, className).size() == 0) {
@@ -50,7 +50,7 @@ public class ClassUsagesInspection extends LocalInspectionTool {
 
 					if (!isValid) {
 						String description = "Undefined class '" + className + "'";
-						ProblemDescriptor problem = manager.createProblemDescriptor(element, description, true, ProblemHighlightType.GENERIC_ERROR_OR_WARNING, isOnTheFly);
+						ProblemDescriptor problem = manager.createProblemDescriptor(element.getParent(), description, true, ProblemHighlightType.GENERIC_ERROR_OR_WARNING, isOnTheFly);
 						problems.add(problem);
 					}
 

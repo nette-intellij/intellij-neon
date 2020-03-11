@@ -7,11 +7,11 @@ import com.intellij.psi.util.PsiTreeUtil;
 import cz.juzna.intellij.neon.config.NeonKeyChain;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
-import cz.juzna.intellij.neon.parser.NeonParser;
 import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CompletionUtil {
@@ -20,20 +20,26 @@ public class CompletionUtil {
 		if (!NeonTokenTypes.STRING_LITERALS.contains(el.getNode().getElementType())) {
 			return false;
 		}
+
 		//first scalar in file
-		if (el.getParent() instanceof NeonScalar && el.getParent().getParent() instanceof NeonFile) {
+		if (el.getParent() instanceof NeonScalarValue && el.getParent().getParent() instanceof NeonFile) {
+			return true;
+		}
+		//error element
+		if (el.getNode().getElementType() == NeonTokenTypes.NEON_LITERAL && el.getParent() instanceof NeonFile) {
 			return true;
 		}
 		//error element
 		if (el.getParent() instanceof NeonArray
 			&& el.getPrevSibling() instanceof PsiErrorElement
-			&& ((PsiErrorElement) el.getPrevSibling()).getErrorDescription().equals(NeonParser.EXPECTED_ARRAY_ITEM)) {
+			&& ((PsiErrorElement) el.getPrevSibling()).getErrorDescription().equals("Expected key-val or array item")) {
 			return true;
 		}
 		//new key after new line
-		if (el.getParent() instanceof NeonScalar
-			&& (el.getParent().getParent() instanceof NeonKeyValPair | el.getParent().getParent().getNode().getElementType() == NeonElementTypes.ITEM)
-			&& el.getParent().getPrevSibling().getNode().getElementType() == NeonTokenTypes.NEON_INDENT) {
+		if (el.getParent() instanceof NeonValue && el.getParent().getParent() instanceof NeonScalarValue
+			&& el.getParent().getParent().getParent() instanceof NeonKeyValPair
+			&& el.getParent().getParent().getPrevSibling() instanceof NeonIndent
+		) {
 			return true;
 		}
 
@@ -48,13 +54,21 @@ public class CompletionUtil {
 
 		while (el != null) {
 			if (el instanceof NeonKeyValPair) {
-				names.add(0, ((NeonKeyValPair) el).getKeyText());
-		} else if (el.getNode() != null && el.getNode().getElementType() == NeonElementTypes.ITEM) {
+				if (((NeonKeyValPair) el).getKeyText().length() > 0) {
+					names.add(((NeonKeyValPair) el).getKeyText());
+				}
+
+				if (el instanceof NeonMainArray) {
+					break;
+				}
+
+			} else if (el.getNode() != null && el.getNode().getElementType() == NeonElementTypes.ITEM) {
 				names.add(0, "#");
 			}
 
 			el = el.getParent();
 		}
+		Collections.reverse(names);
 		return NeonKeyChain.get(names.toArray(new String[names.size()]));
 	}
 

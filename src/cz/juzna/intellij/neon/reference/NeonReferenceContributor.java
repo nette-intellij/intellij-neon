@@ -5,45 +5,29 @@ import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
 import cz.juzna.intellij.neon.NeonLanguage;
-import cz.juzna.intellij.neon.psi.NeonKey;
-import cz.juzna.intellij.neon.psi.NeonKeyUsage;
-import cz.juzna.intellij.neon.psi.NeonParameterUsage;
-import cz.juzna.intellij.neon.psi.NeonScalar;
-import cz.juzna.intellij.neon.psi.impl.NeonScalarImpl;
-import cz.juzna.intellij.neon.reference.references.NeonKeyReference;
-import cz.juzna.intellij.neon.reference.references.NeonKeyUsageReference;
-import cz.juzna.intellij.neon.reference.references.NeonParameterUsageReference;
-import cz.juzna.intellij.neon.reference.references.NeonPhpClassReference;
-import cz.juzna.intellij.neon.util.NeonPhpUtil;
+import cz.juzna.intellij.neon.psi.*;
+import cz.juzna.intellij.neon.reference.references.*;
+import cz.juzna.intellij.neon.util.NeonUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class NeonReferenceContributor extends PsiReferenceContributor {
 	public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
 		registrar.registerReferenceProvider(
-				PlatformPatterns.psiElement().withLanguage(NeonLanguage.INSTANCE),
+				PlatformPatterns.psiElement(NeonClassUsage.class).withLanguage(NeonLanguage.INSTANCE),
 				new PsiReferenceProvider() {
 					@NotNull
 					@Override
 					public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
-						if (!(element instanceof NeonScalarImpl)) {
+						if (!(element instanceof NeonClassUsage)) {
 							return PsiReference.EMPTY_ARRAY;
 						}
 
-						String name = ((NeonScalarImpl) element).getName();
+						String name = element.getText();
 						if (name != null && name.length() > 0) {
-							TextRange range = null;
-							if (((NeonScalarImpl) element).isPhpScalar()) {
-								range = new TextRange(0, name.length());
-							} else if (name.startsWith("@") && name.length() > 1 && NeonPhpUtil.isPhpClassScalar(name.substring(1))) {
-								range = new TextRange(1, name.length());
-							}
-
-							if (range == null) {
-								return PsiReference.EMPTY_ARRAY;
-							}
+							TextRange range = new TextRange(name.startsWith("\\") && name.length() > 1 ? 1 : 0, name.length());
 
 							return new PsiReference[]{
-									new NeonPhpClassReference((NeonScalarImpl) element, range)
+									new NeonPhpClassReference((NeonClassUsage) element, range)
 							};
 						}
 						return PsiReference.EMPTY_ARRAY;
@@ -51,25 +35,44 @@ public class NeonReferenceContributor extends PsiReferenceContributor {
 				});
 
 		registrar.registerReferenceProvider(
-				PlatformPatterns.psiElement().withLanguage(NeonLanguage.INSTANCE),
+				PlatformPatterns.psiElement(NeonNamespaceReference.class).withLanguage(NeonLanguage.INSTANCE),
 				new PsiReferenceProvider() {
 					@NotNull
 					@Override
 					public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
-						if (!(element instanceof NeonScalar)) {
+						if (!(element instanceof NeonNamespaceReference)) {
 							return PsiReference.EMPTY_ARRAY;
 						}
 
-						PsiElement parent = element.getParent();
-						if (!(parent instanceof NeonKey)) {
-							return PsiReference.EMPTY_ARRAY;
-						}
-
-						String name = ((NeonKey) parent).getKeyText();
+						String name = element.getText();
 						if (name != null && name.length() > 0) {
+							return new PsiReference[]{
+									new NeonPhpNamespaceReference((NeonNamespaceReference) element, new TextRange(0, name.length()))
+							};
+						}
+						return PsiReference.EMPTY_ARRAY;
+					}
+				});
+
+		registrar.registerReferenceProvider(
+				PlatformPatterns.psiElement(NeonKey.class).withLanguage(NeonLanguage.INSTANCE),
+				new PsiReferenceProvider() {
+					@NotNull
+					@Override
+					public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
+						if (!(element instanceof NeonKey)) {
+							return PsiReference.EMPTY_ARRAY;
+						}
+
+						String normalizedName = NeonUtil.normalizeKeyName(element.getText());
+						String trimName = NeonUtil.normalizeKeyName(element.getText().trim());
+						int start = normalizedName.length() - trimName.length();
+
+						String name = ((NeonKey) element).getName();
+						if (name != null && normalizedName.length() > start) {
 							try {
 								return new PsiReference[]{
-										new NeonKeyReference((NeonScalar) element, new TextRange(0, name.length()))
+										new NeonKeyReference((NeonKey) element, new TextRange(start, normalizedName.length()))
 								};
 							} catch (AssertionError e) {
 								return PsiReference.EMPTY_ARRAY;
@@ -80,25 +83,31 @@ public class NeonReferenceContributor extends PsiReferenceContributor {
 				});
 
 		registrar.registerReferenceProvider(
-				PlatformPatterns.psiElement().withLanguage(NeonLanguage.INSTANCE),
+				PlatformPatterns.psiElement(NeonKeyUsage.class).withLanguage(NeonLanguage.INSTANCE),
 				new PsiReferenceProvider() {
 					@NotNull
 					@Override
 					public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
-						if (!(element instanceof NeonScalar)) {
+						if (!(element instanceof NeonKeyUsage)) {
 							return PsiReference.EMPTY_ARRAY;
 						}
 
-						PsiElement parent = element.getParent();
-						if (!(parent instanceof NeonKeyUsage)) {
-							return PsiReference.EMPTY_ARRAY;
-						}
-
-						String name = ((NeonKeyUsage) parent).getKeyText();
-						if (name != null && name.length() > 0) {
+						String name = ((NeonKeyUsage) element).getKeyText();
+						if (name != null) {
 							try {
+								TextRange range = null;
+								if (name.length() > 0) {
+									range = new TextRange(1, name.length() + 1);
+								} else if (element.getText().length() > 0) {
+									range = new TextRange(0, 1);
+								}
+
+								if (range == null) {
+									return PsiReference.EMPTY_ARRAY;
+								}
+
 								return new PsiReference[]{
-										new NeonKeyUsageReference((NeonScalar) element, new TextRange(1, name.length() + 1))
+										new NeonServiceUsageReference((NeonKeyUsage) element, range)
 								};
 							} catch (AssertionError e) {
 								return PsiReference.EMPTY_ARRAY;
@@ -109,25 +118,44 @@ public class NeonReferenceContributor extends PsiReferenceContributor {
 				});
 
 		registrar.registerReferenceProvider(
-				PlatformPatterns.psiElement().withLanguage(NeonLanguage.INSTANCE),
+				PlatformPatterns.psiElement(NeonParameterUsage.class).withLanguage(NeonLanguage.INSTANCE),
 				new PsiReferenceProvider() {
 					@NotNull
 					@Override
 					public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
-						if (!(element instanceof NeonScalar)) {
+						if (!(element instanceof NeonParameterUsage)) {
 							return PsiReference.EMPTY_ARRAY;
 						}
 
-						PsiElement parent = element.getParent();
-						if (!(parent instanceof NeonParameterUsage)) {
-							return PsiReference.EMPTY_ARRAY;
-						}
-
-						String name = ((NeonParameterUsage) parent).getKeyText();
+						String name = ((NeonParameterUsage) element).getKeyText();
 						if (name != null && name.length() > 0) {
 							try {
 								return new PsiReference[]{
-										new NeonParameterUsageReference((NeonScalar) element, new TextRange(1, name.length() + 1))
+										new NeonParameterUsageReference((NeonParameterUsage) element, new TextRange(1, name.length() + 1))
+								};
+							} catch (AssertionError e) {
+								return PsiReference.EMPTY_ARRAY;
+							}
+						}
+						return PsiReference.EMPTY_ARRAY;
+					}
+				});
+
+		registrar.registerReferenceProvider(
+				PlatformPatterns.psiElement(NeonMethodUsage.class).withLanguage(NeonLanguage.INSTANCE),
+				new PsiReferenceProvider() {
+					@NotNull
+					@Override
+					public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
+						if (!(element instanceof NeonMethodUsage)) {
+							return PsiReference.EMPTY_ARRAY;
+						}
+
+						String name = ((NeonMethodUsage) element).getMethodName();
+						if (name != null && name.length() > 0) {
+							try {
+								return new PsiReference[]{
+										new NeonPhpMethodReference((NeonMethodUsage) element, new TextRange(0, name.length()))
 								};
 							} catch (AssertionError e) {
 								return PsiReference.EMPTY_ARRAY;

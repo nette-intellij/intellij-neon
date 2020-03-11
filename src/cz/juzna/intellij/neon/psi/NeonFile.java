@@ -1,8 +1,7 @@
 package cz.juzna.intellij.neon.psi;
 
 import com.intellij.psi.PsiFile;
-
-import java.util.HashMap;
+import cz.juzna.intellij.neon.psi.elements.NeonPsiElement;
 
 /**
  * Neon file - just a wrapper for the whole file

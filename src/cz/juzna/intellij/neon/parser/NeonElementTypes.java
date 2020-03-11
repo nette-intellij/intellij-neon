@@ -26,14 +26,4 @@ public interface NeonElementTypes {
 	public static final NeonElementType KEY_USAGE = new NeonElementType("Key usage");
 	public static final NeonElementType PARAMETER_USAGE = new NeonElementType("Parameter usage");
 	public static final NeonElementType REFERENCE = new NeonElementType("Reference");
-
-	public static final TokenSet SCALAR_VALUES = TokenSet.create(
-		NeonTokenTypes.NEON_STRING,
-		NeonTokenTypes.NEON_NUMBER,
-		NeonTokenTypes.NEON_REFERENCE,
-		NeonTokenTypes.NEON_IDENTIFIER,
-		NeonTokenTypes.NEON_LITERAL,
-		NeonTokenTypes.NEON_VARIABLE,
-		NeonTokenTypes.NEON_DOUBLE_COLON, NeonTokenTypes.NEON_DOLLAR, NeonTokenTypes.NEON_AT
-	);
 }
