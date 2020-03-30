@@ -3,6 +3,7 @@ package cz.juzna.intellij.neon.reference.references;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
+import cz.juzna.intellij.neon.config.NeonKeyChain;
 import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonKeyUsage;
 import cz.juzna.intellij.neon.psi.NeonParameterUsage;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class NeonKeyReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 	private String keyText;
+	private NeonKeyChain keyChain;
 
 	private boolean serviceDefinition;
 	private boolean parameterDefinition;
@@ -26,6 +28,7 @@ public class NeonKeyReference extends PsiReferenceBase<PsiElement> implements Ps
 		super(element, textRange);
 
 		keyText = element.getKeyText();
+		keyChain = element.getKeyChain(false);
 		serviceDefinition = element.isServiceDefinition();
 		parameterDefinition = element.isParameterDefinition();
 		isArrayBullet = element.isArrayBullet();
@@ -71,6 +74,26 @@ public class NeonKeyReference extends PsiReferenceBase<PsiElement> implements Ps
 	@Override
 	public Object[] getVariants() {
 		return new Object[0];
+	}
+
+	@Override
+	public PsiElement handleElementRename(@NotNull String newName) {
+		if (getElement() instanceof NeonKey) {
+			((NeonKey) getElement()).setName(newName);
+		}
+		return getElement();
+	}
+
+	@Override
+	public boolean isReferenceTo(@NotNull PsiElement element) {
+		if (element instanceof NeonKey) {
+			return ((NeonKey) element).getKeyChain(false).equals(keyChain);
+		}
+
+		if (parameterDefinition && element instanceof NeonParameterUsage) {
+			return NeonKeyChain.get(((NeonParameterUsage) element).getKeyText()).equalsWithoutMainKeyWithDots(keyText);
+		}
+		return false;
 	}
 
 }

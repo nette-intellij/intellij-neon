@@ -39,12 +39,15 @@ public class KeywordInsertHandler implements InsertHandler<LookupElement> {
 			if (endOfLineOffset == -1) {
 				endOfLineOffset = text.length();
 			}
+
+			offset = offset + 1;
 			if (lastBraceOffset == -1 || lastBraceOffset > endOfLineOffset) {
 				caretModel.moveToOffset(endOfLineOffset + spaceInserted);
-				EditorModificationUtil.insertStringAtCaret(editor, ":");
+				EditorModificationUtil.insertStringAtCaret(editor, ": ");
+				offset = offset + 1;
 			}
 
-			caretModel.moveToOffset(offset + 1);
+			caretModel.moveToOffset(offset);
 			PsiDocumentManager.getInstance(context.getProject()).commitDocument(editor.getDocument());
 		}
 	}

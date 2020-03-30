@@ -19,6 +19,10 @@ public class NeonKeyChain {
 		this.stringKey = NeonKeyChain.toString(chain);
 	}
 
+	public static NeonKeyChain get() {
+		return get(new String[0]);
+	}
+
 	public static NeonKeyChain get(@NotNull String mainKey) {
 		return get(new String[]{mainKey});
 	}
@@ -57,6 +61,13 @@ public class NeonKeyChain {
 		if(list.size() > 0) {
 			list.remove(list.size() - 1);
 		}
+		return new NeonKeyChain(list.toArray(new String[0]));
+	}
+
+	public NeonKeyChain withParent(@NotNull String parentKey) {
+		List<String> list = new ArrayList<String>();
+		list.add(parentKey);
+		list.addAll(Arrays.asList(chain));
 		return new NeonKeyChain(list.toArray(new String[0]));
 	}
 

@@ -60,19 +60,20 @@ public class NeonReferenceContributor extends PsiReferenceContributor {
 					@NotNull
 					@Override
 					public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
-						if (!(element instanceof NeonKey)) {
+						if (!(element instanceof NeonKey) || (!((NeonKey) element).isParameterDefinition() && !((NeonKey) element).isServiceDefinition())) {
 							return PsiReference.EMPTY_ARRAY;
 						}
 
-						String normalizedName = NeonUtil.normalizeKeyName(element.getText());
-						String trimName = NeonUtil.normalizeKeyName(element.getText().trim());
+						String keyText = ((NeonKey) element).getKeyText();
+						String normalizedName = NeonUtil.normalizeKeyName(keyText);
+						String trimName = NeonUtil.normalizeKeyName(keyText.trim());
 						int start = normalizedName.length() - trimName.length();
 
-						String name = ((NeonKey) element).getName();
-						if (name != null && normalizedName.length() > start) {
+						if (keyText.length() > 0 && normalizedName.length() > start) {
+							int isString = ((NeonKey) element).getWholeString() != null ? 1 : 0;
 							try {
 								return new PsiReference[]{
-										new NeonKeyReference((NeonKey) element, new TextRange(start, normalizedName.length()))
+										new NeonKeyReference((NeonKey) element, new TextRange(start + isString, normalizedName.length() - isString))
 								};
 							} catch (AssertionError e) {
 								return PsiReference.EMPTY_ARRAY;
@@ -127,11 +128,11 @@ public class NeonReferenceContributor extends PsiReferenceContributor {
 							return PsiReference.EMPTY_ARRAY;
 						}
 
-						String name = ((NeonParameterUsage) element).getKeyText();
+						String name = element.getText();
 						if (name != null && name.length() > 0) {
 							try {
 								return new PsiReference[]{
-										new NeonParameterUsageReference((NeonParameterUsage) element, new TextRange(1, name.length() + 1))
+										new NeonParameterUsageReference((NeonParameterUsage) element, new TextRange(0, name.length()))
 								};
 							} catch (AssertionError e) {
 								return PsiReference.EMPTY_ARRAY;

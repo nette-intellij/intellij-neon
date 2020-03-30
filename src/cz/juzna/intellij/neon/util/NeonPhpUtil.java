@@ -125,24 +125,10 @@ public class NeonPhpUtil {
 		});
 	}
 
-	public static void attachNeonKeyDefinitionsForParameters(String searchedName, List<ResolveResult> results, Project project) {
-		NeonPhpUtil.attachNeonKeyDefinitions(new PsiRecursiveElementVisitor() {
-			@Override
-			public void visitElement(PsiElement element) {
-				if (element instanceof NeonKey) {
-					if(
-							((NeonKey) element).isParameterDefinition()
-							&& ((NeonKey) element).getKeyChain(false).withChildKey(((NeonKey) element).getKeyText()).equalsWithoutMainKeyWithDots(searchedName)
-					) {
-						results.add(new PsiElementResolveResult(element));
-					} else {
-						super.visitElement(element);
-					}
-				} else {
-					super.visitElement(element);
-				}
-			}
-		}, project);
+	public static List<NeonKey> attachNeonKeyDefinitionsForParameters(String searchedName, Project project) {
+		return NeonPsiUtil.acceptAllFiles(NeonFileType.INSTANCE, project, NeonKey.class, (NeonKey key)
+				-> key.isParameterDefinition() && key.getKeyChain(false).withChildKey(key.getKeyText()).equalsWithoutMainKeyWithDots(searchedName)
+		);
 	}
 
 	public static List<NeonKey> attachNeonKeyDefinitionsForServices(String searchedName, Project project) {

@@ -6,10 +6,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor;
-import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.NeonKey;
-import cz.juzna.intellij.neon.psi.NeonKeyUsage;
-import cz.juzna.intellij.neon.psi.NeonParameterUsage;
+import cz.juzna.intellij.neon.config.NeonConfiguration;
+import cz.juzna.intellij.neon.psi.*;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,8 +34,12 @@ public class NeonUnusedKeyInspection extends BaseLocalInspectionTool {
 		file.acceptChildren(new PsiRecursiveElementWalkingVisitor() {
 			@Override
 			public void visitElement(PsiElement element) {
-				if (element instanceof NeonKey) {
-					NeonKey key = (NeonKey) element;
+				if (element instanceof NeonKeyValPair) {
+					NeonKey key = ((NeonKeyValPair) element).getKey();
+					if (key == null) {
+						super.visitElement(element);
+						return;
+					}
 
 					Project project = key.getProject();
 					if (key.isServiceDefinition() && key.getKeyChain(false).isLevel(1)) {
@@ -45,11 +47,15 @@ public class NeonUnusedKeyInspection extends BaseLocalInspectionTool {
 							return;
 						}
 
-						String serviceName = ((NeonKey) element).getKeyText();
+						String serviceName = key.getKeyText();
+						if (NeonConfiguration.INSTANCE.isStandardService(serviceName)) {
+							return;
+						}
 						List<NeonKeyUsage> found = NeonPhpUtil.attachNeonKeyUsages(serviceName, project);
 
 						if (found.size() == 0) {
-							addDeprecated(manager, problems, element, "Service '" + serviceName + "' is not used by name", isOnTheFly);
+							addDeprecated(manager, problems, key, "Service '" + serviceName + "' is not used by name", isOnTheFly);
+							super.visitElement(element);
 						}
 
 					} else if (key.isParameterDefinition()) {
@@ -57,9 +63,20 @@ public class NeonUnusedKeyInspection extends BaseLocalInspectionTool {
 
 						List<NeonParameterUsage> found = NeonPhpUtil.attachNeonParameterUsages(key.getKeyChain(false).withChildKey(key.getKeyText()), project);
 
-						if (found.size() == 0 || (found.size() == 1 && found.get(0) == key)) {
-							addDeprecated(manager, problems, element, "Parameter '" + parameterName + "' is not used", isOnTheFly);
+						if (found.size() == 0) {
+							addDeprecated(manager, problems, key, "Parameter '" + parameterName + "' is not used", isOnTheFly);
+							super.visitElement(element);
+
+						} else {
+							for (NeonParameterUsage usage : found) {
+								if (usage.isLastKeyUsed()) {
+									return;
+								}
+							}
 						}
+
+					} else {
+						super.visitElement(element);
 					}
 
 				} else {

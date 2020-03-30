@@ -64,10 +64,6 @@ public class NeonHighlightingLexer extends LookAheadLexer {
 				advanceLexer(baseLexer);
 				currentToken = baseLexer.getTokenType();
 
-				if (NeonTokenTypes.WHITESPACES.contains(currentToken)) {
-					continue;
-				}
-
 				if (currentToken == NeonTokenTypes.NEON_COLON) {
 					isNextColon = true;
 					break;

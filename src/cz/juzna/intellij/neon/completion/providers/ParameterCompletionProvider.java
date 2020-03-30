@@ -11,6 +11,7 @@ import cz.juzna.intellij.neon.completion.CompletionUtil;
 import cz.juzna.intellij.neon.completion.insert.NeonParameterInsertHandler;
 import cz.juzna.intellij.neon.config.NeonConfiguration;
 import cz.juzna.intellij.neon.config.NeonParameter;
+import cz.juzna.intellij.neon.psi.NeonKeyUsage;
 import cz.juzna.intellij.neon.psi.NeonParameterUsage;
 import cz.juzna.intellij.neon.psi.NeonValue;
 import org.jetbrains.annotations.NotNull;
@@ -36,10 +37,11 @@ public class ParameterCompletionProvider extends CompletionProvider<CompletionPa
 	) {
 		curr = params.getPosition().getOriginalElement();
 		boolean incompleteKey = CompletionUtil.isIncompleteKey(curr);
-		if (incompleteKey || (!(curr.getParent() instanceof NeonParameterUsage) && !(curr.getParent() instanceof NeonValue))) {
+		if (incompleteKey || (!(curr.getParent() instanceof NeonParameterUsage) && !(curr.getParent() instanceof NeonValue)) || curr.getParent() instanceof NeonKeyUsage) {
 			return;
 		}
 
+		boolean haveSome = false;
 		List<NeonParameter> definitions = NeonConfiguration.INSTANCE.findParameters(curr.getProject());
 		for (NeonParameter parameter : definitions) {
 			String text = parameter.getName();
@@ -48,6 +50,11 @@ public class ParameterCompletionProvider extends CompletionProvider<CompletionPa
 			lookupElement = lookupElement.withInsertHandler(NeonParameterInsertHandler.getInstance());
 			lookupElement = lookupElement.withTypeText(parameter.getPhpType().toReadableString());
 			results.addElement(lookupElement);
+			haveSome = true;
+		}
+
+		if (haveSome && (curr.getParent() instanceof NeonParameterUsage || curr.getText().startsWith("%"))) {
+			results.stopHere();
 		}
 	}
 

@@ -27,7 +27,10 @@ public class NeonParameterUsageReference extends PsiReferenceBase<PsiElement> im
 		List<ResolveResult> results = new ArrayList<ResolveResult>();
 
 		Project project = getElement().getProject();
-		NeonPhpUtil.attachNeonKeyDefinitionsForParameters(keyText, results, project);
+		List<NeonKey> definitions = NeonPhpUtil.attachNeonKeyDefinitionsForParameters(keyText, project);
+		for (NeonKey key : definitions) {
+			results.add(new PsiElementResolveResult(key));
+		}
 
 		return results.toArray(new ResolveResult[results.size()]);
 	}
@@ -46,7 +49,19 @@ public class NeonParameterUsageReference extends PsiReferenceBase<PsiElement> im
 	}
 
 	@Override
+	public PsiElement handleElementRename(@NotNull String newName) {
+		if (getElement() instanceof NeonParameterUsage) {
+			((NeonParameterUsage) getElement()).setName(newName);
+		}
+		return getElement();
+	}
+
+	@Override
 	public boolean isReferenceTo(@NotNull PsiElement element) {
+		if (element instanceof NeonParameterUsage) {
+			return ((NeonParameterUsage) element).getKeyText().equals(keyText);
+		}
+
 		if (element instanceof NeonKey) {
 			NeonKey key = ((NeonKey) element);
 			return key.isParameterDefinition() && key.getKeyChain(false).withChildKey(key.getKeyText()).equalsWithoutMainKeyWithDots(keyText);

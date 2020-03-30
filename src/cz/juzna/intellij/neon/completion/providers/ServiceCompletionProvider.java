@@ -45,11 +45,13 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 			return;
 		}
 
+		boolean haveSome = false;
 		List<NeonService> definitions = NeonConfiguration.INSTANCE.findServices(curr.getProject());
 		for (NeonService service : definitions) {
 			LookupElementBuilder elementBuilder = createElementBuilder(LookupElementBuilder.create(service.getName()));
 			elementBuilder = elementBuilder.withTypeText(service.getPhpType().toReadableString());
 			results.addElement(elementBuilder);
+			haveSome = true;
 		}
 
 		List<NeonService> services = getAvailableServices();
@@ -57,6 +59,11 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 			String type = service.getPhpType().toReadableString();
 			type = type.startsWith("\\") ? type.substring(1) : type;
 			results.addElement(createElementBuilder(LookupElementBuilder.create(service.getName())).withTypeText(type));
+			haveSome = true;
+		}
+
+		if (haveSome && (params.getInvocationCount() <= 1 || (curr.getParent() instanceof NeonKeyUsage || curr.getText().startsWith("@")))) {
+			results.stopHere();
 		}
 	}
 

@@ -78,6 +78,8 @@ public class NeonColorsPage implements ColorSettingsPage {
                 "\t\t\tstreet: 742 Evergreen Terrace\n" +
                 "\t\t\tcity: Springfield\n" +
                 "\t\t\tcountry: USA\n" +
+                "\t\t\tbalance: +254e-25\n" +
+                "\t\t\tdateTime: 2019-01-01 12:45:36\n" +
                 "\n" +
                 "\t\tphones: { home: 555-6528, work: 555-7334 }\n" +
                 "\t\tphp:\n" +
@@ -88,6 +90,8 @@ public class NeonColorsPage implements ColorSettingsPage {
                 "\t\t\t- Bart\n" +
                 "\t\t\t- Lisa\n" +
                 "\t\t\t- %children.third%\n" +
+                "\t\t\t- 0xAB01\n" +
+                "\t\t\t- 2019-12-24\n" +
                 "\n" +
                 "\t\tentity: Column(type=\"integer\")\n" +
                 "\n" +

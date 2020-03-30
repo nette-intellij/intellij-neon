@@ -317,6 +317,10 @@ public class NeonConfiguration {
 		addExtensionItemAlias(nette.addChild("debugger", NeonExtensionItem.Version.V_2_3), tracy);
 	}
 
+	public boolean isStandardService(String serviceName) {
+		return standardServices.containsKey(serviceName);
+	}
+
 	@NotNull
 	public Map<String, Map<String, NeonExtensionItem>> getStandardExtensions() {
 		return Collections.unmodifiableMap(standardExtensions);

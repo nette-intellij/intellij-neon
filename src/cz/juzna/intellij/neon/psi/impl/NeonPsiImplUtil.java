@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiRecursiveElementVisitor;
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
 import cz.juzna.intellij.neon.completion.CompletionUtil;
 import cz.juzna.intellij.neon.config.NeonConfiguration;
@@ -53,7 +54,7 @@ public class NeonPsiImplUtil {
             @Override
             public void visitElement(PsiElement element) {
                 IElementType type = element.getNode().getElementType();
-                if (type == NeonTokenTypes.NEON_INDENT) {
+                if (NeonTokenTypes.HIGHLIGHT_KEYWORD_ELEMENTS.contains(type)) {
                     super.visitElement(element);
                 } else if (type != NeonTokenTypes.NEON_COLON) {
                     out.append(element.getText());
@@ -64,7 +65,7 @@ public class NeonPsiImplUtil {
             return out.toString();
         }
 
-        return NeonUtil.normalizeKeyName(key.getText().trim());
+        return NeonUtil.normalizeKeyName(key.getText().replaceAll("^[\\s\\t]+",""));
     }
 
     public static List<PsiElement> getKeyTextElements(NeonKey key) {
@@ -195,12 +196,19 @@ public class NeonPsiImplUtil {
     }
 
     public static PsiElement getStringElement(NeonWholeString wholeString) {
-        for (PsiElement element : wholeString.getChildren()) {
-            if (element.getNode().getElementType() == NeonTokenTypes.NEON_STRING) {
-                return element;
+        final PsiElement[] out = new PsiElement[1];
+        wholeString.acceptChildren(new PsiRecursiveElementVisitor() {
+            @Override
+            public void visitElement(PsiElement element) {
+                IElementType type = element.getNode().getElementType();
+                if (NeonTokenTypes.STRING_QUOTES.contains(type)) {
+                    super.visitElement(element);
+                } else {
+                    out[0] = element;
+                }
             }
-        }
-        return null;
+        });
+        return out[0];
     }
 
     public static boolean isServiceDefinition(NeonKey key) {
@@ -251,9 +259,21 @@ public class NeonPsiImplUtil {
         return "";
     }
 
+    public static boolean isLastKeyUsed(NeonParameterUsage key) {
+        PsiElement next = PsiTreeUtil.skipWhitespacesForward(key);
+        return next == null || next.getNode().getElementType() == NeonTokenTypes.NEON_PARAMETER_RIGHT;
+    }
+
     public static String getKeyText(NeonParameterUsage key) {
-        String s = key.getNode().getText().trim();
-        return s.substring(1, s.length() - 1);
+        PsiElement prev = key;
+        NeonKeyChain out = NeonKeyChain.get();
+        while (prev != null) {
+            if (prev instanceof NeonParameterUsage) {
+                out = out.withParent(prev.getText());
+            }
+            prev = PsiTreeUtil.skipWhitespacesBackward(prev);
+        }
+        return out.toDottedString();
     }
 
     public static String getKeyText(NeonKeyValPair key) {
@@ -331,12 +351,14 @@ public class NeonPsiImplUtil {
 
     public static PsiElement setName(NeonKey element, String newName) {
         ASTNode keyNode = element.getFirstChild().getNode();
-        //PsiElement method = NeonElementFactory.createMethod(element.getProject(), newName);
-        //if (method == null) {
-        ///    return element;
-        //
-        //return replaceChildNode(element, method, keyNode);
-        return element;
+        String quote = element.getWholeString() != null && NeonTokenTypes.STRING_QUOTES.contains(element.getWholeString().getNode().getElementType())
+                ? element.getWholeString().getFirstChild().getText()
+                : "";
+        NeonKey key = NeonElementFactory.createKey(element.getProject(), quote + newName + quote);
+        if (key == null) {
+            return element;
+        }
+        return replaceKeyNode(element, key, keyNode);
     }
 
     public static PsiElement getNameIdentifier(NeonKey element) {
@@ -418,6 +440,23 @@ public class NeonPsiImplUtil {
         return element;
     }
 
+    public static String getName(NeonParameterUsage element) {
+        return element.getText();
+    }
+
+    public static PsiElement setName(NeonParameterUsage element, String newName) {
+        ASTNode keyNode = element.getNode();
+        NeonParameterUsage parameterUsage = NeonElementFactory.createNeonParameterUsage(element.getProject(), newName);
+        if (parameterUsage == null) {
+            return element;
+        }
+        return replaceNode(element.getParent(), parameterUsage, keyNode);
+    }
+
+    public static PsiElement getNameIdentifier(NeonParameterUsage element) {
+        return element;
+    }
+
     private static PsiElement resolveKeyElementForChain(PsiElement element, boolean isIncomplete)
     {
         if (isIncomplete) {
@@ -428,6 +467,29 @@ public class NeonPsiImplUtil {
             // literal -> scalar -> [key ->] key-val pair -> any parent
             return element instanceof NeonKey ? element.getParent().getParent() : element.getParent();
         }
+    }
+
+    @NotNull
+    private static PsiElement replaceKeyNode(@NotNull PsiElement psiElement, @NotNull PsiElement newElement, @Nullable ASTNode keyNode) {
+        ASTNode[] newKeyNodes = newElement.getNode().getChildren(TokenSet.ANY);
+        if (newKeyNodes.length == 0) {
+            return psiElement;
+        }
+
+        if (keyNode == null) {
+            for (ASTNode newKeyNode : newKeyNodes) {
+                psiElement.getNode().addChild(newKeyNode);
+            }
+
+        } else {
+            psiElement.getNode().replaceChild(keyNode, newKeyNodes[0]);
+            if (newKeyNodes.length > 1) {
+                for (ASTNode newKeyNode : Arrays.asList(newKeyNodes).subList(1, newKeyNodes.length)) {
+                    psiElement.getNode().addChild(newKeyNode);
+                }
+            }
+        }
+        return psiElement;
     }
 
     @NotNull

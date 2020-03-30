@@ -2,19 +2,13 @@
 	<!-- Plugin info -->
 	<name>NEON support</name>
 	<version>1.0.0</version>
-	<vendor>juzna.cz</vendor>
+	<vendor>juzna.cz, Matouš Němec</vendor>
 	<idea-version since-build="183.2407.10" />
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.jetbrains.php</depends>
 
 	<description><![CDATA[
 		<p>Provides support for <a href="http://ne-on.org">NEON</a> (Nette Object Notation;) is a custom configuration language similar to YAML.</p>
-
-		<h2>IMPORTANT notes</h2>
-
-		<ul>
-			<li><b>Refactoring for class names is supported only from PHP to Latte</b></li>
-		</ul>
 	]]></description>
 
 	<change-notes><![CDATA[
@@ -90,6 +84,8 @@
 		<langCodeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider" />
 
 		<lang.findUsagesProvider language="neon" implementationClass="cz.juzna.intellij.neon.reference.NeonFindUsagesProvider"/>
+
+		<lang.namesValidator language="neon" implementationClass="cz.juzna.intellij.neon.refactoring.NeonNamesValidator"/>
 
 		<lang.parserDefinition language="neon" implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition" />
 		<lang.fileViewProviderFactory language="neon" implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory" />

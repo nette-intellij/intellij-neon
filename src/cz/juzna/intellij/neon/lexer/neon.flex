@@ -8,6 +8,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
  * @author Jan Dolecek
  * @author Jan Tvrdík
  * @author Michael Moravec
+ * @author Matouš Němec
  */
 %%
 
@@ -33,14 +34,16 @@ HEX_NUMBER = [+-]?0[xX][0-9a-fA-F]+
 NUMBER = [+-]?[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 SHORTCUT_CLASS_NAME=\\?[a-zA-Z_][a-zA-Z0-9_\\]*
-PARAMETER_USAGE="%" [^%\n]+ "%"
 COMMENT = \#.*
 INDENT = \n+[\t ]*
-LITERAL_START = [^-:#\"\',=\[\]{}()\x00-\x20!`]|[:-][!#$%&*\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF]
+LITERAL_START = [^-:#\"\',=\[\]{}()\x00-\x20!`]|[:-][!#$%&*><\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF]
 WHITESPACE = [\t ]+
 
 %states DEFAULT, IN_LITERAL, VYINITIAL
 
+%state IN_PARAMETER
+%state IN_PARAMETER_DOUBLE
+%state IN_PARAMETER_SINGLE
 %state SINGLE_QUOTED
 %state DOUBLE_QUOTED
 %state CLASS_REFERENCE
@@ -84,6 +87,11 @@ WHITESPACE = [\t ]+
     	return NEON_SINGLE_QUOTE_LEFT;
     }
 
+    "%" {
+    	yybegin(IN_PARAMETER);
+    	return NEON_PARAMETER_LEFT;
+    }
+
     "\"" {
         yybegin(DOUBLE_QUOTED);
         return NEON_DOUBLE_QUOTE_LEFT;
@@ -114,6 +122,10 @@ WHITESPACE = [\t ]+
         return NEON_LITERAL;
     }
 
+    [a-zA-Z0-9_!#$&*><][a-zA-Z0-9_!#$%&*><]+ | {IDENTIFIER} {WHITESPACE} [!#$&*><]+ {WHITESPACE} {IDENTIFIER} {
+        return NEON_LITERAL;
+    }
+
     "::" / ({IDENTIFIER}) {
         yybegin(STATIC_FIELD);
         return NEON_DOUBLE_COLON;
@@ -139,13 +151,9 @@ WHITESPACE = [\t ]+
         return NEON_INDENT;
     }
 
-    ({LITERAL_START} | {NUMBER} {LITERAL_START}) {
+    {LITERAL_START} {
         yybegin(IN_LITERAL);
         return NEON_LITERAL;
-    }
-
-    {PARAMETER_USAGE} {
-        return NEON_PARAMETER_USAGE;
     }
 
     "@" / {IDENTIFIER} "\\" {
@@ -155,11 +163,6 @@ WHITESPACE = [\t ]+
     "@" {LITERAL_START} {
         yybegin(IN_LITERAL);
         return NEON_KEY_USAGE;
-    }
-
-    {NUMBER} [\s\t] {LITERAL_START} {
-        yybegin(IN_LITERAL);
-        return NEON_STRING;
     }
 
     ":" { return NEON_COLON; }
@@ -206,6 +209,48 @@ WHITESPACE = [\t ]+
     .|\n { retryInState(DEFAULT); }
 }
 
+<IN_PARAMETER> {
+	"%" {
+		yybegin(DEFAULT);
+		return NEON_PARAMETER_RIGHT;
+	}
+	"." {
+		return NEON_PARAMETER_DELIMITER;
+	}
+	("\\" [^] | [^'\\%\.])+ {
+		return NEON_PARAMETER_USAGE;
+	}
+	.|\n {}
+}
+
+<IN_PARAMETER_DOUBLE> {
+	"%" {
+		yybegin(DOUBLE_QUOTED);
+		return NEON_PARAMETER_RIGHT;
+	}
+	"." {
+		return NEON_PARAMETER_DELIMITER;
+	}
+	("\\" [^] | [^'\\%\.])+ {
+		return NEON_PARAMETER_USAGE;
+	}
+	.|\n {}
+}
+
+<IN_PARAMETER_SINGLE> {
+	"%" {
+		yybegin(SINGLE_QUOTED);
+		return NEON_PARAMETER_RIGHT;
+	}
+	"." {
+		return NEON_PARAMETER_DELIMITER;
+	}
+	("\\" [^] | [^'\\%\.])+ {
+		return NEON_PARAMETER_USAGE;
+	}
+	.|\n {}
+}
+
 <SINGLE_QUOTED> {
 	"'" {
 		yybegin(DEFAULT);
@@ -214,8 +259,9 @@ WHITESPACE = [\t ]+
 	("\\" [^] | [^'\\%])+ {
 		return NEON_STRING;
 	}
-	{PARAMETER_USAGE} {
-        return NEON_PARAMETER_USAGE;
+    "%" {
+        yybegin(IN_PARAMETER_SINGLE);
+        return NEON_PARAMETER_LEFT;
     }
 	"%" {
         return NEON_STRING;
@@ -231,8 +277,9 @@ WHITESPACE = [\t ]+
 	("\\" [^] | [^\"\\%])+ {
 		return NEON_STRING;
 	}
-	{PARAMETER_USAGE} {
-        return NEON_PARAMETER_USAGE;
+	"%" {
+        yybegin(IN_PARAMETER_DOUBLE);
+        return NEON_PARAMETER_LEFT;
     }
 	"%" {
         return NEON_STRING;

@@ -13,12 +13,14 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
     static List<String> myIndentStrings = new ArrayList<String>();
     static int myIndent = 0;
     static int myPrevIndent = 0;
+    static int depth = 0;
 
     public static void initialize() {
         myIndentString = "";
         myIndentStrings = new ArrayList<String>();
         myIndent = 0;
         myPrevIndent = 0;
+        depth = 0;
     }
 
     public static boolean checkMainArray(PsiBuilder builder, int level) {
@@ -40,6 +42,18 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
         return result;
     }
 
+    public static boolean increaseDepth(PsiBuilder builder, int level) {
+        if (builder.eof()) return false;
+        depth++;
+        return true;
+    }
+
+    public static boolean decreaseDepth(PsiBuilder builder, int level) {
+        if (builder.eof()) return false;
+        depth--;
+        return true;
+    }
+
     public static boolean isSubArray(PsiBuilder builder, int level) {
         if (builder.eof()) return false;
 
@@ -49,7 +63,7 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
 
         IElementType type = builder.getTokenType();
         IElementType nextToken = builder.lookAhead(1);
-        if (type == NeonTokenTypes.NEON_INDENT && nextToken == NeonTokenTypes.NEON_INDENT) {
+        if (type == NeonTokenTypes.NEON_INDENT && (nextToken == NeonTokenTypes.NEON_INDENT || nextToken == null)) {
             result = false;
         }
 
@@ -154,10 +168,14 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
             return true;
         }
 
-        int min = Math.min(myIndentString.length(), text.length());
-        if (myIndentString.length() > 0 && !text.substring(0, min).equals(myIndentString.substring(0, min))) {
+        int textLength = text.length();
+        int indentLength = myIndentString.length();
+        int min = Math.min(indentLength, textLength);
+
+        if (indentLength >= min && !text.substring(0, min).equals(myIndentString.substring(0, min))) {
             error("Tab/space mixing");
             return false;
+
         } else {
             String indent = determineCurrentIndent(text);
             if (indent.length() > 0) {
@@ -165,7 +183,19 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
             }
             myIndentString = text;
         }
+
+        if (myIndentStrings.size() > 0 && myIndentString.length() < repeatString(myIndentStrings.get(0), depth).length()) {
+            return false;
+        }
         return true;
+    }
+
+    private static String repeatString(String s, int max) {
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < max; i++) {
+            out.append(s);
+        }
+        return out.toString();
     }
 
     private static String determineCurrentIndent(String text) {

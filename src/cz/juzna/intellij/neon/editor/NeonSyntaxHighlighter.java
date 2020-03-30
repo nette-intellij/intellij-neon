@@ -46,7 +46,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final TokenSet sStaticIdentifier = TokenSet.create(NEON_PHP_STATIC_IDENTIFIER);
 	public static final TokenSet sKEYWORDS = TokenSet.create(NEON_KEYWORD);
 	public static final TokenSet sKeyUsages = TokenSet.create(NEON_KEY_USAGE);
-	public static final TokenSet sParameterUsages = TokenSet.create(NEON_PARAMETER_USAGE);
+	public static final TokenSet sParameterUsages = TokenSet.create(NEON_PARAMETER_USAGE, NEON_PARAMETER_LEFT, NEON_PARAMETER_RIGHT, NEON_PARAMETER_DELIMITER);
 	public static final TokenSet sSTRING = TokenSet.create(NEON_STRING, NEON_SINGLE_QUOTE_LEFT, NEON_SINGLE_QUOTE_RIGHT, NEON_DOUBLE_QUOTE_LEFT, NEON_DOUBLE_QUOTE_RIGHT);
 	public static final TokenSet sDATE = TokenSet.create(NEON_DATE_TIME);
 
