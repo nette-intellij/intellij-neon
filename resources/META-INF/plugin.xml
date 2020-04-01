@@ -107,6 +107,11 @@
 						 groupName="Neon" enabledByDefault="true"
 						 implementationClass="cz.juzna.intellij.neon.inspections.MethodUsagesInspection"/>
 
+		<localInspection language="neon" shortName="NeonConstantUsages" id="NeonConstantUsages"
+						 displayName="Constant usages"
+						 groupName="Neon" enabledByDefault="true"
+						 implementationClass="cz.juzna.intellij.neon.inspections.ConstantUsagesInspection"/>
+
 		<localInspection language="neon" shortName="NeonServiceUsages" id="NeonServiceUsages"
 						 displayName="Service usages"
 						 groupName="Neon" enabledByDefault="true"

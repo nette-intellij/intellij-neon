@@ -41,7 +41,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final TokenSet sINTERPUNCTION = TokenSet.create(NEON_LPAREN, NEON_RPAREN, NEON_LBRACE_CURLY, NEON_RBRACE_CURLY, NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE, NEON_ITEM_DELIMITER, NEON_ASSIGNMENT);
 	public static final TokenSet sNUMBERS = TokenSet.create(NEON_NUMBER);
 	public static final TokenSet sClassName = TokenSet.create(NEON_CLASS_REFERENCE, NEON_NAMESPACE_RESOLUTION, NEON_NAMESPACE_REFERENCE);
-	public static final TokenSet sMethod = TokenSet.create(NEON_METHOD);
+	public static final TokenSet sMethod = TokenSet.create(NEON_METHOD, NEON_PHP_STATIC_METHOD);
 	public static final TokenSet sIdentifier = TokenSet.create(NEON_KEY_IDENTIFIER);
 	public static final TokenSet sStaticIdentifier = TokenSet.create(NEON_PHP_STATIC_IDENTIFIER);
 	public static final TokenSet sKEYWORDS = TokenSet.create(NEON_KEYWORD);

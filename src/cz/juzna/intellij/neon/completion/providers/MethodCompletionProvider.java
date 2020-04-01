@@ -51,7 +51,7 @@ public class MethodCompletionProvider extends CompletionProvider<CompletionParam
 			boolean isMagicPrefixed = results.getPrefixMatcher().getPrefix().startsWith("__");
 			for (PhpClass phpClass : service.getPhpType().getPhpClasses(curr.getProject())) {
 				for (Method method : phpClass.getMethods()) {
-					if (!method.isStatic() && phpClass.getModifier().isPublic()) {
+					if (!method.isStatic() && method.getModifier().isPublic()) {
 						if (!isMagicPrefixed && params.getInvocationCount() <= 1 && NeonTypesUtil.isExcludedCompletion(method.getName())) {
 							continue;
 						}
@@ -64,6 +64,7 @@ public class MethodCompletionProvider extends CompletionProvider<CompletionParam
 				}
 			}
 		}
+
 		if (hasSomething && params.getInvocationCount() <= 1) {
 			results.stopHere();
 		}

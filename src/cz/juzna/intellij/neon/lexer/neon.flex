@@ -33,6 +33,7 @@ OCT_NUMBER = [+-]?0[oO][1-7][0-7]*
 HEX_NUMBER = [+-]?0[xX][0-9a-fA-F]+
 NUMBER = [+-]?[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
+KEY_IDENTIFIER=[a-zA-Z0-9_!$&*><][a-zA-Z0-9_!$%&*><]*
 SHORTCUT_CLASS_NAME=\\?[a-zA-Z_][a-zA-Z0-9_\\]*
 COMMENT = \#.*
 INDENT = \n+[\t ]*
@@ -48,6 +49,7 @@ WHITESPACE = [\t ]+
 %state DOUBLE_QUOTED
 %state CLASS_REFERENCE
 %state STATIC_FIELD
+%state STATIC_METHOD
 
 %%
 
@@ -122,12 +124,17 @@ WHITESPACE = [\t ]+
         return NEON_LITERAL;
     }
 
-    [a-zA-Z0-9_!#$&*><][a-zA-Z0-9_!#$%&*><]+ | {IDENTIFIER} {WHITESPACE} [!#$&*><]+ {WHITESPACE} {IDENTIFIER} {
+    [a-zA-Z0-9_!$&*><][a-zA-Z0-9_!$%&*><]+ | {IDENTIFIER} {WHITESPACE} [!$&*><]+ {WHITESPACE} {IDENTIFIER} {
         return NEON_LITERAL;
     }
 
-    "::" / ({IDENTIFIER}) {
+    "::" / {IDENTIFIER} {
         yybegin(STATIC_FIELD);
+        return NEON_DOUBLE_COLON;
+    }
+
+    "::" / {IDENTIFIER} "(" {
+        yybegin(STATIC_METHOD);
         return NEON_DOUBLE_COLON;
     }
 
@@ -160,8 +167,11 @@ WHITESPACE = [\t ]+
         return NEON_KEY_USAGE;
     }
 
-    "@" {LITERAL_START} {
-        yybegin(IN_LITERAL);
+    "@" {KEY_IDENTIFIER} / "::" {IDENTIFIER} {
+        return NEON_KEY_USAGE;
+    }
+
+    "@" {KEY_IDENTIFIER} {
         return NEON_KEY_USAGE;
     }
 
@@ -193,6 +203,22 @@ WHITESPACE = [\t ]+
     {IDENTIFIER} {
         yybegin(DEFAULT);
         return NEON_PHP_STATIC_IDENTIFIER;
+    }
+
+    {LITERAL_START} {
+        yybegin(DEFAULT);
+        return NEON_LITERAL;
+    }
+}
+
+<STATIC_METHOD> {
+    {IDENTIFIER} {
+        return NEON_PHP_STATIC_METHOD;
+    }
+
+    "(" {
+        yybegin(DEFAULT);
+        return NEON_LPAREN;
     }
 
     {LITERAL_START} {

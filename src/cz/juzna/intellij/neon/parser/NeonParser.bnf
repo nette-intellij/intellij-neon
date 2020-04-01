@@ -92,7 +92,7 @@ keyContainer   ::= (NEON_CONCATENATION? keyIdentifier NEON_CONCATENATION?)+ | wh
 
 private
 keyIdentifier ::= NEON_LITERAL | NEON_IDENTIFIER | NEON_ARRAY_BULLET | NEON_ASSIGNMENT | NEON_DOUBLE_COLON
-                    | NEON_ITEM_DELIMITER | NEON_NUMBER | NEON_DATE_TIME
+                    | NEON_ITEM_DELIMITER | NEON_NUMBER | NEON_DATE_TIME | phpStatement
 
 indent      ::= <<checkValidIndent>> NEON_INDENT? {
                     methods=[getIndentCharacters]
@@ -101,7 +101,7 @@ indent      ::= <<checkValidIndent>> NEON_INDENT? {
 private
 values       ::= value | NEON_ITEM_DELIMITER
 
-value       ::= phpStatement | classReference | keyUsage | parameterUsageContainer | methodUsage | NEON_LITERAL | string | arrayOfValues
+value       ::= phpStatement | serviceStatement | classReference | keyUsage | parameterUsageContainer | methodUsage | NEON_LITERAL | string | arrayOfValues
                 | NEON_NUMBER | (NEON_LPAREN NEON_RPAREN) | (NEON_LBRACE_CURLY NEON_RBRACE_CURLY) | NEON_IDENTIFIER
                 | NEON_ASSIGNMENT | NEON_DOUBLE_COLON | (NEON_LBRACE_SQUARE NEON_RBRACE_SQUARE) | NEON_DATE_TIME
                 | NEON_PHP_STATIC_IDENTIFIER | NEON_KEY_IDENTIFIER | NEON_CONCATENATION | NEON_UNKNOWN
@@ -115,7 +115,13 @@ wholeString      ::= wholeSingleQuotedString | wholeDoubleQuotedString | NEON_ST
 
 string      ::= singleQuotedString | doubleQuotedString | NEON_STRING
 
-phpStatement      ::= classReference (NEON_DOUBLE_COLON NEON_PHP_STATIC_IDENTIFIER)
+phpStatement      ::= classReference NEON_DOUBLE_COLON (constantUsage | methodUsage) {
+                    methods = [getPhpType]
+                }
+
+serviceStatement      ::= keyUsage NEON_DOUBLE_COLON (constantUsage | methodUsage) {
+                    methods = [getPhpType]
+                }
 
 classReference    ::= (NEON_NAMESPACE_RESOLUTION? <<isNamespace>> namespaceReference)? (NEON_NAMESPACE_RESOLUTION <<isNamespace>> namespaceReference)* classUsage {
                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonClassReferenceElementImpl"
@@ -149,10 +155,16 @@ parameterUsage    ::= NEON_PARAMETER_USAGE {
                      methods = [getName setName getNameIdentifier getKeyText isLastKeyUsed]
                  }
 
-methodUsage    ::= NEON_METHOD {
+methodUsage    ::= NEON_METHOD | NEON_PHP_STATIC_METHOD {
                      mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonMethodUsageElementImpl"
                      implements="cz.juzna.intellij.neon.psi.elements.NeonMethodUsageElement"
                      methods = [getName setName getNameIdentifier getMethodName isSetupMethod getServiceName getPhpType]
+                 }
+
+constantUsage    ::= NEON_PHP_STATIC_IDENTIFIER {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonConstantUsageElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonConstantUsageElement"
+                     methods = [getConstantName getPhpType getReturnType]
                  }
 
 private

@@ -3,25 +3,25 @@ package cz.juzna.intellij.neon.psi.impl.elements;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
-import cz.juzna.intellij.neon.psi.NeonMethodUsage;
+import cz.juzna.intellij.neon.psi.NeonConstantUsage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  *
  */
-public abstract class NeonMethodUsageElementImpl extends NeonPsiElementImpl implements NeonMethodUsage {
-	public NeonMethodUsageElementImpl(@NotNull ASTNode astNode) {
+public abstract class NeonConstantUsageElementImpl extends NeonPsiElementImpl implements NeonConstantUsage {
+	public NeonConstantUsageElementImpl(@NotNull ASTNode astNode) {
 		super(astNode);
 	}
 
 	public String toString() {
-		return "Neon method usage";
+		return "Neon constant usage";
 	}
 
 	@Override
 	public String getPhpElementName() {
-		return getMethodName();
+		return getConstantName();
 	}
 
 	@Nullable

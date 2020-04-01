@@ -39,18 +39,53 @@ public class NeonPhpUtil {
 		return false;
 	}
 
+	public static List<PhpTypedElement> getReferencedElements(@NotNull NeonPhpType type, @NotNull Project project, @NotNull String constantName) {
+		List<PhpTypedElement> results = new ArrayList<>();
+		for (PhpClass phpClass : type.getPhpClasses(project)) {
+			boolean hasConstant = false;
+			for (Field field : phpClass.getFields()) {
+				if (field.getModifier().isPublic() && field.isConstant() && field.getName().equals(constantName)) {
+					results.add(field);
+					hasConstant = true;
+				}
+			}
+
+			if (!hasConstant) {
+				for (Method method : phpClass.getMethods()) {
+					if (method.getModifier().isPublic() && method.getName().equals(constantName)) { //todo: method.isStatic() - only if use as service usage
+						results.add(method);
+					}
+				}
+			}
+		}
+		return results;
+	}
+
+	public static List<Method> getReferencedMethods(@NotNull NeonPhpType type, @NotNull Project project, @NotNull String constantName) {
+		List<Method> results = new ArrayList<>();
+		for (PhpClass phpClass : type.getPhpClasses(project)) {
+			for (Method method : phpClass.getMethods()) {
+				if (method.getModifier().isPublic() && method.getName().equals(constantName)) {
+					results.add(method);
+				}
+			}
+		}
+		return results;
+	}
+
 	public static boolean isReferenceFor(@NotNull PhpClass originalClass, @NotNull PhpClass targetClass) {
 		return isReferenceFor(originalClass.getFQN(), targetClass);
 	}
 
 	public static boolean isReferenceTo(@NotNull PhpClass originalClass, @NotNull ResolveResult[] results, @NotNull PsiElement element, @NotNull String name) {
 		for (ResolveResult result : results) {
-			if (!(result.getElement() instanceof NeonMethodUsage)) {
+			PsiElement psiElement = result.getElement();
+			if (!(psiElement instanceof NeonPhpElementUsage)) {
 				continue;
 			}
 
-			NeonMethodUsage usage = (NeonMethodUsage) result.getElement();
-			if (!name.equals(usage.getMethodName())) {
+			NeonPhpElementUsage usage = (NeonPhpElementUsage) result.getElement();
+			if (!name.equals(usage.getPhpElementName())) {
 				continue;
 			}
 
@@ -90,6 +125,12 @@ public class NeonPhpUtil {
 	public static List<NeonMethodUsage> findNeonMethodUsages(NeonPhpType phpType, String searchedName, Project project) {
 		return NeonPsiUtil.acceptAllFiles(NeonFileType.INSTANCE, project, NeonMethodUsage.class, (NeonMethodUsage usage)
 				-> usage.getMethodName().equals(searchedName) && phpType.hasClass(usage.getPhpType().getPhpClasses(project))
+		);
+	}
+
+	public static List<NeonConstantUsage> findNeonConstantUsages(NeonPhpType phpType, String searchedName, Project project) {
+		return NeonPsiUtil.acceptAllFiles(NeonFileType.INSTANCE, project, NeonConstantUsage.class, (NeonConstantUsage usage)
+				-> usage.getConstantName().equals(searchedName) && phpType.hasClass(usage.getPhpType().getPhpClasses(project))
 		);
 	}
 
@@ -216,13 +257,39 @@ public class NeonPhpUtil {
 			}
 			if (found == null && parent.getArray() != null) {
 				for (NeonKeyValPair keyValPair : parent.getArray().getKeyValPairList()) {
-					if (keyValPair.getKey() != null && keyValPair.getKey().getKeyText().equals(NeonConfiguration.KEY_CLASS) && keyValPair.getScalarValue() != null) {
+					if (keyValPair.getKey() != null && keyValPair.getScalarValue() != null) {
+						String keyText = keyValPair.getKey().getKeyText();
 						NeonPhpType phpType = keyValPair.getScalarValue().getPhpType();
-						if (phpType.containsClasses()) {
-							found = phpType;
-							if (isArrayBullet) {
-								name = found.toReadableString();
+
+						if (keyText.equals(NeonConfiguration.KEY_CLASS)) {
+							if (phpType.containsClasses()) {
+								found = phpType;
 							}
+
+						} else if (keyText.equals(NeonConfiguration.KEY_FACTORY)) {
+							if (phpType.containsClasses()) {
+								for (PhpClass phpClass : phpType.getPhpClasses(project)) {
+									Method factoryMethod = phpClass.findMethodByName("create");
+									if (factoryMethod != null && factoryMethod.getModifier().isPublic()) {
+										found = NeonPhpType.create(factoryMethod.getType().toString());
+									}
+								}
+							} else {
+								NeonScalarValue scalarValue = keyValPair.getScalarValue();
+								if (scalarValue != null) {
+									for (NeonValue neonValue : scalarValue.getValueList()) {
+										if (neonValue.getPhpStatement() != null) {
+											found = neonValue.getPhpStatement().getPhpType();
+										} else if (neonValue.getServiceStatement() != null) {
+											found = neonValue.getServiceStatement().getPhpType();
+										}
+									}
+								}
+							}
+						}
+
+						if (found != null && isArrayBullet) {
+							name = found.toReadableString();
 						}
 					}
 				}

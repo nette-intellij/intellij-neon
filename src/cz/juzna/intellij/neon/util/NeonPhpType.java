@@ -14,7 +14,7 @@ public class NeonPhpType {
 
 	final private static String[] nativeTypeHints = new String[]{"string", "int", "bool", "object", "float", "array", "mixed", "null", "callable", "iterable"};
 
-	final private static NeonPhpType MIXED_INSTANCE = new NeonPhpType("mixed");
+	final public static NeonPhpType MIXED = new NeonPhpType("mixed");
 
 	private final List<TypePart> types = new ArrayList<TypePart>();
 	private final boolean nullable;
@@ -54,7 +54,7 @@ public class NeonPhpType {
 
 	public static NeonPhpType create(String type) {
 		if (type == null || type.length() == 0 || type.toLowerCase().equals("mixed")) {
-			return MIXED_INSTANCE;
+			return MIXED;
 		}
 		return new NeonPhpType(type);
 	}

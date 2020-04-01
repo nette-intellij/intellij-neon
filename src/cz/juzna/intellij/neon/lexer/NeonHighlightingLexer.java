@@ -19,11 +19,9 @@ public class NeonHighlightingLexer extends LookAheadLexer {
 	private boolean inKeyUsage = false;
 
 	private static final Set<String> KEYWORDS = new HashSet<String>(Arrays.asList(
-		new String[]{
 			"true", "True", "TRUE", "yes", "Yes", "YES", "on", "On", "ON",
 			"false", "False", "FALSE", "no", "No", "NO", "off", "Off", "OFF",
 			"null", "Null", "NULL"
-		}
 	));
 
 	public NeonHighlightingLexer(Lexer baseLexer) {
@@ -37,7 +35,7 @@ public class NeonHighlightingLexer extends LookAheadLexer {
 		}
 
 		boolean classUsagesItems = NeonTokenTypes.HIGHLIGHT_KEYWORD_ELEMENTS.contains(type);
-		if ((lastToken == NeonTokenTypes.NEON_KEY_USAGE || inKeyUsage) && classUsagesItems) {
+		if ((lastToken == NeonTokenTypes.NEON_KEY_USAGE || inKeyUsage) && type != NeonTokenTypes.NEON_DOUBLE_COLON && classUsagesItems) {
 			type = NeonTokenTypes.NEON_KEY_USAGE;
 			inKeyUsage = true;
 

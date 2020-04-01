@@ -62,7 +62,7 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 			haveSome = true;
 		}
 
-		if (haveSome && (params.getInvocationCount() <= 1 || (curr.getParent() instanceof NeonKeyUsage || curr.getText().startsWith("@")))) {
+		if (haveSome && (curr.getParent() instanceof NeonKeyUsage || curr.getText().startsWith("@"))) {
 			results.stopHere();
 		}
 	}

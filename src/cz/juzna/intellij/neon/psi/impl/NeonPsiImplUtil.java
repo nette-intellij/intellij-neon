@@ -6,6 +6,7 @@ import com.intellij.psi.PsiRecursiveElementVisitor;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import cz.juzna.intellij.neon.completion.CompletionUtil;
 import cz.juzna.intellij.neon.config.NeonConfiguration;
 import cz.juzna.intellij.neon.config.NeonKeyChain;
@@ -68,6 +69,56 @@ public class NeonPsiImplUtil {
         return NeonUtil.normalizeKeyName(key.getText().replaceAll("^[\\s\\t]+",""));
     }
 
+    public static @NotNull NeonPhpType getPhpType(@NotNull PsiElement element) {
+        PsiElement prev = PsiTreeUtil.skipWhitespacesBackward(element);
+
+        PsiElement prevElement = PsiTreeUtil.skipWhitespacesBackward(prev);
+
+        NeonPhpType type = null;
+        if (prevElement instanceof NeonClassReference) {
+            type = NeonPhpType.create(((NeonClassReference) prevElement).getClassName());
+        } else if (prevElement instanceof NeonKeyUsage) {
+            type = NeonPhpType.create(((NeonKeyUsage) prevElement).getClassName());
+        } else if (prevElement instanceof NeonConstantUsage) {
+            type = ((NeonConstantUsage) prevElement).getPhpType();
+        }else if (prevElement instanceof NeonMethodUsage) {
+            type = ((NeonMethodUsage) prevElement).getPhpType();
+        }
+        return type != null ? type : NeonPhpType.MIXED;
+    }
+
+    public static @NotNull NeonPhpType getReturnType(@NotNull NeonConstantUsage element) {
+        NeonPhpType type = element.getPhpType();
+        if (!type.containsClasses()) {
+            return NeonPhpType.MIXED;
+        }
+
+        for (PhpTypedElement reference : NeonPhpUtil.getReferencedElements(type, element.getProject(), element.getConstantName())) {
+            return NeonPhpType.create(reference.getType().toString());
+        }
+        return NeonPhpType.MIXED;
+    }
+
+    public static @NotNull NeonPhpType getPhpType(@NotNull NeonPhpStatement element) {
+        //todo: use last usage only (if allow more)
+        if (element.getConstantUsage() != null) {
+            return element.getConstantUsage().getPhpType();
+        } else if (element.getMethodUsage() != null) {
+            return element.getMethodUsage().getPhpType();
+        }
+        return NeonPhpType.MIXED;
+    }
+
+    public static @NotNull NeonPhpType getPhpType(@NotNull NeonServiceStatement element) {
+        //todo: use last usage only (if allow more)
+        if (element.getConstantUsage() != null) {
+            return element.getConstantUsage().getPhpType();
+        } else if (element.getMethodUsage() != null) {
+            return element.getMethodUsage().getPhpType();
+        }
+        return NeonPhpType.MIXED;
+    }
+
     public static List<PsiElement> getKeyTextElements(NeonKey key) {
         List<PsiElement> out = new ArrayList<PsiElement>();
         key.acceptChildren(new PsiRecursiveElementVisitor() {
@@ -97,6 +148,10 @@ public class NeonPsiImplUtil {
         return methodUsage.getText();
     }
 
+    public static String getConstantName(NeonConstantUsage constantUsage) {
+        return constantUsage.getText();
+    }
+
     public static String getServiceName(PsiElement psiElement) {
         NeonKeyValPair keyValPair = PsiTreeUtil.getParentOfType(psiElement, NeonKeyValPair.class);
         if (keyValPair == null || keyValPair.getKey() == null || !keyValPair.getKey().isServiceDefinition()) {
@@ -118,7 +173,7 @@ public class NeonPsiImplUtil {
     @NotNull
     public static NeonPhpType getPhpType(NeonMethodUsage psiElement) {
         NeonService service = NeonConfiguration.INSTANCE.findService(psiElement.getServiceName(), psiElement.getProject());
-        return service == null ? NeonPhpType.create("mixed") : service.getPhpType();
+        return service == null ? getPhpType((PsiElement) psiElement) : service.getPhpType();
     }
 
     @NotNull
@@ -126,7 +181,7 @@ public class NeonPsiImplUtil {
         if (key.getParent() instanceof NeonKeyValPair && ((NeonKeyValPair) key.getParent()).getScalarValue() != null) {
             return ((NeonKeyValPair) key.getParent()).getScalarValue().getPhpType();
         }
-        return NeonPhpType.create("mixed");
+        return NeonPhpType.MIXED;
     }
 
     public static boolean isSetupMethod(NeonMethodUsage methodUsage) {
@@ -237,6 +292,7 @@ public class NeonPsiImplUtil {
         return keyValPair.getKeyList().size() > 0 ? keyValPair.getKeyList().get(0) : null;
     }
 
+    @Nullable
     public static NeonScalarValue getScalarValue(NeonKeyValPair keyValPair) {
         return keyValPair.getScalarValueList().size() > 0 ? keyValPair.getScalarValueList().get(0) : null;
     }
@@ -256,7 +312,8 @@ public class NeonPsiImplUtil {
         if (key.getClassReference() != null) {
             return key.getClassReference().getClassName();
         }
-        return "";
+        NeonService service = NeonPhpUtil.findNeonServiceDefinition(key.getKeyText(), key.getProject());
+        return service != null ? service.getPhpType().toString() : "";
     }
 
     public static boolean isLastKeyUsed(NeonParameterUsage key) {
@@ -293,7 +350,7 @@ public class NeonPsiImplUtil {
                 return NeonPhpType.create(type);
             }
         }
-        return NeonPhpType.create("mixed");
+        return NeonPhpType.MIXED;
     }
 
     public static HashMap<String, NeonScalarValue> getMap(PsiElement array) {

@@ -5,7 +5,7 @@ import cz.juzna.intellij.neon.psi.NeonPhpElementUsage;
 /**
  * Key from key-value pair
  */
-public interface NeonMethodUsageElement extends NeonPsiElement, NeonPhpElementUsage {
+public interface NeonConstantUsageElement extends NeonPsiElement, NeonPhpElementUsage {
 
 
 }

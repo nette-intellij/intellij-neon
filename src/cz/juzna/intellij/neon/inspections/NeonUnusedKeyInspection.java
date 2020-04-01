@@ -54,7 +54,7 @@ public class NeonUnusedKeyInspection extends BaseLocalInspectionTool {
 						List<NeonKeyUsage> found = NeonPhpUtil.attachNeonKeyUsages(serviceName, project);
 
 						if (found.size() == 0) {
-							addDeprecated(manager, problems, key, "Service '" + serviceName + "' is not used by name", isOnTheFly);
+							addUnused(manager, problems, key, "Service '" + serviceName + "' is not used by name in Neon files", isOnTheFly);
 							super.visitElement(element);
 						}
 
@@ -64,7 +64,7 @@ public class NeonUnusedKeyInspection extends BaseLocalInspectionTool {
 						List<NeonParameterUsage> found = NeonPhpUtil.attachNeonParameterUsages(key.getKeyChain(false).withChildKey(key.getKeyText()), project);
 
 						if (found.size() == 0) {
-							addDeprecated(manager, problems, key, "Parameter '" + parameterName + "' is not used", isOnTheFly);
+							addUnused(manager, problems, key, "Parameter '" + parameterName + "' is not used", isOnTheFly);
 							super.visitElement(element);
 
 						} else {

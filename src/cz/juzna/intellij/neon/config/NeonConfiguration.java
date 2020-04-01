@@ -16,6 +16,7 @@ public class NeonConfiguration {
 	public static final NeonConfiguration INSTANCE = new NeonConfiguration();
 
 	public static final String KEY_CLASS = "class";
+	public static final String KEY_FACTORY = "factory";
 	public static final String KEY_SETUP = "setup";
 
 	public static final String[] COMMON_VALUES = {"true", "false", "yes", "no", "null"};
