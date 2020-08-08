@@ -24,6 +24,8 @@ public class MethodCompletionProvider extends CompletionProvider<CompletionParam
 	// current element
 	PsiElement curr;
 
+	boolean isMagicPrefixed;
+
 	public MethodCompletionProvider() {
 		super();
 	}
@@ -35,39 +37,85 @@ public class MethodCompletionProvider extends CompletionProvider<CompletionParam
 	    @NotNull CompletionResultSet results
 	) {
 		curr = params.getPosition().getOriginalElement();
-		boolean incompleteKey = CompletionUtil.isIncompleteKey(curr);
-		if (incompleteKey || (!(curr.getParent() instanceof NeonMethodUsage) && !(curr.getParent() instanceof NeonValue))) {
+		if (!isValidTarget()) {
 			return;
 		}
 
-		String serviceName = NeonPsiImplUtil.getServiceName(curr);
-		if (serviceName.length() == 0) {
-			return;
-		}
+		isMagicPrefixed = results.getPrefixMatcher().getPrefix().startsWith("__");
 
 		boolean hasSomething = false;
-		NeonService service = NeonConfiguration.INSTANCE.findService(serviceName, curr.getProject());
-		if (service != null && service.getPhpType().containsClasses()) {
-			boolean isMagicPrefixed = results.getPrefixMatcher().getPrefix().startsWith("__");
-			for (PhpClass phpClass : service.getPhpType().getPhpClasses(curr.getProject())) {
-				for (Method method : phpClass.getMethods()) {
-					if (!method.isStatic() && method.getModifier().isPublic()) {
-						if (!isMagicPrefixed && params.getInvocationCount() <= 1 && NeonTypesUtil.isExcludedCompletion(method.getName())) {
-							continue;
-						}
+		String serviceName = NeonPsiImplUtil.getServiceName(curr);
+		if (serviceName.length() > 0) {
+			hasSomething = findServiceByName(serviceName, params, results);
 
-						PhpLookupElement lookupItem = new PhpLookupElement(method);
-						lookupItem.handler = PhpMethodInsertHandler.getInstance();
-						results.addElement(lookupItem);
-						hasSomething = true;
-					}
-				}
+		} else if (curr.getParent() instanceof NeonPhpElementUsage) {
+			NeonPhpStatementElement statement = ((NeonPhpElementUsage) curr.getParent()).getPhpStatement();
+			if (statement != null) {
+				hasSomething = findServiceInStatement((NeonPhpElementUsage) curr.getParent(), params, results);
 			}
+
 		}
 
 		if (hasSomething && params.getInvocationCount() <= 1) {
 			results.stopHere();
 		}
+	}
+
+	private boolean findServiceInStatement(
+			@NotNull NeonPhpElementUsage usageElement,
+			@NotNull CompletionParameters params,
+			@NotNull CompletionResultSet results
+	) {
+		boolean hasSomething = false;
+		for (PhpClass phpClass : usageElement.getPhpType().getPhpClasses(curr.getProject())) {
+			for (Method method : phpClass.getMethods()) {
+				if (method.getModifier().isPublic()) {
+					if (attachMethod(method, params, results)) {
+						hasSomething = true;
+					}
+				}
+			}
+		}
+		return hasSomething;
+	}
+
+	private boolean findServiceByName(@NotNull String serviceName, @NotNull CompletionParameters params, @NotNull CompletionResultSet results) {
+		boolean hasSomething = false;
+		NeonService service = NeonConfiguration.INSTANCE.findService(serviceName, curr.getProject());
+		if (service != null && service.getPhpType().containsClasses()) {
+			for (PhpClass phpClass : service.getPhpType().getPhpClasses(curr.getProject())) {
+				for (Method method : phpClass.getMethods()) {
+					if (!method.isStatic() && method.getModifier().isPublic()) {
+						if (attachMethod(method, params, results)) {
+							hasSomething = true;
+						}
+					}
+				}
+			}
+		}
+		return hasSomething;
+	}
+
+	private boolean attachMethod(@NotNull Method method, @NotNull CompletionParameters params, @NotNull CompletionResultSet results) {
+		if (!isMagicPrefixed && params.getInvocationCount() <= 1 && NeonTypesUtil.isExcludedCompletion(method.getName())) {
+			return false;
+		}
+
+		PhpLookupElement lookupItem = new PhpLookupElement(method);
+		lookupItem.handler = PhpMethodInsertHandler.getInstance();
+		results.addElement(lookupItem);
+		return true;
+	}
+
+	private boolean isValidTarget() {
+		boolean incompleteKey = CompletionUtil.isIncompleteKey(curr);
+		if (incompleteKey) {
+			return false;
+		}
+
+		return curr.getParent() instanceof NeonMethodUsage
+				|| curr.getParent() instanceof NeonValue
+				|| curr.getParent() instanceof NeonConstantUsage;
 	}
 
 }

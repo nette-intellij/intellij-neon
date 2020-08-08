@@ -33,11 +33,11 @@ OCT_NUMBER = [+-]?0[oO][1-7][0-7]*
 HEX_NUMBER = [+-]?0[xX][0-9a-fA-F]+
 NUMBER = [+-]?[0-9]+(\.[0-9]+)?([Ee][+-]?[0-9]+)?
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
-KEY_IDENTIFIER=[a-zA-Z0-9_!$&*><][a-zA-Z0-9_!$%&*><]*
+KEY_IDENTIFIER=[a-zA-Z0-9_!$&*><][a-zA-Z0-9_!$&*><]*
 SHORTCUT_CLASS_NAME=\\?[a-zA-Z_][a-zA-Z0-9_\\]*
 COMMENT = \#.*
 INDENT = \n+[\t ]*
-LITERAL_START = [^-:#\"\',=\[\]{}()\x00-\x20!`]|[:-][!#$%&*><\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF]
+LITERAL_START = [^-:#\"\',=\[\]{}()\x00-\x20!`]|[:-][!#$&*><\x2D-\x5C\x5E-\x7C~\xA0-\uFFFF]
 WHITESPACE = [\t ]+
 
 %states DEFAULT, IN_LITERAL, VYINITIAL
@@ -89,7 +89,7 @@ WHITESPACE = [\t ]+
     	return NEON_SINGLE_QUOTE_LEFT;
     }
 
-    "%" {
+    "%" / ({KEY_IDENTIFIER} "."?)+ "%" {
     	yybegin(IN_PARAMETER);
     	return NEON_PARAMETER_LEFT;
     }

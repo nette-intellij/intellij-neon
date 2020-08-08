@@ -116,10 +116,12 @@ wholeString      ::= wholeSingleQuotedString | wholeDoubleQuotedString | NEON_ST
 string      ::= singleQuotedString | doubleQuotedString | NEON_STRING
 
 phpStatement      ::= classReference NEON_DOUBLE_COLON (constantUsage | methodUsage) {
+                    implements="cz.juzna.intellij.neon.psi.NeonPhpStatementElement"
                     methods = [getPhpType]
                 }
 
 serviceStatement      ::= keyUsage NEON_DOUBLE_COLON (constantUsage | methodUsage) {
+                    implements="cz.juzna.intellij.neon.psi.NeonPhpStatementElement"
                     methods = [getPhpType]
                 }
 
@@ -144,7 +146,7 @@ namespaceReference    ::= NEON_NAMESPACE_REFERENCE {
 keyUsage    ::= (NEON_KEY_USAGE classReference) | NEON_KEY_USAGE {
                      mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonKeyUsageElementImpl"
                      implements="cz.juzna.intellij.neon.psi.elements.NeonKeyUsageElement"
-                     methods = [getKeyText getClassName]
+                     methods = [getKeyText getClassName getPhpType]
                  }
 
 parameterUsageContainer    ::= NEON_PARAMETER_LEFT parameterUsage (NEON_PARAMETER_DELIMITER parameterUsage)* NEON_PARAMETER_RIGHT
@@ -158,13 +160,13 @@ parameterUsage    ::= NEON_PARAMETER_USAGE {
 methodUsage    ::= NEON_METHOD | NEON_PHP_STATIC_METHOD {
                      mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonMethodUsageElementImpl"
                      implements="cz.juzna.intellij.neon.psi.elements.NeonMethodUsageElement"
-                     methods = [getName setName getNameIdentifier getMethodName isSetupMethod getServiceName getPhpType]
+                     methods = [getName setName getNameIdentifier getMethodName isSetupMethod getServiceName getPhpType getPhpStatement]
                  }
 
 constantUsage    ::= NEON_PHP_STATIC_IDENTIFIER {
                      mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonConstantUsageElementImpl"
                      implements="cz.juzna.intellij.neon.psi.elements.NeonConstantUsageElement"
-                     methods = [getConstantName getPhpType getReturnType]
+                     methods = [getConstantName getPhpType getReturnType getPhpStatement]
                  }
 
 private
