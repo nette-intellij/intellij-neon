@@ -1,0 +1,34 @@
+NeonFile:ErrorClosingBracket2.neon
+  PsiComment([Neon] NEON_COMMENT)('# errors')
+  PsiElement([Neon] NEON_INDENT)('\n')
+  NeonMainArrayImpl([Neon] MAIN_ARRAY)
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        <empty list>
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('a')
+        PsiElement([Neon] NEON_COLON)(':')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n    ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('foo')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              Neon method usage
+                PsiElement([Neon] NEON_METHOD)('Bar')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        <empty list>
+    PsiErrorElement:Empty element parsed in 'mainArray_0' at offset 24
+      <empty list>
+  PsiElement([Neon] NEON_LPAREN)('(')
+  PsiWhiteSpace(' ')
+  PsiElement([Neon] NEON_IDENTIFIER)('Baz')
+  PsiWhiteSpace(' ')
+  PsiErrorElement:<class reference>, <key>, <value>, '[Neon] NEON_ARRAY_BULLET', '[Neon] NEON_ASSIGNMENT', '[Neon] NEON_COLON', '[Neon] NEON_CONCATENATION', '[Neon] NEON_DATE_TIME', '[Neon] NEON_DOUBLE_COLON', '[Neon] NEON_IDENTIFIER', '[Neon] NEON_ITEM_DELIMITER', '[Neon] NEON_LITERAL', '[Neon] NEON_NUMBER' or '[Neon] NEON_RPAREN' expected, got ']'
+    PsiElement([Neon] NEON_RBRACE_SQUARE)(']')
+  PsiElement([Neon] NEON_INDENT)('\n')

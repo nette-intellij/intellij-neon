@@ -1,0 +1,42 @@
+NeonFile:ArrayEntity.neon
+  NeonMainArrayImpl([Neon] MAIN_ARRAY)
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        <empty list>
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('doctrine')
+        PsiElement([Neon] NEON_COLON)(':')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n\t')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('metadata')
+            PsiElement([Neon] NEON_COLON)(':')
+          NeonArrayImpl([Neon] ARRAY)
+            NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+              NeonIndentImpl([Neon] INDENT)
+                PsiElement([Neon] NEON_INDENT)('\n\t\t')
+              Neon key
+                PsiElement([Neon] NEON_IDENTIFIER)('At')
+                PsiElement([Neon] NEON_COLON)(':')
+              PsiWhiteSpace(' ')
+              NeonScalarValueImpl([Neon] SCALAR_VALUE)
+                NeonValueImpl([Neon] VALUE)
+                  Neon method usage
+                    PsiElement([Neon] NEON_METHOD)('annotations')
+                NeonValueImpl([Neon] VALUE)
+                  NeonArrayOfValuesImpl([Neon] ARRAY_OF_VALUES)
+                    PsiElement([Neon] NEON_LPAREN)('(')
+                    NeonValueImpl([Neon] VALUE)
+                      NeonParameterUsageContainerImpl([Neon] PARAMETER_USAGE_CONTAINER)
+                        PsiElement([Neon] NEON_PARAMETER_LEFT)('%')
+                        Neon parameter usage
+                          PsiElement([Neon] NEON_PARAMETER_USAGE)('appDir')
+                        PsiElement([Neon] NEON_PARAMETER_RIGHT)('%')
+                    NeonValueImpl([Neon] VALUE)
+                      PsiElement([Neon] NEON_LITERAL)('/models/At')
+                    PsiElement([Neon] NEON_RPAREN)(')')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n')

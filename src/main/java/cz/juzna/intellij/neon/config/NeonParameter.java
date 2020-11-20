@@ -16,7 +16,7 @@ public class NeonParameter {
 	}
 
 	public NeonParameter(@NotNull String name) {
-		this(name, NeonPhpType.create("mixed"));
+		this(name, NeonPhpType.MIXED);
 	}
 
 	public String getName() {

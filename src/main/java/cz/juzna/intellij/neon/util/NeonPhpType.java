@@ -16,7 +16,7 @@ public class NeonPhpType {
 
 	final public static NeonPhpType MIXED = new NeonPhpType("mixed");
 
-	private final List<TypePart> types = new ArrayList<TypePart>();
+	private final List<TypePart> types = new ArrayList<>();
 	private final boolean nullable;
 	private boolean hasClass = false;
 

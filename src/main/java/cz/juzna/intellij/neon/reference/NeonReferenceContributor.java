@@ -73,7 +73,7 @@ public class NeonReferenceContributor extends PsiReferenceContributor {
 							int isString = ((NeonKey) element).getWholeString() != null ? 1 : 0;
 							try {
 								return new PsiReference[]{
-										new NeonKeyReference((NeonKey) element, new TextRange(start + isString, normalizedName.length() - isString))
+										new NeonKeyReference((NeonKey) element, new TextRange(start + isString, normalizedName.length()))
 								};
 							} catch (AssertionError e) {
 								return PsiReference.EMPTY_ARRAY;

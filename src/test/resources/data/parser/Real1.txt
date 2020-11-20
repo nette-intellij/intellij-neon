@@ -1,0 +1,586 @@
+NeonFile:Real1.neon
+  NeonMainArrayImpl([Neon] MAIN_ARRAY)
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        <empty list>
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('services')
+        PsiElement([Neon] NEON_COLON)(':')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n')
+      PsiComment([Neon] NEON_COMMENT)('# aliases for back compatibility')
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('application')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          Neon key usage
+            PsiElement([Neon] NEON_KEY_USAGE)('@')
+            Neon class reference
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+              PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Application')
+              Neon class usage
+                PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                PsiElement([Neon] NEON_IDENTIFIER)('Application')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('router')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          Neon key usage
+            PsiElement([Neon] NEON_KEY_USAGE)('@')
+            Neon class reference
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+              PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Application')
+              PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Routers')
+              Neon class usage
+                PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                PsiElement([Neon] NEON_IDENTIFIER)('RouteList')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('session')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          Neon key usage
+            PsiElement([Neon] NEON_KEY_USAGE)('@')
+            Neon class reference
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+              PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Http')
+              Neon class usage
+                PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                PsiElement([Neon] NEON_IDENTIFIER)('Session')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('user')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          Neon key usage
+            PsiElement([Neon] NEON_KEY_USAGE)('@')
+            Neon class reference
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+              PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Http')
+              Neon class usage
+                PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                PsiElement([Neon] NEON_IDENTIFIER)('User')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('cacheStorage')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          Neon key usage
+            PsiElement([Neon] NEON_KEY_USAGE)('@')
+            Neon class reference
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+              PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Caching')
+              PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+              Neon namespace reference
+                PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Storages')
+              Neon class usage
+                PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                PsiElement([Neon] NEON_IDENTIFIER)('FileStorage')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n\n')
+      PsiComment([Neon] NEON_COMMENT)('# cache')
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Caching')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Storages')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('FileJournal')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          Neon method usage
+            PsiElement([Neon] NEON_METHOD)('self')
+        NeonValueImpl([Neon] VALUE)
+          NeonArrayOfValuesImpl([Neon] ARRAY_OF_VALUES)
+            PsiElement([Neon] NEON_LPAREN)('(')
+            NeonValueImpl([Neon] VALUE)
+              NeonParameterUsageContainerImpl([Neon] PARAMETER_USAGE_CONTAINER)
+                PsiElement([Neon] NEON_PARAMETER_LEFT)('%')
+                Neon parameter usage
+                  PsiElement([Neon] NEON_PARAMETER_USAGE)('tempDir')
+                PsiElement([Neon] NEON_PARAMETER_RIGHT)('%')
+            PsiElement([Neon] NEON_RPAREN)(')')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Caching')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Storages')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('FileStorage')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          Neon method usage
+            PsiElement([Neon] NEON_METHOD)('self')
+        NeonValueImpl([Neon] VALUE)
+          NeonArrayOfValuesImpl([Neon] ARRAY_OF_VALUES)
+            PsiElement([Neon] NEON_LPAREN)('(')
+            NeonValueImpl([Neon] VALUE)
+              NeonParameterUsageContainerImpl([Neon] PARAMETER_USAGE_CONTAINER)
+                PsiElement([Neon] NEON_PARAMETER_LEFT)('%')
+                Neon parameter usage
+                  PsiElement([Neon] NEON_PARAMETER_USAGE)('tempDir')
+                PsiElement([Neon] NEON_PARAMETER_RIGHT)('%')
+            NeonValueImpl([Neon] VALUE)
+              PsiElement([Neon] NEON_LITERAL)('/cache')
+            PsiElement([Neon] NEON_RPAREN)(')')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('templateCacheStorage')
+        PsiElement([Neon] NEON_COLON)(':')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n        ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('class')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              Neon class reference
+                Neon namespace reference
+                  PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+                PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                Neon namespace reference
+                  PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Caching')
+                PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                Neon namespace reference
+                  PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Storages')
+                Neon class usage
+                  PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                  PsiElement([Neon] NEON_METHOD)('PhpFileStorage')
+            NeonValueImpl([Neon] VALUE)
+              NeonArrayOfValuesImpl([Neon] ARRAY_OF_VALUES)
+                PsiElement([Neon] NEON_LPAREN)('(')
+                NeonValueImpl([Neon] VALUE)
+                  NeonParameterUsageContainerImpl([Neon] PARAMETER_USAGE_CONTAINER)
+                    PsiElement([Neon] NEON_PARAMETER_LEFT)('%')
+                    Neon parameter usage
+                      PsiElement([Neon] NEON_PARAMETER_USAGE)('tempDir')
+                    PsiElement([Neon] NEON_PARAMETER_RIGHT)('%')
+                NeonValueImpl([Neon] VALUE)
+                  PsiElement([Neon] NEON_LITERAL)('/cache')
+                PsiElement([Neon] NEON_RPAREN)(')')
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n        ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('autowired')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              PsiElement([Neon] NEON_IDENTIFIER)('no')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n\n')
+      PsiComment([Neon] NEON_COMMENT)('# http')
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Http')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('Request')
+        PsiElement([Neon] NEON_COLON)(':')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n        ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('class')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              PsiElement([Neon] NEON_IDENTIFIER)('self')
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n        ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('factory')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              NeonServiceStatementImpl([Neon] SERVICE_STATEMENT)
+                Neon key usage
+                  PsiElement([Neon] NEON_KEY_USAGE)('@httpRequestFactory')
+                PsiElement([Neon] NEON_DOUBLE_COLON)('::')
+                Neon constant usage
+                  PsiElement([Neon] NEON_PHP_STATIC_IDENTIFIER)('createHttpRequest')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Http')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('Response')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          PsiElement([Neon] NEON_IDENTIFIER)('self')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Http')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('Context')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          PsiElement([Neon] NEON_IDENTIFIER)('self')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Http')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('User')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          PsiElement([Neon] NEON_IDENTIFIER)('self')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Http')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('Session')
+        PsiElement([Neon] NEON_COLON)(':')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n        ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('class')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              PsiElement([Neon] NEON_IDENTIFIER)('self')
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n        ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('setup')
+            PsiElement([Neon] NEON_COLON)(':')
+          NeonArrayImpl([Neon] ARRAY)
+            NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+              NeonIndentImpl([Neon] INDENT)
+                PsiElement([Neon] NEON_INDENT)('\n            ')
+              PsiComment([Neon] NEON_COMMENT)('# - setOptions')
+              NeonIndentImpl([Neon] INDENT)
+                PsiElement([Neon] NEON_INDENT)('\n\n')
+    PsiComment([Neon] NEON_COMMENT)('# application')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Application')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Routers')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('RouteList')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          PsiElement([Neon] NEON_IDENTIFIER)('self')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Application')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('PresenterFactory')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          Neon method usage
+            PsiElement([Neon] NEON_METHOD)('self')
+        NeonValueImpl([Neon] VALUE)
+          NeonArrayOfValuesImpl([Neon] ARRAY_OF_VALUES)
+            PsiElement([Neon] NEON_LPAREN)('(')
+            NeonValueImpl([Neon] VALUE)
+              NeonParameterUsageContainerImpl([Neon] PARAMETER_USAGE_CONTAINER)
+                PsiElement([Neon] NEON_PARAMETER_LEFT)('%')
+                Neon parameter usage
+                  PsiElement([Neon] NEON_PARAMETER_USAGE)('appDir')
+                PsiElement([Neon] NEON_PARAMETER_RIGHT)('%')
+            PsiElement([Neon] NEON_RPAREN)(')')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Application')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('Application')
+        PsiElement([Neon] NEON_COLON)(':')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n        ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('class')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              PsiElement([Neon] NEON_IDENTIFIER)('self')
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n        ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('setup')
+            PsiElement([Neon] NEON_COLON)(':')
+          NeonArrayImpl([Neon] ARRAY)
+            NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+              NeonIndentImpl([Neon] INDENT)
+                PsiElement([Neon] NEON_INDENT)('\n            ')
+              Neon key
+                PsiElement([Neon] NEON_ARRAY_BULLET)('-')
+              PsiWhiteSpace(' ')
+              NeonScalarValueImpl([Neon] SCALAR_VALUE)
+                NeonValueImpl([Neon] VALUE)
+                  PsiElement([Neon] NEON_LITERAL)('$catchExceptions')
+                NeonValueImpl([Neon] VALUE)
+                  NeonArrayOfValuesImpl([Neon] ARRAY_OF_VALUES)
+                    PsiElement([Neon] NEON_LPAREN)('(')
+                    NeonValueImpl([Neon] VALUE)
+                      NeonParameterUsageContainerImpl([Neon] PARAMETER_USAGE_CONTAINER)
+                        PsiElement([Neon] NEON_PARAMETER_LEFT)('%')
+                        Neon parameter usage
+                          PsiElement([Neon] NEON_PARAMETER_USAGE)('productionMode')
+                        PsiElement([Neon] NEON_PARAMETER_RIGHT)('%')
+                    PsiElement([Neon] NEON_RPAREN)(')')
+            NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+              NeonIndentImpl([Neon] INDENT)
+                PsiElement([Neon] NEON_INDENT)('\n            ')
+              Neon key
+                PsiElement([Neon] NEON_ARRAY_BULLET)('-')
+              PsiWhiteSpace(' ')
+              NeonScalarValueImpl([Neon] SCALAR_VALUE)
+                NeonValueImpl([Neon] VALUE)
+                  NeonPhpStatementImpl([Neon] PHP_STATEMENT)
+                    Neon class reference
+                      Neon namespace reference
+                        PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+                      PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                      Neon namespace reference
+                        PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Application')
+                      PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                      Neon namespace reference
+                        PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Diagnostics')
+                      Neon class usage
+                        PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                        PsiElement([Neon] NEON_IDENTIFIER)('RoutingPanel')
+                    PsiElement([Neon] NEON_DOUBLE_COLON)('::')
+                    Neon constant usage
+                      PsiElement([Neon] NEON_PHP_STATIC_IDENTIFIER)('initialize')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n\n')
+      PsiComment([Neon] NEON_COMMENT)('# mailer')
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n    ')
+      Neon key
+        Neon class reference
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+          PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+          Neon namespace reference
+            PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Mail')
+          Neon class usage
+            PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+            PsiElement([Neon] NEON_IDENTIFIER)('SendmailMailer')
+        PsiElement([Neon] NEON_COLON)(':')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          PsiElement([Neon] NEON_IDENTIFIER)('self')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n\n')
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('factories')
+        PsiElement([Neon] NEON_COLON)(':')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n    ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('httpRequestFactory')
+            PsiElement([Neon] NEON_COLON)(':')
+          NeonArrayImpl([Neon] ARRAY)
+            NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+              NeonIndentImpl([Neon] INDENT)
+                PsiElement([Neon] NEON_INDENT)('\n        ')
+              Neon key
+                PsiElement([Neon] NEON_IDENTIFIER)('class')
+                PsiElement([Neon] NEON_COLON)(':')
+              PsiWhiteSpace(' ')
+              NeonScalarValueImpl([Neon] SCALAR_VALUE)
+                NeonValueImpl([Neon] VALUE)
+                  Neon class reference
+                    Neon namespace reference
+                      PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+                    PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                    Neon namespace reference
+                      PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Http')
+                    Neon class usage
+                      PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                      PsiElement([Neon] NEON_IDENTIFIER)('RequestFactory')
+            NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+              NeonIndentImpl([Neon] INDENT)
+                PsiElement([Neon] NEON_INDENT)('\n        ')
+              Neon key
+                PsiElement([Neon] NEON_IDENTIFIER)('setup')
+                PsiElement([Neon] NEON_COLON)(':')
+              NeonArrayImpl([Neon] ARRAY)
+                NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+                  NeonIndentImpl([Neon] INDENT)
+                    PsiElement([Neon] NEON_INDENT)('\n            ')
+                  Neon key
+                    PsiElement([Neon] NEON_ARRAY_BULLET)('-')
+                  PsiWhiteSpace(' ')
+                  NeonScalarValueImpl([Neon] SCALAR_VALUE)
+                    NeonValueImpl([Neon] VALUE)
+                      Neon method usage
+                        PsiElement([Neon] NEON_METHOD)('setEncoding')
+                    NeonValueImpl([Neon] VALUE)
+                      NeonArrayOfValuesImpl([Neon] ARRAY_OF_VALUES)
+                        PsiElement([Neon] NEON_LPAREN)('(')
+                        NeonValueImpl([Neon] VALUE)
+                          PsiElement([Neon] NEON_LITERAL)('UTF-8')
+                        PsiElement([Neon] NEON_RPAREN)(')')
+            NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+              NeonIndentImpl([Neon] INDENT)
+                PsiElement([Neon] NEON_INDENT)('\n        ')
+              Neon key
+                PsiElement([Neon] NEON_IDENTIFIER)('internal')
+                PsiElement([Neon] NEON_COLON)(':')
+              PsiWhiteSpace(' ')
+              NeonScalarValueImpl([Neon] SCALAR_VALUE)
+                NeonValueImpl([Neon] VALUE)
+                  PsiElement([Neon] NEON_IDENTIFIER)('TRUE')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n')

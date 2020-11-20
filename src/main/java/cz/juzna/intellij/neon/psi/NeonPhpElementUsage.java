@@ -11,6 +11,9 @@ public interface NeonPhpElementUsage {
     String getPhpElementName();
 
     @NotNull
+    NeonPhpType getReturnType();
+
+    @NotNull
     NeonPhpType getPhpType();
 
     @Nullable

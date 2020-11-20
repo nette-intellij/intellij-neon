@@ -52,6 +52,7 @@ intellij {
 
 repositories {
     mavenCentral()
+//    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
     maven { url = 'https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core' }
     flatDir {
         dirs 'libs'
@@ -60,6 +61,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.hamcrest:hamcrest-core:1.3'
+//    compileOnly 'com.mesour.intellij:intellij-utils:1.0.0-SNAPSHOT'
     testCompile 'junit:junit:4.13'
 }
 

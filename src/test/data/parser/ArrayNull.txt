@@ -1,8 +1,0 @@
-NeonFile:ArrayNull.neon
-  Neon array
-    NeonPsiElementImpl([Neon] Item)
-      PsiElement([Neon] -)('-')
-      PsiElement([Neon] indent)('\n')
-    NeonPsiElementImpl([Neon] Item)
-      PsiElement([Neon] -)('-')
-      PsiElement([Neon] indent)('\n')

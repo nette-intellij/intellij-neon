@@ -48,6 +48,12 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 		PrefixMatcher prefixMatcher = results.getPrefixMatcher();
 		PsiElement parentKey = curr.getParent().getParent();
 		NeonKeyValPair keyValuePair = CompletionUtil.findCurrentKeyValuePair(curr);
+		if (keyValuePair != null && keyValuePair.isLastKey() && keyValuePair.getKey() != null) {
+			keyValuePair = ((NeonKeyValPair) keyValuePair.getPrevSibling());
+			assert keyValuePair.getKey() != null;
+			curr = keyValuePair.getKey();
+			String s = "";
+		}
 		// hit autocompletion twice -> autodetect
 //		if (params.getInvocationCount() >= 2)
 		boolean incompleteKey = CompletionUtil.isIncompleteKey(curr);
@@ -56,7 +62,7 @@ public class KeywordCompletionProvider extends CompletionProvider<CompletionPara
 			Map<String, Collection<String>> tmp = schemaProvider.getKnownTypes(curr.getProject());
 
 			// dodgy: remap type
-			HashMap<String, String[]> tmp2 = new HashMap<String, String[]>();
+			HashMap<String, String[]> tmp2 = new HashMap<>();
 			for (String k : tmp.keySet()) {
 				tmp2.put(k, tmp.get(k).toArray(new String[tmp.get(k).size()]));
 			}

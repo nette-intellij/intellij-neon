@@ -1,0 +1,130 @@
+NeonFile:Array3.neon
+  PsiComment([Neon] NEON_COMMENT)('# factories')
+  PsiElement([Neon] NEON_INDENT)('\n')
+  NeonMainArrayImpl([Neon] MAIN_ARRAY)
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        <empty list>
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('services')
+        PsiElement([Neon] NEON_COLON)(':')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n\t')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('ropanel1')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              NeonPhpStatementImpl([Neon] PHP_STATEMENT)
+                Neon class reference
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+                  PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Application')
+                  PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Diagnostics')
+                  Neon class usage
+                    PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                    PsiElement([Neon] NEON_IDENTIFIER)('RoutingPanel')
+                PsiElement([Neon] NEON_DOUBLE_COLON)('::')
+                Neon constant usage
+                  PsiElement([Neon] NEON_PHP_STATIC_IDENTIFIER)('initialize')
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n\t')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('ropanel2')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              NeonPhpStatementImpl([Neon] PHP_STATEMENT)
+                Neon class reference
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+                  PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Application')
+                  PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Diagnostics')
+                  Neon class usage
+                    PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                    PsiElement([Neon] NEON_IDENTIFIER)('RoutingPanel')
+                PsiElement([Neon] NEON_DOUBLE_COLON)('::')
+                Neon method usage
+                  PsiElement([Neon] NEON_PHP_STATIC_METHOD)('initialize')
+            NeonValueImpl([Neon] VALUE)
+              NeonArrayOfValuesImpl([Neon] ARRAY_OF_VALUES)
+                PsiElement([Neon] NEON_LPAREN)('(')
+                NeonValueImpl([Neon] VALUE)
+                  PsiElement([Neon] NEON_IDENTIFIER)('test')
+                PsiElement([Neon] NEON_RPAREN)(')')
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n\t')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('httpRequest')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              NeonServiceStatementImpl([Neon] SERVICE_STATEMENT)
+                Neon key usage
+                  PsiElement([Neon] NEON_KEY_USAGE)('@httpRequestFactory')
+                PsiElement([Neon] NEON_DOUBLE_COLON)('::')
+                Neon constant usage
+                  PsiElement([Neon] NEON_PHP_STATIC_IDENTIFIER)('createHttpRequest')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n\n')
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('panels')
+        PsiElement([Neon] NEON_COLON)(':')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n\t')
+          Neon key
+            PsiElement([Neon] NEON_ARRAY_BULLET)('-')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              NeonPhpStatementImpl([Neon] PHP_STATEMENT)
+                Neon class reference
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Nette')
+                  PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Application')
+                  PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Diagnostics')
+                  Neon class usage
+                    PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                    PsiElement([Neon] NEON_IDENTIFIER)('RoutingPanel')
+                PsiElement([Neon] NEON_DOUBLE_COLON)('::')
+                Neon constant usage
+                  PsiElement([Neon] NEON_PHP_STATIC_IDENTIFIER)('initialize')
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n\t')
+          Neon key
+            PsiElement([Neon] NEON_ARRAY_BULLET)('-')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              NeonServiceStatementImpl([Neon] SERVICE_STATEMENT)
+                Neon key usage
+                  PsiElement([Neon] NEON_KEY_USAGE)('@httpRequestFactory')
+                PsiElement([Neon] NEON_DOUBLE_COLON)('::')
+                Neon constant usage
+                  PsiElement([Neon] NEON_PHP_STATIC_IDENTIFIER)('start')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n')

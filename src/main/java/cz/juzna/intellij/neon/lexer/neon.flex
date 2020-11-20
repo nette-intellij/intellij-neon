@@ -285,13 +285,11 @@ WHITESPACE = [\t ]+
 	("\\" [^] | [^'\\%])+ {
 		return NEON_STRING;
 	}
-    "%" {
+    "%" / ({KEY_IDENTIFIER} "."?)+ "%" {
         yybegin(IN_PARAMETER_SINGLE);
         return NEON_PARAMETER_LEFT;
     }
-	"%" {
-        return NEON_STRING;
-    }
+	"%" {}
 	.|\n {}
 }
 
@@ -303,12 +301,10 @@ WHITESPACE = [\t ]+
 	("\\" [^] | [^\"\\%])+ {
 		return NEON_STRING;
 	}
-	"%" {
+	"%" / ({KEY_IDENTIFIER} "."?)+ "%" {
         yybegin(IN_PARAMETER_DOUBLE);
         return NEON_PARAMETER_LEFT;
     }
-	"%" {
-        return NEON_STRING;
-    }
+	"%" {}
 	.|\n {}
 }

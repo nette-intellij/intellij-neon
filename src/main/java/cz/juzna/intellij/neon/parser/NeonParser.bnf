@@ -43,7 +43,7 @@ private
 innerArrayLine    ::= innerKeyValPair
 
 keyValPair    ::= innerKeyValPair {
-                    methods = [getKeyText isMainKey getScalarValue getIndent getKey]
+                    methods = [getKeyText isMainKey getScalarValue getIndent getKey isLastKey]
                 }
 
 private
@@ -62,9 +62,9 @@ scalarValue    ::= values+ {
 arrayOfValues  ::= NEON_LBRACE_SQUARE arrayOfValues NEON_RBRACE_SQUARE
                         | NEON_LBRACE_CURLY arrayOfValues NEON_RBRACE_CURLY
                         | NEON_LPAREN arrayOfValues NEON_RPAREN
-                        | NEON_LBRACE_SQUARE arrayContent NEON_RBRACE_SQUARE
-                        | NEON_LBRACE_CURLY arrayContent NEON_RBRACE_CURLY
-                        | NEON_LPAREN arrayContent NEON_RPAREN {
+                        | NEON_LBRACE_SQUARE (arrayContent | NEON_INDENT*) NEON_RBRACE_SQUARE
+                        | NEON_LBRACE_CURLY (arrayContent | NEON_INDENT*) NEON_RBRACE_CURLY
+                        | NEON_LPAREN (arrayContent | NEON_INDENT*) NEON_RPAREN {
                     methods = [getKeys]
                 }
 
@@ -72,7 +72,7 @@ private
 arrayContent    ::= arrayValue+ (NEON_ITEM_DELIMITER arrayValue+)*
 
 private
-arrayValue      ::= arrayKeyValuePair | value
+arrayValue      ::= arrayKeyValuePair | (NEON_INDENT* value NEON_INDENT*)
 
 arrayKeyValuePair  ::= key value {
                     methods=[getKeyText]
@@ -160,7 +160,7 @@ parameterUsage    ::= NEON_PARAMETER_USAGE {
 methodUsage    ::= NEON_METHOD | NEON_PHP_STATIC_METHOD {
                      mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonMethodUsageElementImpl"
                      implements="cz.juzna.intellij.neon.psi.elements.NeonMethodUsageElement"
-                     methods = [getName setName getNameIdentifier getMethodName isSetupMethod getServiceName getPhpType getPhpStatement]
+                     methods = [getName setName getNameIdentifier getMethodName isSetupMethod getServiceName getPhpType getPhpStatement getReturnType]
                  }
 
 constantUsage    ::= NEON_PHP_STATIC_IDENTIFIER {

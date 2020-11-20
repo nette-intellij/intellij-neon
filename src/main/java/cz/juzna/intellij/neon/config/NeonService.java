@@ -23,7 +23,7 @@ public class NeonService {
 	}
 
 	public NeonService(@NotNull String name) {
-		this(name, NeonPhpType.create("mixed"));
+		this(name, NeonPhpType.MIXED);
 	}
 
 	public String getName() {

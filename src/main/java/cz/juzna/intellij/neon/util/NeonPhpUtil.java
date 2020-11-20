@@ -61,11 +61,11 @@ public class NeonPhpUtil {
 		return results;
 	}
 
-	public static List<Method> getReferencedMethods(@NotNull NeonPhpType type, @NotNull Project project, @NotNull String constantName) {
+	public static List<Method> getReferencedMethods(@NotNull NeonPhpType type, @NotNull Project project, @NotNull String methodName) {
 		List<Method> results = new ArrayList<>();
 		for (PhpClass phpClass : type.getPhpClasses(project)) {
 			for (Method method : phpClass.getMethods()) {
-				if (method.getModifier().isPublic() && method.getName().equals(constantName)) {
+				if (method.getModifier().isPublic() && method.getName().equals(methodName)) {
 					results.add(method);
 				}
 			}
@@ -299,7 +299,7 @@ public class NeonPhpUtil {
 				name = key.getKeyText();
 			}
 
-			services.add(new NeonService(name, found != null ? found : NeonPhpType.create("mixed")));
+			services.add(new NeonService(name, found != null ? found : NeonPhpType.MIXED));
 		}
 		return services;
 	}

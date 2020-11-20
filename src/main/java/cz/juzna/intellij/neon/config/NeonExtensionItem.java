@@ -26,13 +26,13 @@ public class NeonExtensionItem {
 
 	public boolean patternOnly;
 
-	private List<String> possibleValues = new ArrayList<String>();
+	private List<String> possibleValues = new ArrayList<>();
 
-	private final List<Pattern> patterns = new ArrayList<Pattern>();
+	private final List<Pattern> patterns = new ArrayList<>();
 
 	private final List<Tag> tags = new ArrayList<Tag>();
 
-	private final List<NeonExtensionItem> childrens = new ArrayList<NeonExtensionItem>();
+	private final List<NeonExtensionItem> childrens = new ArrayList<>();
 
 	public NeonExtensionItem(
 			@NotNull String name,
@@ -50,7 +50,7 @@ public class NeonExtensionItem {
 	}
 
 	public NeonExtensionItem(@NotNull String name, @NotNull String[] chain, @NotNull Version version) {
-		this(name, NeonKeyChain.get(chain), version, NeonPhpType.create("mixed"), false);
+		this(name, NeonKeyChain.get(chain), version, NeonPhpType.MIXED, false);
 	}
 
 	public NeonExtensionItem(@NotNull String name, @NotNull NeonKeyChain chain, @NotNull NeonPhpType phpType) {
@@ -62,15 +62,15 @@ public class NeonExtensionItem {
 	}
 
 	public NeonExtensionItem(@NotNull String name, @NotNull NeonKeyChain chain) {
-		this(name, chain, Version.V_2_4, NeonPhpType.create("mixed"), false);
+		this(name, chain, Version.V_2_4, NeonPhpType.MIXED, false);
 	}
 
 	public NeonExtensionItem(@NotNull String name, @NotNull NeonKeyChain chain, @NotNull Version version) {
-		this(name, chain, version, NeonPhpType.create("mixed"), false);
+		this(name, chain, version, NeonPhpType.MIXED, false);
 	}
 
 	public NeonExtensionItem(@NotNull String name, @NotNull Version version) {
-		this(name, NeonKeyChain.get(new String[0]), version, NeonPhpType.create("mixed"), false);
+		this(name, NeonKeyChain.get(new String[0]), version, NeonPhpType.MIXED, false);
 	}
 
 	public NeonExtensionItem(@NotNull String name) {

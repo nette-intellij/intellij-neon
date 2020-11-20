@@ -42,6 +42,12 @@ public class CompletionUtil {
 			return true;
 		}
 
+		//last key in file
+		NeonKeyValPair keyValuePair = CompletionUtil.findCurrentKeyValuePair(el);
+		if (keyValuePair != null && keyValuePair.isLastKey()) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -49,7 +55,7 @@ public class CompletionUtil {
 	 * Get full name of property at given element (e.g. common.services.myService1.setup)
 	 */
 	public static NeonKeyChain getKeyChain(PsiElement el) {
-		List<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<>();
 
 		while (el != null) {
 			if (el instanceof NeonKeyValPair) {
@@ -71,7 +77,7 @@ public class CompletionUtil {
 			el = el.getParent();
 		}
 		Collections.reverse(names);
-		return NeonKeyChain.get(names.toArray(new String[names.size()]));
+		return NeonKeyChain.get(names.toArray(new String[0]));
 	}
 
 	@Nullable
