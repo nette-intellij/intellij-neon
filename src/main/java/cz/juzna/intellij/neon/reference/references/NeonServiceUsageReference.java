@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NeonServiceUsageReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
-	private String keyText;
-	private String className;
+	private final String keyText;
+	private final String className;
 
 	public NeonServiceUsageReference(@NotNull NeonKeyUsage element, TextRange textRange) {
 		super(element, textRange);
@@ -26,7 +26,7 @@ public class NeonServiceUsageReference extends PsiReferenceBase<PsiElement> impl
 	@NotNull
 	@Override
 	public ResolveResult[] multiResolve(boolean b) {
-		List<ResolveResult> results = new ArrayList<ResolveResult>();
+		List<ResolveResult> results = new ArrayList<>();
 
 		Project project = getElement().getProject();
 		if (keyText.length() > 0) {
@@ -44,7 +44,7 @@ public class NeonServiceUsageReference extends PsiReferenceBase<PsiElement> impl
 			}
 		}
 
-		return results.toArray(new ResolveResult[results.size()]);
+		return results.toArray(new ResolveResult[0]);
 	}
 
 	@Nullable

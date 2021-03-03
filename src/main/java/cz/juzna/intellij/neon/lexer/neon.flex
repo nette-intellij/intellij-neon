@@ -26,6 +26,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
     }
 %}
 
+IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 DATE = (\d{4})-(\d{2})-(\d{2})
 DATE_TIME = {DATE}\s(\d{2}):(\d{2}):(\d{2})
 BIN_NUMBER = [+-]?0[bB][01]+*
@@ -128,7 +129,7 @@ WHITESPACE = [\t ]+
         return NEON_LITERAL;
     }
 
-    "::" / {IDENTIFIER} {
+    "::" / "$"? {IDENTIFIER} {
         yybegin(STATIC_FIELD);
         return NEON_DOUBLE_COLON;
     }
@@ -200,6 +201,11 @@ WHITESPACE = [\t ]+
 }
 
 <STATIC_FIELD> {
+    "$" {IDENTIFIER} {
+         yybegin(DEFAULT);
+         return NEON_PHP_VARIABLE_USAGE;
+    }
+
     {IDENTIFIER} {
         yybegin(DEFAULT);
         return NEON_PHP_STATIC_IDENTIFIER;

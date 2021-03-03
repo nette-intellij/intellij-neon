@@ -1,8 +1,8 @@
 import org.jetbrains.grammarkit.tasks.*
 
 plugins {
-    id 'org.jetbrains.intellij' version "0.4.20"
-    id "org.jetbrains.grammarkit" version "2020.2"
+    id 'org.jetbrains.intellij' version "0.6.5"
+    id "org.jetbrains.grammarkit" version "2020.3"
 }
 
 sourceSets {
@@ -19,7 +19,7 @@ properties.load(project.rootProject.file("local.properties").newDataInputStream(
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version '1.0.0-RC1'
+version '1.0.0-alfa2'
 group 'cz.juzna.intellij.neon'
 
 jar {

@@ -4,6 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
+import cz.juzna.intellij.neon.indexes.NeonIndexUtil;
 import cz.juzna.intellij.neon.psi.NeonNamespaceReference;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NeonPhpNamespaceReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
-	private String namespaceName;
+	final private String namespaceName;
 
 	public NeonPhpNamespaceReference(@NotNull NeonNamespaceReference element, TextRange textRange) {
 		super(element, textRange);
@@ -29,9 +30,12 @@ public class NeonPhpNamespaceReference extends PsiReferenceBase<PsiElement> impl
 			results.add(new PsiElementResolveResult(phpNamespace));
 		}
 
-		NeonPhpUtil.attachNeonPhpNamespaces(namespaceName, results, getElement().getProject());
+		for (NeonNamespaceReference namespaceReference : NeonIndexUtil.findNamespacesByFqn(project, namespaceName)) {
+		    results.add(new PsiElementResolveResult(namespaceReference));
+		}
+		//NeonPhpUtil.attachNeonPhpNamespaces(namespaceName, results, getElement().getProject());
 
-		return results.toArray(new ResolveResult[results.size()]);
+		return results.toArray(new ResolveResult[0]);
 	}
 
 	@Nullable

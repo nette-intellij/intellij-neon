@@ -3,16 +3,10 @@ package cz.juzna.intellij.neon.completion.providers;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.codeInsight.completion.PrefixMatcher;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ProcessingContext;
-import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.completion.PhpCompletionUtil;
 import com.jetbrains.php.completion.PhpLookupElement;
-import com.jetbrains.php.completion.insert.PhpClassStaticInsertHandler;
-import com.jetbrains.php.completion.insert.PhpNamespaceInsertHandler;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import cz.juzna.intellij.neon.completion.CompletionUtil;
@@ -22,10 +16,8 @@ import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonNamespaceReference;
 import cz.juzna.intellij.neon.psi.NeonValue;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
-import gnu.trove.THashSet;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -72,7 +64,7 @@ public class ClassCompletionProvider extends CompletionProvider<CompletionParame
 
 		Project project = params.getPosition().getProject();
 		Collection<String> classNames = NeonPhpUtil.getAllExistingClassNames(project, results.getPrefixMatcher());
-		Collection<PhpNamedElement> variants = NeonPhpUtil.getAllClassNamesAndInterfaces(project, classNames, namespace);
+		Collection<PhpClass> variants = NeonPhpUtil.getAllClassNamesAndInterfaces(project, classNames, namespace);
 
 		// Add variants
 		for (PhpNamedElement item : variants) {
@@ -80,7 +72,7 @@ public class ClassCompletionProvider extends CompletionProvider<CompletionParame
 				@Override
 				public Set<String> getAllLookupStrings() {
 					Set<String> original = super.getAllLookupStrings();
-					Set<String> strings = new HashSet<String>(original.size() + 1);
+					Set<String> strings = new HashSet<>(original.size() + 1);
 					strings.addAll(original);
 					strings.add(this.getNamedElement().getFQN().substring(1));
 					return strings;

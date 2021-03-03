@@ -11,7 +11,7 @@ import cz.juzna.intellij.neon.completion.providers.*;
  */
 public class NeonCompletionContributor extends CompletionContributor {
 	public NeonCompletionContributor() {
-		extend(CompletionType.BASIC, StandardPatterns.instanceOf(PsiElement.class), new MethodCompletionProvider());
+		extend(CompletionType.BASIC, StandardPatterns.instanceOf(PsiElement.class), new PhpCompletionProvider());
 		extend(CompletionType.BASIC, StandardPatterns.instanceOf(PsiElement.class), new ParameterCompletionProvider());
 		extend(CompletionType.BASIC, StandardPatterns.instanceOf(PsiElement.class), new ServiceCompletionProvider());
 		extend(CompletionType.BASIC, StandardPatterns.instanceOf(PsiElement.class), new KeywordCompletionProvider());

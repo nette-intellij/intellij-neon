@@ -39,6 +39,31 @@ public class NeonPhpUtil {
 		return false;
 	}
 
+	public static List<Field> getFieldsForPhpElement(@NotNull NeonPhpElementUsage psiElement) {
+		List<Field> out = new ArrayList<>();
+		NeonPhpType phpType = psiElement.getPhpType();
+		String name = psiElement.getPhpElementName();
+		boolean isConstant = psiElement instanceof NeonConstantUsage;
+
+		Collection<PhpClass> phpClasses = phpType.getPhpClasses(psiElement.getProject());
+		if (phpClasses == null || phpClasses.size() == 0) {
+			return out;
+		}
+
+		List<Field> fields = new ArrayList<>();
+		for (PhpClass phpClass : phpClasses) {
+			for (Field field : phpClass.getFields()) {
+				if (
+						((isConstant && field.isConstant()) || (!isConstant && !field.isConstant()))
+								&& field.getName().equals(name)
+				) {
+					fields.add(field);
+				}
+			}
+		}
+		return fields;
+	}
+
 	public static List<PhpTypedElement> getReferencedElements(@NotNull NeonPhpType type, @NotNull Project project, @NotNull String constantName) {
 		List<PhpTypedElement> results = new ArrayList<>();
 		for (PhpClass phpClass : type.getPhpClasses(project)) {
@@ -107,8 +132,8 @@ public class NeonPhpUtil {
 		return getPhpIndex(project).getAllClassNames(prefixMatcher);
 	}
 
-	public static Collection<PhpNamedElement> getAllClassNamesAndInterfaces(Project project, Collection<String> classNames, String namespace) {
-		Collection<PhpNamedElement> variants = new THashSet<PhpNamedElement>();
+	public static Collection<PhpClass> getAllClassNamesAndInterfaces(Project project, Collection<String> classNames, String namespace) {
+		Collection<PhpClass> variants = new THashSet<>();
 		PhpIndex phpIndex = getPhpIndex(project);
 
 		for (String name : classNames) {
@@ -116,41 +141,6 @@ public class NeonPhpUtil {
 			variants.addAll(filterClasses(phpIndex.getInterfacesByName(name), namespace));
 		}
 		return variants;
-	}
-
-	public static List<NeonClassUsage> findNeonPhpUsages(String searchedName, Project project) {
-		return NeonPsiUtil.acceptAllFiles(NeonFileType.INSTANCE, project, NeonClassUsage.class, (NeonClassUsage reference) -> reference.getClassName().equals(searchedName));
-	}
-
-	public static List<NeonMethodUsage> findNeonMethodUsages(NeonPhpType phpType, String searchedName, Project project) {
-		return NeonPsiUtil.acceptAllFiles(NeonFileType.INSTANCE, project, NeonMethodUsage.class, (NeonMethodUsage usage)
-				-> usage.getMethodName().equals(searchedName) && phpType.hasClass(usage.getPhpType().getPhpClasses(project))
-		);
-	}
-
-	public static List<NeonConstantUsage> findNeonConstantUsages(NeonPhpType phpType, String searchedName, Project project) {
-		return NeonPsiUtil.acceptAllFiles(NeonFileType.INSTANCE, project, NeonConstantUsage.class, (NeonConstantUsage usage)
-				-> usage.getConstantName().equals(searchedName) && phpType.hasClass(usage.getPhpType().getPhpClasses(project))
-		);
-	}
-
-	public static void attachNeonPhpNamespaces(String searchedName, List<ResolveResult> results, Project project) {
-		NeonPhpUtil.attachNeonKeyDefinitions(new PsiRecursiveElementVisitor() {
-			@Override
-			public void visitElement(PsiElement element) {
-				if (element instanceof NeonNamespaceReference) {
-					if(
-							((NeonNamespaceReference) element).getNamespaceName().equals(searchedName)
-					) {
-						results.add(new PsiElementResolveResult(element));
-					} else {
-						super.visitElement(element);
-					}
-				} else {
-					super.visitElement(element);
-				}
-			}
-		}, project);
 	}
 
 	public static void findNeonKeyDefinitions(List<NeonKey> properties, PsiElement psiElement) {
@@ -214,7 +204,7 @@ public class NeonPhpUtil {
 	}
 
 	private static List<NeonService> findNeonServiceDefinitions(@NotNull Project project, @Nullable String serviceName) {
-		List<NeonService> services = new ArrayList<NeonService>();
+		List<NeonService> services = new ArrayList<>();
 
 		List<NeonKey> definitions = NeonPsiUtil.acceptAllFiles(NeonFileType.INSTANCE, project, NeonKey.class, (NeonKey key) -> {
 					if (!key.isServiceDefinition() || !key.getKeyChain(false).isLevel(1)) {
@@ -375,7 +365,7 @@ public class NeonPhpUtil {
 			return classes;
 		}
 		namespace = NeonPhpUtil.normalizeClassName(namespace) + "\\";
-		Collection<PhpClass> result = new ArrayList<PhpClass>();
+		Collection<PhpClass> result = new ArrayList<>();
 		for (PhpClass cls : classes) {
 			String classNs = cls.getNamespaceName();
 			if (classNs.equals(namespace) || classNs.startsWith(namespace)) {
@@ -383,6 +373,10 @@ public class NeonPhpUtil {
 			}
 		}
 		return result;
+	}
+
+	public static String normalizePhpVariable(String name) {
+		return name.startsWith("$") ? name.substring(1) : name;
 	}
 
 	public static String normalizeClassName(@Nullable String className) {

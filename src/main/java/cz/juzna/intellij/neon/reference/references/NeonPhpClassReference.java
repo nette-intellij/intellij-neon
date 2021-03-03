@@ -5,6 +5,8 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamespace;
+import cz.juzna.intellij.neon.indexes.NeonIndexUtil;
+import cz.juzna.intellij.neon.psi.NeonClassReference;
 import cz.juzna.intellij.neon.psi.NeonClassUsage;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NeonPhpClassReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
-	private String className;
+	private final String className;
 
 	public NeonPhpClassReference(@NotNull NeonClassUsage element, TextRange textRange) {
 		super(element, textRange);
@@ -36,12 +38,10 @@ public class NeonPhpClassReference extends PsiReferenceBase<PsiElement> implemen
 			results.add(new PsiElementResolveResult(phpNamespace));
 		}
 
-		List<NeonClassUsage> usages = NeonPhpUtil.findNeonPhpUsages(className, getElement().getProject());
-		for (NeonClassUsage usage : usages) {
-			results.add(new PsiElementResolveResult(usage));
+		for (NeonClassReference classReference : NeonIndexUtil.getClassesByFqn(project, className)) {
+			results.add(new PsiElementResolveResult(classReference.getClassUsage()));
 		}
-
-		return results.toArray(new ResolveResult[results.size()]);
+		return results.toArray(new ResolveResult[0]);
 	}
 
 	@Nullable

@@ -7,6 +7,7 @@ import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
+import cz.juzna.intellij.neon.indexes.NeonIndexUtil;
 import cz.juzna.intellij.neon.psi.NeonConstantUsage;
 import cz.juzna.intellij.neon.psi.NeonMethodUsage;
 import cz.juzna.intellij.neon.util.NeonPhpType;
@@ -15,12 +16,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class NeonPhpConstantReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
-	private String constantName;
-	private NeonPhpType phpType;
-	private Project project;
+	private final String constantName;
+	private final NeonPhpType phpType;
+	private final Project project;
 
 	public NeonPhpConstantReference(@NotNull NeonConstantUsage element, TextRange textRange) {
 		super(element, textRange);
@@ -32,18 +34,19 @@ public class NeonPhpConstantReference extends PsiReferenceBase<PsiElement> imple
 	@NotNull
 	@Override
 	public ResolveResult[] multiResolve(boolean b) {
-		List<ResolveResult> results = new ArrayList<ResolveResult>();
+		List<ResolveResult> results = new ArrayList<>();
 
 		for (PhpTypedElement reference : NeonPhpUtil.getReferencedElements(phpType, project, constantName)) {
 			results.add(new PsiElementResolveResult(reference));
 		}
 
-		List<NeonConstantUsage> usages = NeonPhpUtil.findNeonConstantUsages(phpType, constantName, getElement().getProject());
+		final Collection<NeonConstantUsage> usages = NeonIndexUtil.findConstantsByName(getElement().getProject(), constantName);
 		for (NeonConstantUsage usage : usages) {
-			results.add(new PsiElementResolveResult(usage));
+			if (usage.getPhpType().hasClass(phpType.getPhpClasses(project))) {
+				results.add(new PsiElementResolveResult(usage));
+			}
 		}
-
-		return results.toArray(new ResolveResult[results.size()]);
+		return results.toArray(new ResolveResult[0]);
 	}
 
 	@Nullable

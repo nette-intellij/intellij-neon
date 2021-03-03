@@ -1,10 +1,16 @@
 package cz.juzna.intellij.neon.lexer;
 
+import com.intellij.lang.*;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.IFileElementType;
+import com.intellij.psi.tree.ILightStubFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import com.intellij.util.diff.FlyweightCapableTreeStructure;
 import cz.juzna.intellij.neon.NeonLanguage;
+import cz.juzna.intellij.neon.indexes.stubs.NeonFileStub;
+import cz.juzna.intellij.neon.parser.NeonParser;
 
 /**
  * Types of tokens returned form lexer
@@ -13,7 +19,23 @@ import cz.juzna.intellij.neon.NeonLanguage;
  */
 public interface NeonTokenTypes extends _NeonTokenTypes
 {
-	public static final IFileElementType FILE = new IFileElementType(NeonLanguage.INSTANCE);
+	ILightStubFileElementType<NeonFileStub> FILE = new ILightStubFileElementType<NeonFileStub>(NeonLanguage.INSTANCE)  {
+		@Override
+		public FlyweightCapableTreeStructure<LighterASTNode> parseContentsLight(ASTNode chameleon) {
+			PsiElement psi = chameleon.getPsi();
+			assert psi != null : "Bad chameleon: " + chameleon;
+
+			Project project = psi.getProject();
+			PsiBuilderFactory factory = PsiBuilderFactory.getInstance();
+			PsiBuilder builder = factory.createBuilder(project, chameleon);
+			ParserDefinition parserDefinition = LanguageParserDefinitions.INSTANCE.forLanguage(getLanguage());
+			assert parserDefinition != null : this;
+
+			NeonParser parser = new NeonParser();
+			parser.parseLight(this, builder);
+			return builder.getLightTree();
+		}
+	};
 
 	IElementType NEON_SYMBOL = new NeonTokenType("symbol"); // use a symbol or brace instead (see below)
 

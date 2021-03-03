@@ -4,10 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class NeonPhpType {
@@ -53,7 +50,7 @@ public class NeonPhpType {
 	}
 
 	public static NeonPhpType create(String type) {
-		if (type == null || type.length() == 0 || type.toLowerCase().equals("mixed")) {
+		if (type == null || type.length() == 0 || type.equalsIgnoreCase("mixed")) {
 			return MIXED;
 		}
 		return new NeonPhpType(type);
@@ -94,6 +91,10 @@ public class NeonPhpType {
 			}
 		}
 		return false;
+	}
+
+	public List<TypePart> getTypes() {
+		return Collections.unmodifiableList(types);
 	}
 
 	public boolean isNullable() {

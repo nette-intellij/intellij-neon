@@ -6,16 +6,13 @@ local.properties
 /src/main/java/src/cz/juzna/intellij/neon/parser/_NeonLexer.flex
 
 intellij-neon.iws
-out/
 src/main/java/src/cz/juzna/intellij/neon/lexer/_NeonLexer.java
 src/main/java/src/cz/juzna/intellij/neon/lexer/_NeonTokenTypes.java
 src/main/java/src/cz/juzna/intellij/neon/parser/_NeonLexer.flex
 src/main/java/src/cz/juzna/intellij/neon/parser/NeonParser.java
 src/main/java/src/cz/juzna/intellij/neon/psi/generated/*
 src/main/java/src/cz/juzna/intellij/neon/psi/impl/generated/*
-gen/
 
 /.idea
 /.gradle
 /build
-/out

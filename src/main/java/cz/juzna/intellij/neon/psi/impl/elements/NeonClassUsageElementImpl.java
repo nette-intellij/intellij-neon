@@ -7,9 +7,6 @@ import cz.juzna.intellij.neon.psi.elements.NeonClassUsageElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-/**
- *
- */
 public abstract class NeonClassUsageElementImpl extends NeonPsiElementImpl implements NeonClassUsageElement {
 	public NeonClassUsageElementImpl(@NotNull ASTNode astNode) {
 		super(astNode);

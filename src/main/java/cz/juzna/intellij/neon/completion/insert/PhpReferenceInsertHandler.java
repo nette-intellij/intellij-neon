@@ -46,17 +46,19 @@ public class PhpReferenceInsertHandler implements InsertHandler<LookupElement> {
 			}
 
 			String fqn = classNamespace;
-			if (!existingNamespace.startsWith("\\") && fqn.startsWith("\\")) {
+			if (!classNamespace.equals("\\") && !existingNamespace.startsWith("\\") && fqn.startsWith("\\")) {
 				fqn = fqn.substring(1);
+			} else if (classNamespace.equals("\\") && existingNamespace.length() == 0) {
+				fqn = "\\";
 			}
 
-			if (fqn.contains(existingNamespace)) {
+			if (existingNamespace.length() > 0 && fqn.contains(existingNamespace)) {
 				fqn = fqn.replace(existingNamespace, "");
 			}
 
 			if (incompleteKey) {
-				context.getDocument().insertString(context.getTailOffset(), ": ");
-				context.getEditor().getCaretModel().moveToOffset(context.getEditor().getCaretModel().getOffset() + 2);
+				//context.getDocument().insertString(context.getTailOffset(), ": ");
+				//context.getEditor().getCaretModel().moveToOffset(context.getEditor().getCaretModel().getOffset() + 2);
 			}
 			context.getDocument().insertString(context.getStartOffset(), fqn);
 			PsiDocumentManager.getInstance(context.getProject()).commitDocument(context.getDocument());

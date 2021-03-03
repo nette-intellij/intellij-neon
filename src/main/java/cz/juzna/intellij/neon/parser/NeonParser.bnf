@@ -115,31 +115,33 @@ wholeString      ::= wholeSingleQuotedString | wholeDoubleQuotedString | NEON_ST
 
 string      ::= singleQuotedString | doubleQuotedString | NEON_STRING
 
-phpStatement      ::= classReference NEON_DOUBLE_COLON (constantUsage | methodUsage) {
+phpStatement      ::= classReference NEON_DOUBLE_COLON (constantUsage | methodUsage | staticVariable) {
                     implements="cz.juzna.intellij.neon.psi.NeonPhpStatementElement"
-                    methods = [getPhpType]
+                    methods = [getPhpType isStatic]
                 }
 
-serviceStatement      ::= keyUsage NEON_DOUBLE_COLON (constantUsage | methodUsage) {
+serviceStatement      ::= keyUsage NEON_DOUBLE_COLON (constantUsage | methodUsage | staticVariable) {
                     implements="cz.juzna.intellij.neon.psi.NeonPhpStatementElement"
-                    methods = [getPhpType]
+                    methods = [getPhpType isStatic]
                 }
 
 classReference    ::= (NEON_NAMESPACE_RESOLUTION? <<isNamespace>> namespaceReference)? (NEON_NAMESPACE_RESOLUTION <<isNamespace>> namespaceReference)* classUsage {
                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonClassReferenceElementImpl"
                     implements="cz.juzna.intellij.neon.psi.elements.NeonClassReferenceElement"
-                    methods = [getClassName]
+                    elementTypeClass="cz.juzna.intellij.neon.indexes.stubs.types.NeonPhpClassStubType"
+                    methods = [getClassName getPhpType]
                 }
 
 classUsage       ::= NEON_NAMESPACE_RESOLUTION (NEON_IDENTIFIER | NEON_METHOD | NEON_NAMESPACE_REFERENCE) {
                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonClassUsageElementImpl"
                     implements="cz.juzna.intellij.neon.psi.elements.NeonClassUsageElement"
-                    methods = [getName setName getNameIdentifier getClassName]
+                    methods = [getName setName getNameIdentifier getClassName getPhpType]
                 }
 
 namespaceReference    ::= NEON_NAMESPACE_REFERENCE {
                      mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonNamespaceReferenceElementImpl"
                      implements="cz.juzna.intellij.neon.psi.elements.NeonNamespaceReferenceElement"
+                     elementTypeClass="cz.juzna.intellij.neon.indexes.stubs.types.NeonPhpNamespaceStubType"
                      methods = [getName setName getNameIdentifier getNamespaceName]
                  }
 
@@ -160,14 +162,23 @@ parameterUsage    ::= NEON_PARAMETER_USAGE {
 methodUsage    ::= NEON_METHOD | NEON_PHP_STATIC_METHOD {
                      mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonMethodUsageElementImpl"
                      implements="cz.juzna.intellij.neon.psi.elements.NeonMethodUsageElement"
+                     elementTypeClass="cz.juzna.intellij.neon.indexes.stubs.types.NeonPhpMethodStubType"
                      methods = [getName setName getNameIdentifier getMethodName isSetupMethod getServiceName getPhpType getPhpStatement getReturnType]
                  }
 
 constantUsage    ::= NEON_PHP_STATIC_IDENTIFIER {
                      mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonConstantUsageElementImpl"
                      implements="cz.juzna.intellij.neon.psi.elements.NeonConstantUsageElement"
-                     methods = [getConstantName getPhpType getReturnType getPhpStatement]
+                     elementTypeClass="cz.juzna.intellij.neon.indexes.stubs.types.NeonPhpConstantStubType"
+                     methods = [getName setName getNameIdentifier getConstantName getPhpType getReturnType getPhpStatement]
                  }
+
+staticVariable  ::= NEON_PHP_VARIABLE_USAGE {
+                    mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonStaticVariableElementImpl"
+                    implements="cz.juzna.intellij.neon.psi.elements.NeonStaticVariableElement"
+                    elementTypeClass="cz.juzna.intellij.neon.indexes.stubs.types.NeonPhpStaticVariableStubType"
+                    methods=[getName setName getNameIdentifier getVariableName getPhpType getReturnType getPhpStatement]
+                }
 
 private
 wholeSingleQuotedString ::= NEON_SINGLE_QUOTE_LEFT NEON_STRING* NEON_SINGLE_QUOTE_RIGHT {pin=1}

@@ -201,6 +201,11 @@ public class ParserTest extends ParsingTestCase {
 	}
 
 	@Test
+	public void testServiceConstructor() {
+		doTest(true, true);
+	}
+
+	@Test
 	public void testErrorInlineArray() {
 		doTest(true, false);
 	}
@@ -222,6 +227,11 @@ public class ParserTest extends ParsingTestCase {
 
 	@Test
 	public void testErrorIndent() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testErrorIndent2() {
 		doTest(true, false);
 	}
 

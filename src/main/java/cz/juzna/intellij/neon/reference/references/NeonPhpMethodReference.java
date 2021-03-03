@@ -8,6 +8,7 @@ import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import cz.juzna.intellij.neon.config.NeonConfiguration;
 import cz.juzna.intellij.neon.config.NeonService;
+import cz.juzna.intellij.neon.indexes.NeonIndexUtil;
 import cz.juzna.intellij.neon.psi.NeonMethodUsage;
 import cz.juzna.intellij.neon.util.NeonPhpType;
 import cz.juzna.intellij.neon.util.NeonPhpUtil;
@@ -15,13 +16,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class NeonPhpMethodReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
-	private String methodName;
-	private NeonService service;
-	private NeonPhpType phpType;
-	private Project project;
+	final private String methodName;
+	final private NeonService service;
+	final private NeonPhpType phpType;
+	final private Project project;
 
 	public NeonPhpMethodReference(@NotNull NeonMethodUsage element, TextRange textRange) {
 		super(element, textRange);
@@ -34,7 +36,7 @@ public class NeonPhpMethodReference extends PsiReferenceBase<PsiElement> impleme
 	@NotNull
 	@Override
 	public ResolveResult[] multiResolve(boolean b) {
-		List<ResolveResult> results = new ArrayList<ResolveResult>();
+		List<ResolveResult> results = new ArrayList<>();
 		NeonPhpType type = service != null && service.getPhpType() != NeonPhpType.MIXED ? service.getPhpType() : phpType;
 
 		for (PhpClass phpClass : type.getPhpClasses(project)) {
@@ -49,12 +51,14 @@ public class NeonPhpMethodReference extends PsiReferenceBase<PsiElement> impleme
 			results.add(new PsiElementResolveResult(reference));
 		}
 
-		List<NeonMethodUsage> usages = NeonPhpUtil.findNeonMethodUsages(type, methodName, getElement().getProject());
+		final Collection<NeonMethodUsage> usages = NeonIndexUtil.findMethodsByName(getElement().getProject(), methodName);
 		for (NeonMethodUsage usage : usages) {
-			results.add(new PsiElementResolveResult(usage));
+			if (usage.getPhpType().hasClass(phpType.getPhpClasses(getElement().getProject()))) {
+				results.add(new PsiElementResolveResult(usage));
+			}
 		}
 
-		return results.toArray(new ResolveResult[results.size()]);
+		return results.toArray(new ResolveResult[0]);
 	}
 
 	@Nullable

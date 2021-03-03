@@ -8,4 +8,6 @@ public interface NeonPhpStatementElement extends NeonPsiElement {
     @NotNull
     NeonPhpType getPhpType();
 
+    boolean isStatic();
+
 }

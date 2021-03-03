@@ -189,5 +189,29 @@ public class NeonReferenceContributor extends PsiReferenceContributor {
 						return PsiReference.EMPTY_ARRAY;
 					}
 				});
+
+		registrar.registerReferenceProvider(
+				PlatformPatterns.psiElement(NeonStaticVariable.class).withLanguage(NeonLanguage.INSTANCE),
+				new PsiReferenceProvider() {
+					@NotNull
+					@Override
+					public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
+						if (!(element instanceof NeonStaticVariable)) {
+							return PsiReference.EMPTY_ARRAY;
+						}
+
+						String name = ((NeonStaticVariable) element).getVariableName();
+						if (name != null && name.length() > 0) {
+							try {
+								return new PsiReference[]{
+										new NeonPhpStaticVariableReference((NeonStaticVariable) element, new TextRange(0, name.length()))
+								};
+							} catch (AssertionError e) {
+								return PsiReference.EMPTY_ARRAY;
+							}
+						}
+						return PsiReference.EMPTY_ARRAY;
+					}
+				});
 	}
 }

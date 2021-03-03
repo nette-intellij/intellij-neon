@@ -11,6 +11,10 @@ import cz.juzna.intellij.neon.completion.CompletionUtil;
 import cz.juzna.intellij.neon.config.NeonConfiguration;
 import cz.juzna.intellij.neon.config.NeonKeyChain;
 import cz.juzna.intellij.neon.config.NeonService;
+import cz.juzna.intellij.neon.indexes.stubs.NeonPhpMethodStub;
+import cz.juzna.intellij.neon.indexes.stubs.NeonPhpClassStub;
+import cz.juzna.intellij.neon.indexes.stubs.NeonPhpConstantStub;
+import cz.juzna.intellij.neon.indexes.stubs.NeonPhpStaticVariableStub;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.psi.*;
 import cz.juzna.intellij.neon.psi.elements.NeonArrayElement;
@@ -88,25 +92,13 @@ public class NeonPsiImplUtil {
         return type != null ? type : NeonPhpType.MIXED;
     }
 
-    public static @NotNull NeonPhpType getReturnType(@NotNull NeonConstantUsage element) {
+    public static @NotNull NeonPhpType getReturnType(@NotNull NeonPhpElementUsage element) {
         NeonPhpType type = element.getPhpType();
         if (!type.containsClasses()) {
             return NeonPhpType.MIXED;
         }
 
-        for (PhpTypedElement reference : NeonPhpUtil.getReferencedElements(type, element.getProject(), element.getConstantName())) {
-            return NeonPhpType.create(reference.getType().toString());
-        }
-        return NeonPhpType.MIXED;
-    }
-
-    public static @NotNull NeonPhpType getReturnType(@NotNull NeonMethodUsage element) {
-        NeonPhpType type = element.getPhpType();
-        if (!type.containsClasses()) {
-            return NeonPhpType.MIXED;
-        }
-
-        for (PhpTypedElement reference : NeonPhpUtil.getReferencedMethods(type, element.getProject(), element.getMethodName())) {
+        for (PhpTypedElement reference : NeonPhpUtil.getReferencedElements(type, element.getProject(), element.getPhpElementName())) {
             return NeonPhpType.create(reference.getType().toString());
         }
         return NeonPhpType.MIXED;
@@ -114,6 +106,33 @@ public class NeonPsiImplUtil {
 
     public static @Nullable NeonPhpStatementElement getPhpStatement(@NotNull PsiElement element) {
         return PsiTreeUtil.getParentOfType(element, NeonPhpStatementElement.class);
+    }
+
+    public static String getVariableName(@NotNull NeonStaticVariable element) {
+        final NeonPhpStaticVariableStub stub = element.getStub();
+        if (stub != null) {
+            return stub.getVariableName();
+        }
+
+        PsiElement found = findFirstChildWithType(element, NeonTokenTypes.NEON_PHP_VARIABLE_USAGE);
+        return found != null ? NeonPhpUtil.normalizePhpVariable(found.getText()) : null;
+    }
+
+    private static PsiElement findFirstChildWithType(PsiElement element, @NotNull IElementType type) {
+        ASTNode keyNode = element.getNode().findChildByType(type);
+        if (keyNode != null) {
+            return keyNode.getPsi();
+        } else {
+            return null;
+        }
+    }
+
+    public static boolean isStatic(@NotNull NeonPhpStatement element) {
+        return true; //todo: add support non static methods
+    }
+
+    public static boolean isStatic(@NotNull NeonServiceStatement element) {
+        return false;
     }
 
     public static @NotNull NeonPhpType getPhpType(@NotNull NeonPhpStatement element) {
@@ -158,10 +177,18 @@ public class NeonPsiImplUtil {
     }
 
     public static String getMethodName(NeonMethodUsage methodUsage) {
+        final NeonPhpMethodStub stub = methodUsage.getStub();
+        if (stub != null) {
+            return stub.getMethodName();
+        }
         return methodUsage.getText();
     }
 
     public static String getConstantName(NeonConstantUsage constantUsage) {
+        final NeonPhpConstantStub stub = constantUsage.getStub();
+        if (stub != null) {
+            return stub.getConstantName();
+        }
         return constantUsage.getText();
     }
 
@@ -207,7 +234,19 @@ public class NeonPsiImplUtil {
     }
 
     public static String getClassName(NeonClassReference classReference) {
+        final NeonPhpClassStub stub = classReference.getStub();
+        if (stub != null) {
+            return stub.getClassName();
+        }
         return classReference.getClassUsage().getClassName();
+    }
+
+    public static @NotNull NeonPhpType getPhpType(@NotNull NeonClassUsage element) {
+        return NeonPhpType.create(element.getClassName());
+    }
+
+    public static @NotNull NeonPhpType getPhpType(@NotNull NeonClassReference element) {
+        return element.getClassUsage().getPhpType();
     }
 
     public static String getClassName(NeonClassUsage classUsage) {
@@ -503,6 +542,26 @@ public class NeonPsiImplUtil {
             return element;
         }
         return replaceNode(element.getParent(), methodUsage, keyNode);
+    }
+
+    public static PsiElement getNameIdentifier(NeonStaticVariable element) {
+        return element.getFirstChild() != null ? element.getFirstChild() : element;
+    }
+
+    public static String getName(NeonStaticVariable element) {
+        return element.getVariableName();
+    }
+
+    public static PsiElement setName(NeonStaticVariable element, String newName) {
+        return element;
+        /*
+        ASTNode keyNode = element.getNode();
+        NeonMethodUsage methodUsage = NeonElementFactory.createMethodUsage(element.getProject(), newName);
+
+        if (methodUsage == null) {
+            return element;
+        }
+        return replaceNode(element.getParent(), methodUsage, keyNode);*/
     }
 
     public static PsiElement getNameIdentifier(NeonClassUsage element) {

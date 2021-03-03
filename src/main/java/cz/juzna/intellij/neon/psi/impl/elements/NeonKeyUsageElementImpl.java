@@ -7,9 +7,6 @@ import cz.juzna.intellij.neon.psi.elements.NeonKeyUsageElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-/**
- *
- */
 public abstract class NeonKeyUsageElementImpl extends NeonPsiElementImpl implements NeonKeyUsageElement {
 	public NeonKeyUsageElementImpl(@NotNull ASTNode astNode) {
 		super(astNode);

@@ -46,6 +46,13 @@
 		<breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider" />
 		<enterHandlerDelegate implementation="cz.juzna.intellij.neon.editor.NeonEnterHandler"/>
 
+		<stubElementTypeHolder class="cz.juzna.intellij.neon.lexer._NeonTokenTypes"/>
+		<stubIndex implementation="cz.juzna.intellij.neon.indexes.extensions.NeonPhpClassIndex"/>
+		<stubIndex implementation="cz.juzna.intellij.neon.indexes.extensions.NeonPhpConstantIndex"/>
+		<stubIndex implementation="cz.juzna.intellij.neon.indexes.extensions.NeonPhpMethodIndex"/>
+		<stubIndex implementation="cz.juzna.intellij.neon.indexes.extensions.NeonPhpNamespaceIndex"/>
+		<stubIndex implementation="cz.juzna.intellij.neon.indexes.extensions.NeonPhpStaticVariableIndex"/>
+
 		<annotator implementationClass="cz.juzna.intellij.neon.annotator.NeonAnnotator" language="neon"/>
 
 		<localInspection language="neon" shortName="NeonClassUsages" id="NeonClassUsages"

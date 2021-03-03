@@ -5,19 +5,21 @@ import com.intellij.psi.tree.IElementType;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class NeonParserUtil extends GeneratedParserUtilBase {
 
     static String myIndentString = "";
-    static List<String> myIndentStrings = new ArrayList<String>();
+    static List<String> myIndentStrings = new ArrayList<>();
     static int myIndent = 0;
     static int myPrevIndent = 0;
     static int depth = 0;
 
     public static void initialize() {
         myIndentString = "";
-        myIndentStrings = new ArrayList<String>();
+        myIndentStrings = new ArrayList<>();
         myIndent = 0;
         myPrevIndent = 0;
         depth = 0;
@@ -141,12 +143,12 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
             IElementType type = builder.getTokenType();
             if (type == NeonTokenTypes.NEON_INDENT) {
                 result = validateTabsSpaces(builder);
-                myIndent = builder.getTokenText().length();
-                if (builder.getTokenText().charAt(0) == '\n') {
+                String tokenText = builder.getTokenText();
+                myIndent = tokenText != null ? tokenText.length() : 0;
+                if (tokenText != null && tokenText.charAt(0) == '\n') {
                     myIndent--;
                 }
             }
-
             builder.advanceLexer();
         }
         while (result && builder.getTokenType() == NeonTokenTypes.NEON_INDENT && builder.lookAhead(1) == NeonTokenTypes.NEON_INDENT); // keep going if we're still indented
@@ -158,21 +160,22 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
 
     private static boolean validateTabsSpaces(PsiBuilder builder) {
         assert builder.getTokenType() == NeonTokenTypes.NEON_INDENT;
-        String text = builder.getTokenText().replace("\n", "");
+        String text = builder.getTokenText() != null ? builder.getTokenText().replace("\n", "") : "";
         if (text.isEmpty() && builder.lookAhead(1) == NeonTokenTypes.NEON_INDENT) {
             return true;
         }
         if (text.isEmpty()) {
-            myIndentStrings = new ArrayList<String>();
+            myIndentStrings = new ArrayList<>();
             myIndentString = "";
             return true;
         }
 
-        int textLength = text.length();
-        int indentLength = myIndentString.length();
+        int textLength = text.length() - 1;
+        int indentLength = myIndentString.length() - 1;
         int min = Math.min(indentLength, textLength);
 
-        if (indentLength >= min && !text.substring(0, min).equals(myIndentString.substring(0, min))) {
+        if (indentLength >= min && !text.substring(0, min)
+                .equals(myIndentString.substring(0, min))) {
             error("Tab/space mixing");
             return false;
 
@@ -199,7 +202,9 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
     }
 
     private static String determineCurrentIndent(String text) {
-        for (String indent : myIndentStrings) {
+        Iterator<String> iterator = myIndentStrings.iterator();
+        while (iterator.hasNext()) {
+            String indent = iterator.next();
             if (text.length() >= indent.length()) {
                 text = text.substring(indent.length());
             }
@@ -209,7 +214,9 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
 
     private static boolean isIndentsValid() {
         int length = 0;
-        for (String indent : myIndentStrings) {
+        Iterator<String> iterator = myIndentStrings.iterator();
+        while (iterator.hasNext()) {
+            String indent = iterator.next();
             if (length == 0) {
                 length = indent.length();
             }
