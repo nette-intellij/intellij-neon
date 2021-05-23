@@ -158,6 +158,16 @@ public class LexerTest {
 		doTestFromFile();
 	}
 
+	@Test
+	public void testStringInApostrophe() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
+	public void testStringInDoubleQuote() throws Exception {
+		doTestFromFile();
+	}
+
 	public void doTestFromFile() throws Exception {
 		String code = doLoadFile(name.getMethodName() + ".neon");
 

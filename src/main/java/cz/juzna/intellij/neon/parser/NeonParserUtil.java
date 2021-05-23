@@ -1,15 +1,20 @@
 package cz.juzna.intellij.neon.parser;
 
 import com.intellij.lang.PsiBuilder;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.psi.tree.IElementType;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class NeonParserUtil extends GeneratedParserUtilBase {
+
+    public static String NOTIFICATION_GROUP = "Neon";
 
     static String myIndentString = "";
     static List<String> myIndentStrings = new ArrayList<>();
@@ -170,27 +175,40 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
             return true;
         }
 
-        int textLength = text.length() - 1;
-        int indentLength = myIndentString.length() - 1;
-        int min = Math.min(indentLength, textLength);
+        int textLength = text.length();
+        int indentLength = myIndentString.length();
+        try {
+            int endIndex = Math.max(0, Math.min(indentLength - 1, textLength - 1));
+            if (
+                indentLength >= Math.min(indentLength, textLength)
+                    && !text.substring(0, endIndex).equals(myIndentString.substring(0, endIndex))
+            ) {
+                error("Tab/space mixing");
+                return false;
 
-        if (indentLength >= min && !text.substring(0, min)
-                .equals(myIndentString.substring(0, min))) {
-            error("Tab/space mixing");
-            return false;
-
-        } else {
-            String indent = determineCurrentIndent(text);
-            if (indent.length() > 0) {
-                myIndentStrings.add(determineCurrentIndent(text));
+            } else {
+                String indent = determineCurrentIndent(text);
+                if (indent.length() > 0) {
+                    myIndentStrings.add(indent);
+                }
+                myIndentString = text;
             }
-            myIndentString = text;
-        }
 
-        if (myIndentStrings.size() > 0 && myIndentString.length() < repeatString(myIndentStrings.get(0), depth).length()) {
-            return false;
+        } catch (StringIndexOutOfBoundsException e) {
+            /*Notification notification = new Notification(
+                    NOTIFICATION_GROUP,
+                    "X",
+                    "=" + textLength + "-" + indentLength + "=",
+                    NotificationType.INFORMATION
+            );
+            Application app = ApplicationManager.getApplication();
+            if (!app.isDisposed()) {
+                app.getMessageBus().syncPublisher(Notifications.TOPIC).notify(notification);
+            } else {
+                throw e;
+            }*/
         }
-        return true;
+        return myIndentStrings.size() <= 0 || myIndentString.length() >= repeatString(myIndentStrings.get(0), depth).length();
     }
 
     private static String repeatString(String s, int max) {
@@ -202,9 +220,7 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
     }
 
     private static String determineCurrentIndent(String text) {
-        Iterator<String> iterator = myIndentStrings.iterator();
-        while (iterator.hasNext()) {
-            String indent = iterator.next();
+        for (String indent : myIndentStrings.toArray(new String[0])) {
             if (text.length() >= indent.length()) {
                 text = text.substring(indent.length());
             }
@@ -214,9 +230,7 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
 
     private static boolean isIndentsValid() {
         int length = 0;
-        Iterator<String> iterator = myIndentStrings.iterator();
-        while (iterator.hasNext()) {
-            String indent = iterator.next();
+        for (String indent : myIndentStrings.toArray(new String[0])) {
             if (length == 0) {
                 length = indent.length();
             }

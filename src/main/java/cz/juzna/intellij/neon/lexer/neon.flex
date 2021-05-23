@@ -288,9 +288,9 @@ WHITESPACE = [\t ]+
 		yybegin(DEFAULT);
 		return NEON_SINGLE_QUOTE_RIGHT;
 	}
-	("\\" [^] | [^'\\%])+ {
-		return NEON_STRING;
-	}
+	[^'%]+ {
+        return NEON_STRING;
+    }
     "%" / ({KEY_IDENTIFIER} "."?)+ "%" {
         yybegin(IN_PARAMETER_SINGLE);
         return NEON_PARAMETER_LEFT;

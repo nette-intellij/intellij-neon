@@ -235,4 +235,9 @@ public class ParserTest extends ParsingTestCase {
 		doTest(true, false);
 	}
 
+	@Test
+	public void testErrorIndent3() {
+		doTest(true, false);
+	}
+
 }

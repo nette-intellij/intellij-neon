@@ -17,6 +17,8 @@
 	<!-- IDEA extensions -->
 	<extensions defaultExtensionNs="com.intellij">
 
+		<notificationGroup id="Neon" displayType="BALLOON" />
+
 		<fileType name="Neon" implementationClass="cz.juzna.intellij.neon.file.NeonFileType" fieldName="INSTANCE"
 				  language="neon" extensions="neon" />
 
