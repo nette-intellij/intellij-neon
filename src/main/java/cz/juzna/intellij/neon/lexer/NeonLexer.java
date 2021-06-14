@@ -1,6 +1,5 @@
 package cz.juzna.intellij.neon.lexer;
 
-
 import com.intellij.lexer.MergingLexerAdapter;
 import com.intellij.psi.tree.TokenSet;
 

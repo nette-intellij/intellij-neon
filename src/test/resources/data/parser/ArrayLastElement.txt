@@ -1,0 +1,20 @@
+NeonFile:ArrayLastElement.neon
+  NeonMainArrayImpl([Neon] MAIN_ARRAY)
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        <empty list>
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('parameters')
+        PsiElement([Neon] NEON_COLON)(':')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n\n')
+      Neon key
+        PsiElement([Neon] NEON_IDENTIFIER)('application')
+        PsiElement([Neon] NEON_COLON)(':')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n  ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          PsiElement([Neon] NEON_IDENTIFIER)('a')

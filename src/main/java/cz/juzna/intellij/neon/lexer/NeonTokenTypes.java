@@ -1,78 +1,55 @@
 package cz.juzna.intellij.neon.lexer;
 
-import com.google.common.collect.ImmutableMap;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-
-import java.util.Map;
+import cz.juzna.intellij.neon.NeonLanguage;
 
 /**
  * Types of tokens returned form lexer
  *
  * @author Jan Dolecek - juzna.cz@gmail.com
  */
-public interface NeonTokenTypes
+public interface NeonTokenTypes extends _NeonTokenTypes
 {
-	IElementType NEON_STRING = new NeonTokenType("string");
+	public static final IFileElementType FILE = new IFileElementType(NeonLanguage.INSTANCE);
+
 	IElementType NEON_SYMBOL = new NeonTokenType("symbol"); // use a symbol or brace instead (see below)
-	IElementType NEON_COMMENT = new NeonTokenType("comment");
-	IElementType NEON_INDENT = new NeonTokenType("indent");
-	IElementType NEON_LITERAL = new NeonTokenType("literal");
-	IElementType NEON_KEYWORD = new NeonTokenType("keyword");
-	IElementType NEON_WHITESPACE = TokenType.WHITE_SPACE; // new NeonTokenType("whitespace");
-	IElementType NEON_UNKNOWN = TokenType.BAD_CHARACTER; // new NeonTokenType("error");
-
-	// symbols
-	IElementType NEON_COLON = new NeonTokenType(":");
-	IElementType NEON_ASSIGNMENT = new NeonTokenType("=");
-	IElementType NEON_ARRAY_BULLET = new NeonTokenType("-");
-	IElementType NEON_ITEM_DELIMITER = new NeonTokenType(",");
-
-	// braces
-	IElementType NEON_LPAREN = new NeonTokenType("(");
-	IElementType NEON_RPAREN = new NeonTokenType(")");
-	IElementType NEON_LBRACE_CURLY = new NeonTokenType("{");
-	IElementType NEON_RBRACE_CURLY = new NeonTokenType("}");
-	IElementType NEON_LBRACE_SQUARE = new NeonTokenType("[");
-	IElementType NEON_RBRACE_SQUARE = new NeonTokenType("]");
-
-
-	// the rest are deprecated and will be removed
-	IElementType NEON_IDENTIFIER = new NeonTokenType("identifier");
-	IElementType NEON_EOL = new NeonTokenType("eol");
-	IElementType NEON_VARIABLE = new NeonTokenType("variable");
-	IElementType NEON_NUMBER = new NeonTokenType("number");
-	IElementType NEON_REFERENCE = new NeonTokenType("reference");
-	IElementType NEON_BLOCK_INHERITENCE = new NeonTokenType("<");
-	IElementType NEON_DOUBLE_COLON = new NeonTokenType("::");
-	IElementType NEON_DOLLAR = new NeonTokenType("$");
-	IElementType NEON_AT = new NeonTokenType("@");
-
 
 	// special tokens (identifier in block header or as array key)
+	IElementType NEON_KEYWORD = new NeonTokenType("keyword");
 	IElementType NEON_KEY = new NeonTokenType("key");
-
+	IElementType NEON_CLASS_REFERENCE = new NeonTokenType("class reference");
 
 	// sets
-	TokenSet WHITESPACES = TokenSet.create(NEON_WHITESPACE);
+	TokenSet WHITESPACES = TokenSet.create(NEON_WHITESPACE, TokenType.WHITE_SPACE);
 	TokenSet COMMENTS = TokenSet.create(NEON_COMMENT);
-	TokenSet STRING_LITERALS = TokenSet.create(NEON_LITERAL, NEON_STRING);
-	TokenSet ASSIGNMENTS = TokenSet.create(NEON_ASSIGNMENT, NEON_COLON);
-	TokenSet OPEN_BRACKET = TokenSet.create(NEON_LPAREN, NEON_LBRACE_CURLY, NEON_LBRACE_SQUARE);
-	TokenSet CLOSING_BRACKET = TokenSet.create(NEON_RPAREN, NEON_RBRACE_CURLY, NEON_RBRACE_SQUARE);
-	TokenSet SYMBOLS = TokenSet.create(
-		NEON_COLON, NEON_ASSIGNMENT, NEON_ARRAY_BULLET, NEON_ITEM_DELIMITER,
-		NEON_LPAREN, NEON_RPAREN, 
-		NEON_LBRACE_CURLY, NEON_RBRACE_CURLY, 
-		NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE
+	TokenSet KEY_LITERALS = TokenSet.create(
+			NEON_LITERAL, NEON_IDENTIFIER, NEON_CONCATENATION, NEON_METHOD, NEON_DATE_TIME
 	);
-
-	// brackets
-	public static final Map<IElementType, IElementType> closingBrackets = ImmutableMap.of(
-		NEON_LPAREN, NEON_RPAREN,
-		NEON_LBRACE_CURLY, NEON_RBRACE_CURLY,
-		NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE
+	TokenSet STRING_LITERALS = TokenSet.create(
+			NEON_LITERAL, NEON_STRING, NEON_NUMBER, NEON_METHOD, NEON_DOUBLE_COLON,
+			NEON_KEY_IDENTIFIER, NEON_PHP_STATIC_IDENTIFIER, NEON_KEY_USAGE, NEON_PARAMETER_USAGE,
+			NEON_IDENTIFIER
+	);
+	TokenSet STRING_QUOTES = TokenSet.create(
+			NEON_SINGLE_QUOTE_LEFT, NEON_DOUBLE_QUOTE_LEFT,
+			NEON_SINGLE_QUOTE_RIGHT, NEON_DOUBLE_QUOTE_RIGHT
+	);
+	TokenSet HIGHLIGHT_KEYWORD_ELEMENTS = TokenSet.create(
+			NEON_NAMESPACE_REFERENCE, NEON_NAMESPACE_RESOLUTION, NEON_IDENTIFIER, NEON_CONCATENATION,
+			NEON_ARRAY_BULLET, NEON_ASSIGNMENT, NEON_DOUBLE_COLON, NEON_ITEM_DELIMITER, NEON_NUMBER,
+			NEON_DATE_TIME, NEON_LITERAL
+	);
+	TokenSet KEY_VAL_PAIRS = TokenSet.create(
+			KEY_VAL_PAIR, ARRAY_KEY_VALUE_PAIR
+	);
+	TokenSet ARRAYS = TokenSet.create(
+			ARRAY, MAIN_ARRAY
+	);
+	TokenSet CLASS_USAGE_ELEMENTS = TokenSet.create(
+			NEON_NAMESPACE_REFERENCE, NEON_NAMESPACE_RESOLUTION, NEON_IDENTIFIER, NEON_METHOD
 	);
 
 }

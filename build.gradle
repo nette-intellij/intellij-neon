@@ -1,0 +1,104 @@
+import org.jetbrains.grammarkit.tasks.*
+
+plugins {
+    id 'org.jetbrains.intellij' version "0.4.20"
+    id "org.jetbrains.grammarkit" version "2020.2"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += ["src/main/gen"]
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version '1.0.0-RC1'
+group 'cz.juzna.intellij.neon'
+
+jar {
+    archiveName 'intellij-neon-' + version + '.jar'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+runIde {
+    ideDirectory "${properties.getProperty('runIdeDirectory')}"
+}
+
+def htmlFixer = { htmlFile -> file(htmlFile).text.replace('<html>', '').replace('</html>', '') }
+
+patchPluginXml {
+    changeNotes = htmlFixer('src/main/resources/META-INF/change-notes.html')
+}
+
+apply plugin: 'org.jetbrains.intellij'
+
+intellij {
+    version ideaVersion
+    updateSinceUntilBuild false
+    plugins = [
+            "com.jetbrains.php:${phpPluginVersion}",
+            'java',
+            'properties'
+    ]
+    pluginName 'Neon'
+}
+
+repositories {
+    mavenCentral()
+//    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core' }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compileOnly 'org.hamcrest:hamcrest-core:1.3'
+//    compileOnly 'com.mesour.intellij:intellij-utils:1.0.0-SNAPSHOT'
+    testCompile 'junit:junit:4.13'
+}
+
+apply plugin: 'org.jetbrains.grammarkit'
+
+grammarKit {
+    jflexRelease = '1.7.0-1'
+    grammarKitRelease = '6452fde524'
+}
+
+/*task generateNeonParser(type: GenerateParser) {
+    source = "src/main/java/cz/jz/parser/NeonParser.bnf"
+    targetRoot = "src/main/gen"
+    pathToParser = '/cz/juzna/intellij/neon/parser/NeonParser.java'
+    pathToPsiRoot = '/cz/juzna/intellij/neon/psi'
+    purgeOldFiles = true
+}*/
+
+task generateNeonLexer(type: GenerateLexer) {
+    source = "src/main/java/cz/juzna/intellij/neon/parser/_NeonLexer.flex"
+    targetDir = "src/main/gen/cz/juzna/intellij/neon/parser/"
+    targetClass = "_NeonLexer"
+    purgeOldFiles = true
+}
+
+task generateNeonContentLexer(type: GenerateLexer) {
+    source = "src/main/java/cz/juzna/intellij/neon/lexer/neon.flex"
+    targetDir = "src/main/gen/cz/juzna/intellij/neon/lexer/"
+    targetClass = "NeonLexer"
+    purgeOldFiles = true
+}
+
+task generateFlexFiles {
+    println('Generating Classes (Lexer)')
+    //dependsOn(generateNeonParser)
+    dependsOn(generateNeonLexer)
+    dependsOn(generateNeonContentLexer)
+}
+
+compileJava.dependsOn(generateFlexFiles)

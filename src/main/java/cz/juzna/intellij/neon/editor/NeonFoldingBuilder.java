@@ -9,10 +9,10 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
-import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,25 +21,27 @@ import java.util.List;
  */
 public class NeonFoldingBuilder implements FoldingBuilder, NeonTokenTypes
 {
-	private static final TokenSet COMPOUND_VALUE = TokenSet.create(
-		NeonElementTypes.COMPOUND_VALUE,
-		NeonElementTypes.HASH
-	);
-
 	@NotNull
 	public FoldingDescriptor[] buildFoldRegions(@NotNull ASTNode astNode, @NotNull Document document) {
-		List descriptors = new LinkedList();
+		List<FoldingDescriptor> descriptors = new LinkedList<FoldingDescriptor>();
 		collectDescriptors(astNode, descriptors);
-		return (FoldingDescriptor[]) descriptors.toArray(new FoldingDescriptor[descriptors.size()]);
+		return descriptors.toArray(new FoldingDescriptor[0]);
 	}
 
 	@Nullable
 	public String getPlaceholderText(@NotNull ASTNode node) {
 		IElementType type = node.getElementType();
-		if (type == NeonElementTypes.KEY_VALUE_PAIR) {
-			return node.getFirstChildNode().getText();
-		}
-		if (type == NeonElementTypes.SCALAR_VALUE) {
+		if (NeonTokenTypes.ARRAYS.contains(type)) {
+			ASTNode[] children = node.getChildren(TokenSet.create(NeonTokenTypes.KEY_VAL_PAIR));
+			List<String> text = new ArrayList<String>();
+			for (ASTNode child : children) {
+				for (ASTNode key : child.getChildren(TokenSet.create(NeonTokenTypes.KEY))) {
+					text.add(key.getText());
+				}
+			}
+			return text.size() > 0 ? " " + String.join(" ", text.toArray(new String[0])) : "...";
+
+		} else if (type == NeonTokenTypes.SCALAR_VALUE) {
 			return node.getText().substring(0, 1);
 		}
 		return "...";
@@ -49,19 +51,18 @@ public class NeonFoldingBuilder implements FoldingBuilder, NeonTokenTypes
 		return false;
 	}
 
-
 	private static void collectDescriptors(@NotNull ASTNode node, @NotNull List<FoldingDescriptor> descriptors) {
 		IElementType type = node.getElementType();
 		TextRange nodeTextRange = node.getTextRange();
 		if ((!StringUtil.isEmptyOrSpaces(node.getText())) && (nodeTextRange.getLength() >= 2)) {
-			if (type == NeonElementTypes.KEY_VALUE_PAIR) {
-				ASTNode[] children = node.getChildren(COMPOUND_VALUE);
+			if (NeonTokenTypes.ARRAYS.contains(type)) {
+				ASTNode[] children = node.getChildren(TokenSet.create(KEY_VAL_PAIR));
 
 				if ((children.length > 0) && (!StringUtil.isEmpty(children[0].getText().trim()))) {
 					descriptors.add(new FoldingDescriptor(node, nodeTextRange));
 				}
-			}
-			if (type == NeonElementTypes.SCALAR_VALUE) {
+
+			} else if (type == NeonTokenTypes.SCALAR_VALUE) {
 				descriptors.add(new FoldingDescriptor(node, nodeTextRange));
 			}
 		}

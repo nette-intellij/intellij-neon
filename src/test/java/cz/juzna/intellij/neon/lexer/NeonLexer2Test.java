@@ -1,46 +1,53 @@
 package cz.juzna.intellij.neon.lexer;
 
 import com.intellij.lexer.Lexer;
-import com.intellij.testFramework.UsefulTestCase;
+import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
-/**
- *
- */
-public class NeonLexer2Test extends UsefulTestCase {
+public class NeonLexer2Test {
 
 	@Test
 	public void test01() {
 		Lexer l = createLexer();
 		l.start("key: 'val'");
 
-		assertEquals(NeonTokenTypes.NEON_LITERAL, l.getTokenType());
-		assertEquals(0, l.getTokenStart());
-		assertEquals(3, l.getTokenEnd());
-		assertEquals("key", l.getTokenText());
+		Assert.assertEquals(NeonTokenTypes.NEON_IDENTIFIER, l.getTokenType());
+		Assert.assertEquals(0, l.getTokenStart());
+		Assert.assertEquals(3, l.getTokenEnd());
+		Assert.assertEquals("key", l.getTokenText());
 		l.advance();
 
-		assertEquals(NeonTokenTypes.NEON_COLON, l.getTokenType());
-		assertEquals(3, l.getTokenStart());
-		assertEquals(4, l.getTokenEnd());
-		assertEquals(":", l.getTokenText());
+		Assert.assertEquals(NeonTokenTypes.NEON_COLON, l.getTokenType());
+		Assert.assertEquals(3, l.getTokenStart());
+		Assert.assertEquals(4, l.getTokenEnd());
+		Assert.assertEquals(":", l.getTokenText());
 		l.advance();
 
-		assertEquals(NeonTokenTypes.NEON_WHITESPACE, l.getTokenType());
-		assertEquals(4, l.getTokenStart());
-		assertEquals(5, l.getTokenEnd());
-		assertEquals(" ", l.getTokenText());
+		Assert.assertEquals(NeonTokenTypes.NEON_WHITESPACE, l.getTokenType());
+		Assert.assertEquals(4, l.getTokenStart());
+		Assert.assertEquals(5, l.getTokenEnd());
+		Assert.assertEquals(" ", l.getTokenText());
 		l.advance();
 
-		assertEquals(NeonTokenTypes.NEON_STRING, l.getTokenType());
-		assertEquals(5, l.getTokenStart());
-		assertEquals(10, l.getTokenEnd());
-		assertEquals("'val'", l.getTokenText());
+		Assert.assertEquals(NeonTokenTypes.NEON_SINGLE_QUOTE_LEFT, l.getTokenType());
+		Assert.assertEquals(5, l.getTokenStart());
+		Assert.assertEquals(6, l.getTokenEnd());
+		Assert.assertEquals("'", l.getTokenText());
 		l.advance();
 
-		assertEquals(null, l.getTokenType());
+		Assert.assertEquals(NeonTokenTypes.NEON_STRING, l.getTokenType());
+		Assert.assertEquals(6, l.getTokenStart());
+		Assert.assertEquals(9, l.getTokenEnd());
+		Assert.assertEquals("val", l.getTokenText());
+		l.advance();
+
+		Assert.assertEquals(NeonTokenTypes.NEON_SINGLE_QUOTE_RIGHT, l.getTokenType());
+		Assert.assertEquals(9, l.getTokenStart());
+		Assert.assertEquals(10, l.getTokenEnd());
+		Assert.assertEquals("'", l.getTokenText());
+		l.advance();
+
+		Assert.assertNull(l.getTokenType());
 	}
 
 	@Test
@@ -48,13 +55,13 @@ public class NeonLexer2Test extends UsefulTestCase {
 		Lexer l = createLexer();
 		l.start("key: 'val'", 4, 5);
 
-		assertEquals(NeonTokenTypes.NEON_INDENT, l.getTokenType());
-		assertEquals(4, l.getTokenStart());
-		assertEquals(5, l.getTokenEnd());
-		assertEquals(" ", l.getTokenText());
+		Assert.assertEquals(NeonTokenTypes.NEON_INDENT, l.getTokenType());
+		Assert.assertEquals(4, l.getTokenStart());
+		Assert.assertEquals(5, l.getTokenEnd());
+		Assert.assertEquals(" ", l.getTokenText());
 		l.advance();
 
-		assertEquals(null, l.getTokenType());
+		Assert.assertNull(l.getTokenType());
 	}
 
 	private Lexer createLexer() {

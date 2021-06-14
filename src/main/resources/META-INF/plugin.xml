@@ -1,61 +1,42 @@
-<idea-plugin version="2">
-	<!-- Plugin info -->
+<idea-plugin>
+	<id>cz.juzna.intellij.neon</id>
 	<name>NEON support</name>
-	<description>NEON (Nette Object Notation; http://ne-on.org) is a custom configuration language similar to YAML.</description>
-	<version>0.5.1</version>
-	<vendor>juzna.cz</vendor>
-	<idea-version since-build="139.0" />
+	<vendor>juzna.cz, Matouš Němec</vendor>
+
+	<!-- http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges -->
+	<idea-version since-build="183.2407.10" />
+
+	<!-- http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products -->
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.jetbrains.php</depends>
-	<change-notes><![CDATA[
-	<h2>0.5.1</h2>
-	<ul>
-		<li>build: fix java version compatibility</li>
-	</ul>
-	<h2>0.5.0</h2>
-	<ul>
-		<li>Completion: Nette 3 keywords support</li>
-	</ul>
-	<h2>0.4.1</h2>
-	<ul>
-		<li>Lexer: fixed EAP compatibility</li>
-	</ul>
-	<h2>0.4.0.</h2>
-	<ul>
-		<li>Multiline string support</li>
-		<li>Better keyword completion</li>
-		<li>Class completion for a incomplete key</li>
-		<li>Show duplicate key error</li>
-		<li>Better error for a bad indent</li>
-		<li>Parser: some fixes</li>
-	</ul>
-	<h2>0.3.1</h2>
-	<ul>
-		<li>Parser: fixed blank line at a file beginning</li>
-	</ul>
-	<h2>0.3.0</h2>
-	<ul>
-		<li>Added structure view</li>
-		<li>Parser, lexer: many fixes and features</li>
-		<li>Completion: suggest interfaces</li>
-		<li>Completion: better class and namespace completion</li>
-		<li>Completion: improved keyword completion, added Nette 2.3 keywords</li>
-		<li>Added GoToClassHandler</li>
-		<li>Added NeonEnterHandler</li>
-	</ul>
-	]]>
-	</change-notes>
+
+	<description><![CDATA[
+		<p>Provides support for <a href="http://ne-on.org">NEON</a> (Nette Object Notation;) is a custom configuration language similar to YAML.</p>
+	]]></description>
+
 	<!-- IDEA extensions -->
 	<extensions defaultExtensionNs="com.intellij">
-		<fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory" />
+
+		<fileType name="Neon" implementationClass="cz.juzna.intellij.neon.file.NeonFileType" fieldName="INSTANCE"
+				  language="neon" extensions="neon" />
+
 		<colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage" />
-		<lang.syntaxHighlighterFactory key="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory" />
+		<lang.syntaxHighlighterFactory language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory" />
 		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
 		<lang.psiStructureViewFactory language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory" />
+
+		<lang.quoteHandler language="neon" implementationClass="cz.juzna.intellij.neon.editor.action.NeonQuoteHandler"/>
+		<typedHandler implementation="cz.juzna.intellij.neon.editor.action.NeonTypedHandler"/>
+
+		<psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.NeonReferenceContributor"/>
 
 		<!-- code settings (indent, tabs?) -->
 		<codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider" />
 		<langCodeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider" />
+
+		<lang.findUsagesProvider language="neon" implementationClass="cz.juzna.intellij.neon.reference.NeonFindUsagesProvider"/>
+
+		<lang.namesValidator language="neon" implementationClass="cz.juzna.intellij.neon.refactoring.NeonNamesValidator"/>
 
 		<lang.parserDefinition language="neon" implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition" />
 		<lang.fileViewProviderFactory language="neon" implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory" />
@@ -65,7 +46,36 @@
 		<breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider" />
 		<enterHandlerDelegate implementation="cz.juzna.intellij.neon.editor.NeonEnterHandler"/>
 
-		<gotoDeclarationHandler implementation="cz.juzna.intellij.neon.reference.GoToClassHandler"/>
 		<annotator implementationClass="cz.juzna.intellij.neon.annotator.NeonAnnotator" language="neon"/>
+
+		<localInspection language="neon" shortName="NeonClassUsages" id="NeonClassUsages"
+						 displayName="Class usages"
+						 groupName="Neon" enabledByDefault="true"
+						 implementationClass="cz.juzna.intellij.neon.inspections.ClassUsagesInspection"/>
+
+		<localInspection language="neon" shortName="NeonMethodUsages" id="NeonMethodUsages"
+						 displayName="Method usages"
+						 groupName="Neon" enabledByDefault="true"
+						 implementationClass="cz.juzna.intellij.neon.inspections.MethodUsagesInspection"/>
+
+		<localInspection language="neon" shortName="NeonConstantUsages" id="NeonConstantUsages"
+						 displayName="Constant usages"
+						 groupName="Neon" enabledByDefault="true"
+						 implementationClass="cz.juzna.intellij.neon.inspections.ConstantUsagesInspection"/>
+
+		<localInspection language="neon" shortName="NeonServiceUsages" id="NeonServiceUsages"
+						 displayName="Service usages"
+						 groupName="Neon" enabledByDefault="true"
+						 implementationClass="cz.juzna.intellij.neon.inspections.ServiceUsagesInspection"/>
+
+		<localInspection language="neon" shortName="NeonParameterUsages" id="NeonParameterUsages"
+						 displayName="Parameter usages"
+						 groupName="Neon" enabledByDefault="true"
+						 implementationClass="cz.juzna.intellij.neon.inspections.ParameterUsagesInspection"/>
+
+		<localInspection language="neon" shortName="NeonUnusedKey" id="NeonUnusedKey"
+						 displayName="Unused key"
+						 groupName="Neon" enabledByDefault="true"
+						 implementationClass="cz.juzna.intellij.neon.inspections.NeonUnusedKeyInspection"/>
 	</extensions>
 </idea-plugin>

@@ -5,28 +5,30 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.testFramework.UsefulTestCase;
-import com.sun.tools.javac.util.Pair;
+import cz.juzna.intellij.neon.util.Pair;
 import org.jetbrains.annotations.NonNls;
+import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 /**
  *
  */
-public class LexerTest extends UsefulTestCase {
+public class LexerTest {
+	@Rule
+	public TestName name = new TestName();
+
 	// which lexer to test
 	private static NeonLexer createLexer() {
 		return new NeonLexer();
 	}
-
-	/*** helpers ***/
 
 	/**
 	 * Test that lexing a given piece of code will give particular tokens
@@ -43,17 +45,17 @@ public class LexerTest extends UsefulTestCase {
 		lexer.start(text);
 		int idx = 0;
 		while (lexer.getTokenType() != null) {
-			if (idx >= expectedTokens.length) fail("Too many tokens from lexer; unexpected " + lexer.getTokenType());
+			if (idx >= expectedTokens.length) Assert.fail("Too many tokens from lexer; unexpected " + lexer.getTokenType());
 
-			Pair expected = expectedTokens[idx++];
-			assertEquals("Wrong token", expected.fst, lexer.getTokenType());
+			Pair<IElementType, String> expected = expectedTokens[idx++];
+			Assert.assertEquals("Wrong token", expected.first, lexer.getTokenType());
 
 			String tokenText = lexer.getBufferSequence().subSequence(lexer.getTokenStart(), lexer.getTokenEnd()).toString();
-			assertEquals(expected.snd, tokenText);
+			Assert.assertEquals(expected.second, tokenText);
 			lexer.advance();
 		}
 
-		if (idx < expectedTokens.length) fail("Not enough tokens from lexer, expected " + expectedTokens.length + " but got only " + idx);
+		if (idx < expectedTokens.length) Assert.fail("Not enough tokens from lexer, expected " + expectedTokens.length + " but got only " + idx);
 	}
 
 
@@ -63,25 +65,31 @@ public class LexerTest extends UsefulTestCase {
 	@Test
 	public void testSimple() throws Exception {
 		doTest("name: 'Jan'", new Pair[] {
-				Pair.of(NEON_LITERAL, "name"),
+				Pair.of(NEON_IDENTIFIER, "name"),
 				Pair.of(NEON_COLON, ":"),
 				Pair.of(NEON_WHITESPACE, " "),
-				Pair.of(NEON_STRING, "'Jan'"),
+				Pair.of(NEON_SINGLE_QUOTE_LEFT, "'"),
+				Pair.of(NEON_STRING, "Jan"),
+				Pair.of(NEON_SINGLE_QUOTE_RIGHT, "'"),
 		});
 	}
 
 	@Test
 	public void testTabAfterKey() throws Exception {
 		doTest("name: \t'Jan'\nsurname:\t \t 'Dolecek'", new Pair[] {
-				Pair.of(NEON_LITERAL, "name"),
+				Pair.of(NEON_IDENTIFIER, "name"),
 				Pair.of(NEON_COLON, ":"),
 				Pair.of(NEON_WHITESPACE, " \t"),
-				Pair.of(NEON_STRING, "'Jan'"),
+				Pair.of(NEON_SINGLE_QUOTE_LEFT, "'"),
+				Pair.of(NEON_STRING, "Jan"),
+				Pair.of(NEON_SINGLE_QUOTE_RIGHT, "'"),
 				Pair.of(NEON_INDENT, "\n"),
-				Pair.of(NEON_LITERAL, "surname"),
+				Pair.of(NEON_IDENTIFIER, "surname"),
 				Pair.of(NEON_COLON, ":"),
 				Pair.of(NEON_WHITESPACE, "\t \t "),
-				Pair.of(NEON_STRING, "'Dolecek'"),
+				Pair.of(NEON_SINGLE_QUOTE_LEFT, "'"),
+				Pair.of(NEON_STRING, "Dolecek"),
+				Pair.of(NEON_SINGLE_QUOTE_RIGHT, "'"),
 		});
 	}
 
@@ -140,8 +148,18 @@ public class LexerTest extends UsefulTestCase {
 		doTestFromFile();
 	}
 
+	@Test
+	public void testArrayLastElement() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
+	public void testParameterNoUsage() throws Exception {
+		doTestFromFile();
+	}
+
 	public void doTestFromFile() throws Exception {
-		String code = doLoadFile("src/test/data/parser", getTestName(false) + ".neon");
+		String code = doLoadFile(name.getMethodName() + ".neon");
 
 		Lexer lexer = createLexer();
 		StringBuilder sb = new StringBuilder();
@@ -153,18 +171,21 @@ public class LexerTest extends UsefulTestCase {
 			lexer.advance();
 		}
 
-//		System.out.println(sb);
-
 		// Match to original
-		String lexed = doLoadFile("src/test/data/parser", getTestName(false) + ".lexed");
-		assertEquals(lexed, sb.toString());
+		String lexed = doLoadFile(name.getMethodName() + ".lexed");
+		Assert.assertEquals(lexed, sb.toString());
 	}
 
-	private static String doLoadFile(String myFullDataPath, String name) throws IOException {
-		String fullName = myFullDataPath + File.separatorChar + name;
-		String text = FileUtil.loadFile(new File(fullName), CharsetToolkit.UTF8);
+	private static String doLoadFile(String name) throws IOException {
+		URL url = LexerTest.class.getClassLoader().getResource("data/parser" + File.separatorChar + (normalizeMethodName(name)));
+		assert url != null;
+		String text = FileUtil.loadFile(new File(url.getFile()), CharsetToolkit.UTF8);
 		text = StringUtil.convertLineSeparators(text);
 		return text;
+	}
+
+	private static String normalizeMethodName(String name) {
+		return name.startsWith("test") ? name.substring(4) : name;
 	}
 
 }

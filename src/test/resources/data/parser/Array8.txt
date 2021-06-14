@@ -1,0 +1,30 @@
+NeonFile:Array8.neon
+  NeonMainArrayImpl([Neon] MAIN_ARRAY)
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        <empty list>
+      Neon key
+        PsiElement([Neon] NEON_ARRAY_BULLET)('-')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          PsiElement([Neon] NEON_IDENTIFIER)('ipsum')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n')
+      Neon key
+        PsiElement([Neon] NEON_ARRAY_BULLET)('-')
+      NeonArrayImpl([Neon] ARRAY)
+        NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+          NeonIndentImpl([Neon] INDENT)
+            PsiElement([Neon] NEON_INDENT)('\n    ')
+          Neon key
+            PsiElement([Neon] NEON_IDENTIFIER)('foo')
+            PsiElement([Neon] NEON_COLON)(':')
+          PsiWhiteSpace(' ')
+          NeonScalarValueImpl([Neon] SCALAR_VALUE)
+            NeonValueImpl([Neon] VALUE)
+              PsiElement([Neon] NEON_IDENTIFIER)('bar')
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        PsiElement([Neon] NEON_INDENT)('\n')

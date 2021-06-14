@@ -1,0 +1,5 @@
+parameters:
+	bar:
+		'% foo': 1
+
+value: %test%

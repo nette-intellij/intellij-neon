@@ -1,0 +1,182 @@
+{
+	parserClass="cz.juzna.intellij.neon.parser.NeonParser"
+	parserUtilClass="cz.juzna.intellij.neon.parser.NeonParserUtil"
+
+	extends="cz.juzna.intellij.neon.psi.impl.elements.NeonPsiElementImpl"
+
+	psiClassPrefix="Neon"
+	psiImplClassSuffix="Impl"
+	psiPackage="cz.juzna.intellij.neon.psi"
+	psiImplPackage="cz.juzna.intellij.neon.psi.impl"
+	psiImplUtilClass="cz.juzna.intellij.neon.psi.impl.NeonPsiImplUtil"
+
+	elementTypeHolderClass="cz.juzna.intellij.neon.lexer._NeonTokenTypes"
+	elementTypeClass="cz.juzna.intellij.neon.parser.NeonElementType"
+	tokenTypeClass="cz.juzna.intellij.neon.lexer.NeonTokenType"
+}
+
+root             ::= NEON_INDENT? (<<checkMainArray>> mainArray | comment | NEON_WHITESPACE | NEON_INDENT)* <<eof>>?
+
+mainArray       ::= ((mainArrayLine | comment)+ | fullArray) {
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonArrayElement"
+                     methods = [getMap getKeys isEmpty]
+                 }
+
+array       ::= ((arrayLine | comment)+ | fullArray) {
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonArrayElement"
+                     methods = [getMap getKeys isEmpty]
+                 }
+
+private
+fullArray       ::= NEON_LBRACE_SQUARE (arrayLine)+ NEON_INDENT? NEON_RBRACE_SQUARE | NEON_LBRACE_CURLY (arrayLine)+ NEON_INDENT? NEON_RBRACE_CURLY
+
+private
+innerArray       ::= innerArrayLine | comment | (NEON_LBRACE_SQUARE (innerArrayLine)+ NEON_INDENT? NEON_RBRACE_SQUARE)
+
+private
+mainArrayLine    ::= keyValPair
+
+private
+arrayLine    ::= <<checkSubArray>> keyValPair
+
+private
+innerArrayLine    ::= innerKeyValPair
+
+keyValPair    ::= innerKeyValPair {
+                    methods = [getKeyText isMainKey getScalarValue getIndent getKey isLastKey]
+                }
+
+private
+innerKeyValPair    ::= <<isSubArray>> (keyItem keyValPairValue?) | (keyItem keyValPairScalarValue?)
+
+private
+keyValPairValue ::= comment? (scalarValue | scalarValue? (<<increaseDepth>> array <<decreaseDepth>> | <<decreaseDepth>>) | <<eof>>)
+
+private
+keyValPairScalarValue ::= comment? (scalarValue | scalarValue? innerArray | <<eof>>)
+
+scalarValue    ::= values+ {
+                    methods = [getPhpType]
+                }
+
+arrayOfValues  ::= NEON_LBRACE_SQUARE arrayOfValues NEON_RBRACE_SQUARE
+                        | NEON_LBRACE_CURLY arrayOfValues NEON_RBRACE_CURLY
+                        | NEON_LPAREN arrayOfValues NEON_RPAREN
+                        | NEON_LBRACE_SQUARE (arrayContent | NEON_INDENT*) NEON_RBRACE_SQUARE
+                        | NEON_LBRACE_CURLY (arrayContent | NEON_INDENT*) NEON_RBRACE_CURLY
+                        | NEON_LPAREN (arrayContent | NEON_INDENT*) NEON_RPAREN {
+                    methods = [getKeys]
+                }
+
+private
+arrayContent    ::= arrayValue+ (NEON_ITEM_DELIMITER arrayValue+)*
+
+private
+arrayValue      ::= arrayKeyValuePair | (NEON_INDENT* value NEON_INDENT*)
+
+arrayKeyValuePair  ::= key value {
+                    methods=[getKeyText]
+                }
+
+private
+keyItem       ::= indent <<useArray>> key?
+
+key       ::= (keyContainer NEON_COLON) | NEON_ARRAY_BULLET {
+                    mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonKeyElementImpl"
+                    implements="cz.juzna.intellij.neon.psi.elements.NeonKeyElement"
+                    methods = [getName setName getNameIdentifier getKeyChain getKeyText getKeyTextElements isServiceDefinition isParameterDefinition isArrayBullet getPhpType]
+                }
+
+private
+keyContainer   ::= (NEON_CONCATENATION? keyIdentifier NEON_CONCATENATION?)+ | wholeString | classReference
+
+private
+keyIdentifier ::= NEON_LITERAL | NEON_IDENTIFIER | NEON_ARRAY_BULLET | NEON_ASSIGNMENT | NEON_DOUBLE_COLON
+                    | NEON_ITEM_DELIMITER | NEON_NUMBER | NEON_DATE_TIME | phpStatement
+
+indent      ::= <<checkValidIndent>> NEON_INDENT? {
+                    methods=[getIndentCharacters]
+                }
+
+private
+values       ::= value | NEON_ITEM_DELIMITER
+
+value       ::= phpStatement | serviceStatement | classReference | keyUsage | parameterUsageContainer | methodUsage | NEON_LITERAL | string | arrayOfValues
+                | NEON_NUMBER | (NEON_LPAREN NEON_RPAREN) | (NEON_LBRACE_CURLY NEON_RBRACE_CURLY) | NEON_IDENTIFIER
+                | NEON_ASSIGNMENT | NEON_DOUBLE_COLON | (NEON_LBRACE_SQUARE NEON_RBRACE_SQUARE) | NEON_DATE_TIME
+                | NEON_PHP_STATIC_IDENTIFIER | NEON_KEY_IDENTIFIER | NEON_CONCATENATION | NEON_UNKNOWN
+
+private
+comment     ::= (NEON_INDENT* NEON_COMMENT)+
+
+wholeString      ::= wholeSingleQuotedString | wholeDoubleQuotedString | NEON_STRING {
+                    methods=[getStringValue getStringElement]
+                }
+
+string      ::= singleQuotedString | doubleQuotedString | NEON_STRING
+
+phpStatement      ::= classReference NEON_DOUBLE_COLON (constantUsage | methodUsage) {
+                    implements="cz.juzna.intellij.neon.psi.NeonPhpStatementElement"
+                    methods = [getPhpType]
+                }
+
+serviceStatement      ::= keyUsage NEON_DOUBLE_COLON (constantUsage | methodUsage) {
+                    implements="cz.juzna.intellij.neon.psi.NeonPhpStatementElement"
+                    methods = [getPhpType]
+                }
+
+classReference    ::= (NEON_NAMESPACE_RESOLUTION? <<isNamespace>> namespaceReference)? (NEON_NAMESPACE_RESOLUTION <<isNamespace>> namespaceReference)* classUsage {
+                    mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonClassReferenceElementImpl"
+                    implements="cz.juzna.intellij.neon.psi.elements.NeonClassReferenceElement"
+                    methods = [getClassName]
+                }
+
+classUsage       ::= NEON_NAMESPACE_RESOLUTION (NEON_IDENTIFIER | NEON_METHOD | NEON_NAMESPACE_REFERENCE) {
+                    mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonClassUsageElementImpl"
+                    implements="cz.juzna.intellij.neon.psi.elements.NeonClassUsageElement"
+                    methods = [getName setName getNameIdentifier getClassName]
+                }
+
+namespaceReference    ::= NEON_NAMESPACE_REFERENCE {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonNamespaceReferenceElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonNamespaceReferenceElement"
+                     methods = [getName setName getNameIdentifier getNamespaceName]
+                 }
+
+keyUsage    ::= (NEON_KEY_USAGE classReference) | NEON_KEY_USAGE {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonKeyUsageElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonKeyUsageElement"
+                     methods = [getKeyText getClassName getPhpType]
+                 }
+
+parameterUsageContainer    ::= NEON_PARAMETER_LEFT parameterUsage (NEON_PARAMETER_DELIMITER parameterUsage)* NEON_PARAMETER_RIGHT
+
+parameterUsage    ::= NEON_PARAMETER_USAGE {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonParameterUsageElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonParameterUsageElement"
+                     methods = [getName setName getNameIdentifier getKeyText isLastKeyUsed]
+                 }
+
+methodUsage    ::= NEON_METHOD | NEON_PHP_STATIC_METHOD {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonMethodUsageElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonMethodUsageElement"
+                     methods = [getName setName getNameIdentifier getMethodName isSetupMethod getServiceName getPhpType getPhpStatement getReturnType]
+                 }
+
+constantUsage    ::= NEON_PHP_STATIC_IDENTIFIER {
+                     mixin="cz.juzna.intellij.neon.psi.impl.elements.NeonConstantUsageElementImpl"
+                     implements="cz.juzna.intellij.neon.psi.elements.NeonConstantUsageElement"
+                     methods = [getConstantName getPhpType getReturnType getPhpStatement]
+                 }
+
+private
+wholeSingleQuotedString ::= NEON_SINGLE_QUOTE_LEFT NEON_STRING* NEON_SINGLE_QUOTE_RIGHT {pin=1}
+
+private
+wholeDoubleQuotedString ::= NEON_DOUBLE_QUOTE_LEFT NEON_STRING* NEON_DOUBLE_QUOTE_RIGHT {pin=1}
+
+private
+singleQuotedString ::= NEON_SINGLE_QUOTE_LEFT (NEON_STRING | parameterUsageContainer)* NEON_SINGLE_QUOTE_RIGHT {pin=1}
+
+private
+doubleQuotedString ::= NEON_DOUBLE_QUOTE_LEFT (NEON_STRING | parameterUsageContainer)* NEON_DOUBLE_QUOTE_RIGHT {pin=1}
