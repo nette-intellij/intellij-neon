@@ -1,0 +1,8 @@
+monolog:
+    channels:
+        <name>:
+            handlers:
+            processors:
+    handlers:
+        <name>: []
+    

@@ -10,6 +10,7 @@ import com.intellij.psi.tree.IElementType;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NeonParserUtil extends GeneratedParserUtilBase {
@@ -50,19 +51,25 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
     }
 
     public static boolean increaseDepth(PsiBuilder builder, int level) {
-        if (builder.eof()) return false;
+        if (builder.eof()) {
+            return false;
+        }
         depth++;
         return true;
     }
 
     public static boolean decreaseDepth(PsiBuilder builder, int level) {
-        if (builder.eof()) return false;
+        if (builder.eof()) {
+            return false;
+        }
         depth--;
         return true;
     }
 
     public static boolean isSubArray(PsiBuilder builder, int level) {
-        if (builder.eof()) return false;
+        if (builder.eof()) {
+            return false;
+        }
 
         PsiBuilder.Marker marker = builder.mark();
 
@@ -96,11 +103,14 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
     }
 
     public static boolean checkSubArray(PsiBuilder builder, int level) {
-        if (builder.eof()) return false;
+        if (builder.eof()) {
+            return false;
+        }
 
         PsiBuilder.Marker marker = builder.mark();
         boolean result = false;
 
+        String tokenText = builder.getTokenText();
         IElementType type = builder.getTokenType();
         if (
                 type == NeonTokenTypes.NEON_INDENT
@@ -111,13 +121,27 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
                 int len = indent.length();
                 int step = Math.min(myIndentStrings.size() > 0 ? myIndentStrings.get(0).length() : 0, len);
 
-                result = myPrevIndent <= len;
+                IElementType nextToken = builder.lookAhead(1);
+                //if (nextToken == NeonTokenTypes.NEON_KEY)
 
-                if (step < Math.max(myPrevIndent - len, 0)) {
+                //result = myPrevIndent <= len;
+                result = nextToken == NeonTokenTypes.NEON_KEY;
+
+
+               /* int remaining = len;
+                List<String> reversed = new ArrayList<>(myIndentStrings);
+                Collections.reverse(reversed);
+                for (String currentIndent : myIndentStrings) {
+                    remaining -= currentIndent.length();
+                    //todo
+                }*/
+
+                /*if (step < Math.max(myPrevIndent - len, 0)) {
                     myPrevIndent = myPrevIndent - step;
                 } else {
                     myPrevIndent = len;
-                }
+                }*/
+                myPrevIndent = len;
 
             } else {
                 myPrevIndent = 0;
@@ -131,10 +155,10 @@ public class NeonParserUtil extends GeneratedParserUtilBase {
     }
 
     public static boolean useArray(PsiBuilder builder, int level) {
-        if (!isIndentsValid()) {
-            error("bad indent");
-            return false;
-        }
+//        if (!isIndentsValid()) {
+//            error("bad indent");
+//            return false;
+//        }
         return true;
     }
 

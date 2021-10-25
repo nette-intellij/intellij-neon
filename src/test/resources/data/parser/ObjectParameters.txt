@@ -1,0 +1,42 @@
+NeonFile:ObjectParameters.neon
+  NeonMainArrayImpl([Neon] MAIN_ARRAY)
+    NeonKeyValPairImpl([Neon] KEY_VAL_PAIR)
+      NeonIndentImpl([Neon] INDENT)
+        <empty list>
+      Neon key
+        PsiElement([Neon] NEON_ARRAY_BULLET)('-')
+      PsiWhiteSpace(' ')
+      NeonScalarValueImpl([Neon] SCALAR_VALUE)
+        NeonValueImpl([Neon] VALUE)
+          Neon class reference
+            Neon namespace reference
+              PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('App')
+            Neon class usage
+              PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+              PsiElement([Neon] NEON_METHOD)('AppFrontMenuProvider')
+        NeonValueImpl([Neon] VALUE)
+          NeonArrayOfValuesImpl([Neon] ARRAY_OF_VALUES)
+            PsiElement([Neon] NEON_LPAREN)('(')
+            PsiElement([Neon] NEON_INDENT)('\n\t')
+            NeonValueImpl([Neon] VALUE)
+              Neon key usage
+                PsiElement([Neon] NEON_KEY_USAGE)('@')
+                Neon class reference
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Auth')
+                  Neon class usage
+                    PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                    PsiElement([Neon] NEON_IDENTIFIER)('FrontFirewall')
+            PsiElement([Neon] NEON_ITEM_DELIMITER)(',')
+            PsiElement([Neon] NEON_INDENT)('\n\t')
+            NeonValueImpl([Neon] VALUE)
+              Neon key usage
+                PsiElement([Neon] NEON_KEY_USAGE)('@')
+                Neon class reference
+                  Neon namespace reference
+                    PsiElement([Neon] NEON_NAMESPACE_REFERENCE)('Client')
+                  Neon class usage
+                    PsiElement([Neon] NEON_NAMESPACE_RESOLUTION)('\')
+                    PsiElement([Neon] NEON_IDENTIFIER)('ClientRepository')
+            PsiElement([Neon] NEON_INDENT)('\n')
+            PsiElement([Neon] NEON_RPAREN)(')')

@@ -131,6 +131,21 @@ public class ParserTest extends ParsingTestCase {
 	}
 
 	@Test
+	public void testObjectParameters() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testObjectParametersDelimiter() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testKeyDuplicity() {
+		doTest(true, true);
+	}
+
+	@Test
 	public void testArrayAfterKey() {
 		doTest(true, true);
 	}

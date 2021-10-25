@@ -159,6 +159,21 @@ public class LexerTest {
 	}
 
 	@Test
+	public void testObjectParameters() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
+	public void testObjectParametersDelimiter() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
+	public void testKeyDuplicity() throws Exception {
+		doTestFromFile();
+	}
+
+	@Test
 	public void testStringInApostrophe() throws Exception {
 		doTestFromFile();
 	}

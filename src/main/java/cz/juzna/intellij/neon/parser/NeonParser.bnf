@@ -30,8 +30,8 @@ array       ::= ((arrayLine | comment)+ | fullArray) {
 private
 fullArray       ::= NEON_LBRACE_SQUARE (arrayLine)+ NEON_INDENT? NEON_RBRACE_SQUARE | NEON_LBRACE_CURLY (arrayLine)+ NEON_INDENT? NEON_RBRACE_CURLY
 
-private
-innerArray       ::= innerArrayLine | comment | (NEON_LBRACE_SQUARE (innerArrayLine)+ NEON_INDENT? NEON_RBRACE_SQUARE)
+//private
+//innerArray       ::= comment | (NEON_LBRACE_SQUARE (innerArrayLine)+ NEON_INDENT? NEON_RBRACE_SQUARE)
 
 private
 mainArrayLine    ::= keyValPair
@@ -39,21 +39,21 @@ mainArrayLine    ::= keyValPair
 private
 arrayLine    ::= <<checkSubArray>> keyValPair
 
-private
-innerArrayLine    ::= innerKeyValPair
+//private
+//innerArrayLine    ::= innerKeyValPair
 
 keyValPair    ::= innerKeyValPair {
-                    methods = [getKeyText isMainKey getScalarValue getIndent getKey isLastKey]
+                    methods = [getKeyText isMainKey isLastKey]
                 }
 
 private
 innerKeyValPair    ::= <<isSubArray>> (keyItem keyValPairValue?) | (keyItem keyValPairScalarValue?)
 
 private
-keyValPairValue ::= comment? (scalarValue | scalarValue? (<<increaseDepth>> array <<decreaseDepth>> | <<decreaseDepth>>) | <<eof>>)
+keyValPairValue ::= comment? (scalarValue? (<<increaseDepth>> array <<decreaseDepth>> | <<decreaseDepth>>) | <<eof>>)
 
 private
-keyValPairScalarValue ::= comment? (scalarValue | scalarValue? innerArray | <<eof>>)
+keyValPairScalarValue ::= comment? (scalarValue | <<eof>>)
 
 scalarValue    ::= values+ {
                     methods = [getPhpType]
@@ -69,7 +69,7 @@ arrayOfValues  ::= NEON_LBRACE_SQUARE arrayOfValues NEON_RBRACE_SQUARE
                 }
 
 private
-arrayContent    ::= arrayValue+ (NEON_ITEM_DELIMITER arrayValue+)*
+arrayContent    ::= arrayValue+ (NEON_ITEM_DELIMITER arrayValue+)* NEON_ITEM_DELIMITER?
 
 private
 arrayValue      ::= arrayKeyValuePair | (NEON_INDENT* value NEON_INDENT*)
