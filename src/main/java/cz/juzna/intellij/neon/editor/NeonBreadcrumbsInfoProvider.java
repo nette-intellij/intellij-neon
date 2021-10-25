@@ -2,6 +2,7 @@ package cz.juzna.intellij.neon.editor;
 
 import com.intellij.lang.Language;
 import com.intellij.psi.PsiElement;
+import com.intellij.ui.breadcrumbs.BreadcrumbsProvider;
 import com.intellij.xml.breadcrumbs.BreadcrumbsInfoProvider;
 import cz.juzna.intellij.neon.NeonLanguage;
 import cz.juzna.intellij.neon.psi.NeonEntity;
@@ -11,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Breadcrumbs info about which section are we editing now (just above the editor, below tabs)
  */
-public class NeonBreadcrumbsInfoProvider extends BreadcrumbsInfoProvider {
+public class NeonBreadcrumbsInfoProvider implements BreadcrumbsProvider {
 	private final Language[] ourLanguages = { NeonLanguage.INSTANCE};
 
 	@Override

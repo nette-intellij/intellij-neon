@@ -13,15 +13,13 @@ import org.jetbrains.annotations.NotNull;
  */
 public class NeonLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider
 {
-	public CommonCodeStyleSettings getDefaultCommonSettings()
-	{
-		CommonCodeStyleSettings defaultSettings = new CommonCodeStyleSettings(NeonLanguage.INSTANCE);
-		IndentOptions indentOptions = defaultSettings.initIndentOptions();
+
+	@Override
+	protected void customizeDefaults(@NotNull CommonCodeStyleSettings commonSettings, @NotNull IndentOptions indentOptions) {
 		indentOptions.INDENT_SIZE = 4;
 //		indentOptions.USE_TAB_CHARACTER = true;
 		indentOptions.SMART_TABS = false;
-
-		return defaultSettings;
+		super.customizeDefaults(commonSettings, indentOptions);
 	}
 
 	public IndentOptionsEditor getIndentOptionsEditor()
@@ -36,9 +34,5 @@ public class NeonLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 
 	public String getCodeSample(@NotNull SettingsType settingsType) {
 		return "product:\n    name: Neon\n    version: 4\n    vendor: juzna.cz\n    url: \"http://blog.juzna.cz\"";
-	}
-
-	public boolean usesSharedPreview() {
-		return false;
 	}
 }

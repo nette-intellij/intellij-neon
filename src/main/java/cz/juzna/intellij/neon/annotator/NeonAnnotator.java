@@ -2,6 +2,7 @@ package cz.juzna.intellij.neon.annotator;
 
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
+import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiErrorElement;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
@@ -21,13 +22,17 @@ public class NeonAnnotator implements Annotator {
 				&& element.getPrevSibling() != null
 				&& element.getPrevSibling() instanceof PsiErrorElement
 				&& ((PsiErrorElement) element.getPrevSibling()).getErrorDescription().equals("Tab/space mixing")) {
-			holder.createErrorAnnotation(element, "Tab/space mixing");
+			holder.newAnnotation(HighlightSeverity.ERROR, "Tab/space mixing")
+					.range(element)
+					.create();
 		} else if (element instanceof NeonArray) {
 			List<NeonKey> arrayKeys = ((NeonArray) element).getKeys();
 			Set<String> keys = new HashSet<String>(arrayKeys.size());
 			for (NeonKey key : arrayKeys) {
 				if (keys.contains(key.getKeyText())) {
-					holder.createErrorAnnotation(key, "Duplicate key");
+					holder.newAnnotation(HighlightSeverity.ERROR, "Duplicate key")
+							.range(key)
+							.create();
 				} else {
 					keys.add(key.getKeyText());
 				}

@@ -1,5 +1,6 @@
 package cz.juzna.intellij.neon.editor;
 
+import com.intellij.application.options.CodeStyle;
 import com.intellij.codeInsight.editorActions.enter.EnterHandlerDelegate;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Document;
@@ -10,9 +11,9 @@ import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.codeStyle.CodeStyleSettingsManager;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.psi.util.PsiUtilCore;
+import cz.juzna.intellij.neon.NeonLanguage;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import cz.juzna.intellij.neon.psi.NeonArray;
@@ -78,9 +79,10 @@ public class NeonEnterHandler implements EnterHandlerDelegate {
 		if (keyAfterBullet) {
 			return "  ";
 		}
-		CodeStyleSettingsManager styleSettingsManager = CodeStyleSettingsManager.getInstance(file.getProject());
-		CommonCodeStyleSettings.IndentOptions indentOpt = styleSettingsManager.getCurrentSettings().getIndentOptionsByFile(file);
-		return indentOpt.USE_TAB_CHARACTER ? "\t" : StringUtil.repeat(" ", indentOpt.INDENT_SIZE);
+
+		CommonCodeStyleSettings settings = CodeStyle.getLanguageSettings(file, NeonLanguage.INSTANCE);
+		CommonCodeStyleSettings.IndentOptions indentOpt = settings.getIndentOptions();
+		return indentOpt == null || indentOpt.USE_TAB_CHARACTER ? "\t" : StringUtil.repeat(" ", indentOpt.INDENT_SIZE);
 	}
 
 	private boolean isKeyAfterBullet(PsiElement el) {

@@ -1,2 +1,10 @@
-intellij-neon.iws
-out/
+.DS_Store
+*.iml
+local.properties
+
+/src/main/gen
+
+/.idea
+/.gradle
+/build
+/out

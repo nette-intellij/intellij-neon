@@ -2,15 +2,14 @@ package cz.juzna.intellij.neon.editor;
 
 
 import com.intellij.lexer.Lexer;
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.HighlighterColors;
-import com.intellij.openapi.editor.SyntaxHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.lexer.NeonHighlightingLexer;
 import cz.juzna.intellij.neon.lexer.NeonLexer;
-import cz.juzna.intellij.neon.lexer.NeonLexer2;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -21,22 +20,22 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 
 	public static final String            UNKNOWN_ID       = "Bad character";
-	public static final TextAttributesKey UNKNOWN          = TextAttributesKey.createTextAttributesKey(UNKNOWN_ID, HighlighterColors.BAD_CHARACTER.getDefaultAttributes().clone());
+	public static final TextAttributesKey UNKNOWN          = TextAttributesKey.createTextAttributesKey(UNKNOWN_ID, HighlighterColors.BAD_CHARACTER);
 
 	public static final String            COMMENT_ID       = "Comment";
-	public static final TextAttributesKey COMMENT          = TextAttributesKey.createTextAttributesKey(COMMENT_ID, SyntaxHighlighterColors.LINE_COMMENT.getDefaultAttributes().clone());
+	public static final TextAttributesKey COMMENT          = TextAttributesKey.createTextAttributesKey(COMMENT_ID, DefaultLanguageHighlighterColors.LINE_COMMENT);
 
 	public static final String            IDENTIFIER_ID    = "Identifier";
-	public static final TextAttributesKey IDENTIFIER       = TextAttributesKey.createTextAttributesKey(IDENTIFIER_ID, SyntaxHighlighterColors.KEYWORD.getDefaultAttributes().clone());
+	public static final TextAttributesKey IDENTIFIER       = TextAttributesKey.createTextAttributesKey(IDENTIFIER_ID, DefaultLanguageHighlighterColors.KEYWORD);
 
 	public static final String            INTERPUNCTION_ID = "Interpunction";
-	public static final TextAttributesKey INTERPUNCTION    = TextAttributesKey.createTextAttributesKey(INTERPUNCTION_ID, SyntaxHighlighterColors.DOT.getDefaultAttributes().clone());
+	public static final TextAttributesKey INTERPUNCTION    = TextAttributesKey.createTextAttributesKey(INTERPUNCTION_ID, DefaultLanguageHighlighterColors.DOT);
 
 	public static final String            NUMBER_ID        = "Number";
-	public static final TextAttributesKey NUMBER           = TextAttributesKey.createTextAttributesKey(NUMBER_ID, SyntaxHighlighterColors.NUMBER.getDefaultAttributes().clone());
+	public static final TextAttributesKey NUMBER           = TextAttributesKey.createTextAttributesKey(NUMBER_ID, DefaultLanguageHighlighterColors.NUMBER);
 
 	public static final String            KEYWORD_ID       = "Keyword";
-	public static final TextAttributesKey KEYWORD          = TextAttributesKey.createTextAttributesKey(KEYWORD_ID, SyntaxHighlighterColors.KEYWORD.getDefaultAttributes().clone());
+	public static final TextAttributesKey KEYWORD          = TextAttributesKey.createTextAttributesKey(KEYWORD_ID, DefaultLanguageHighlighterColors.KEYWORD);
 
 	// Groups of IElementType's
 	public static final TokenSet sBAD           = TokenSet.create(NEON_UNKNOWN);
@@ -48,7 +47,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 
 
 	// Static container
-	private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
+	private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<>();
 
 
 	// Fill in the map

@@ -43,10 +43,5 @@ public class NeonFileType extends LanguageFileType {
 	public Icon getIcon() {
 		return NeonIcons.FILETYPE_ICON;
 	}
-
-	@Override
-	public boolean isJVMDebuggingSupported() {
-		return false;
-	}
 }
 
