@@ -10,7 +10,10 @@ import com.intellij.util.ProcessingContext;
 import cz.juzna.intellij.neon.completion.schema.SchemaProvider;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
-import cz.juzna.intellij.neon.psi.*;
+import cz.juzna.intellij.neon.psi.elements.NeonFile;
+import cz.juzna.intellij.neon.psi.elements.NeonKey;
+import cz.juzna.intellij.neon.psi.elements.NeonKeyValPair;
+import cz.juzna.intellij.neon.psi.elements.NeonScalar;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 

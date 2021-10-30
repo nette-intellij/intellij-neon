@@ -1,0 +1,62 @@
+{
+	parserClass="cz.juzna.intellij.neon.parser.NeonParser2"
+	parserUtilClass="cz.juzna.intellij.neon.parser.NeonParserUtil"
+
+	extends="cz.juzna.intellij.neon.psi.impl.elements.NeonPsiElementImpl"
+	implements="cz.juzna.intellij.neon.psi.elements.NeonPsiElement"
+
+	psiClassPrefix="Neon"
+	psiImplClassSuffix="Impl"
+	psiPackage="cz.juzna.intellij.neon.psi"
+	psiImplPackage="cz.juzna.intellij.neon.psi.impl"
+	psiImplUtilClass="cz.juzna.intellij.neon.psi.impl.NeonPsiImplUtil"
+
+	elementTypeHolderClass="cz.juzna.intellij.neon.lexer._NeonTypes"
+	elementTypeClass="cz.juzna.intellij.neon.parser.NeonElementType"
+	tokenTypeClass="cz.juzna.intellij.neon.lexer.NeonTokenType"
+}
+
+root               ::= outerElements* <<initIndentMatcher>> array outerElements*
+
+private
+outerElements      ::= T_INDENT | T_COMMENT
+
+//private
+//comment            ::= <<isComment>> (T_INDENT* T_COMMENT)
+
+array              ::= (<<isSameKeyValPair>> T_INDENT* keyValPair)+
+
+innerArray         ::= <<isInnerKeyValPair>> T_INDENT* keyValPair (<<isSameKeyValPair>> T_INDENT* keyValPair)*
+
+entityParameters   ::= T_LPAREN T_INDENT* arrayContent T_INDENT* T_RPAREN
+
+//todo: entity rules
+
+inlineArray        ::= T_LBRACE_SQUARE T_INDENT* arrayContent T_INDENT* T_RBRACE_SQUARE
+                        | T_LBRACE_CURLY T_INDENT* arrayContent T_INDENT* T_RBRACE_CURLY
+private
+arrayContent       ::= arrayValue+ T_INDENT* (T_INDENT* T_ITEM_DELIMITER T_INDENT* arrayValue+ T_INDENT*)* T_INDENT* T_ITEM_DELIMITER?
+
+arrayValue         ::= T_INDENT* (arrayKeyValuePair | value) T_INDENT*
+
+arrayKey           ::= defaultKey | (T_INDENT* defaultKeyElement ((T_ASSIGNMENT | "=") | (T_DOUBLE_ARROW | "=>")))
+
+arrayKeyValuePair  ::= arrayKey value?
+
+keyValPair         ::= key (value | innerArray)?
+
+key                ::= T_ARRAY_BULLET | defaultKey
+
+private
+defaultKey         ::= defaultKeyElement (T_COLON | ":")
+
+private
+defaultKeyElement  ::= scalar
+
+value              ::= inlineArray | (scalar | entityParameters)+
+
+scalar             ::= T_LITERAL | T_STRING | T_DATE_TIME | T_NUMBER | T_CONCATENATION | T_DOUBLE_COLON | T_ASSIGNMENT
+
+
+private
+topLevelTokens     ::= scalar T_WHITESPACE T_UNKNOWN topLevelTokens

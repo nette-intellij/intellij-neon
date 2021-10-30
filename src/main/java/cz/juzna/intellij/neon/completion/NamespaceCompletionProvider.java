@@ -8,8 +8,8 @@ import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.completion.PhpCompletionUtil;
 import com.jetbrains.php.completion.insert.PhpNamespaceInsertHandler;
-import cz.juzna.intellij.neon.psi.NeonEntity;
-import cz.juzna.intellij.neon.psi.NeonScalar;
+import cz.juzna.intellij.neon.psi.elements.NeonEntity;
+import cz.juzna.intellij.neon.psi.elements.NeonScalar;
 import org.jetbrains.annotations.NotNull;
 
 

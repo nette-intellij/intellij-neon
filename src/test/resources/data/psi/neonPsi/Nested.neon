@@ -1,0 +1,6 @@
+foo:
+    bar: 1.52
+
+bar:
+    foo: 123
+    test: John

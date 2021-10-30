@@ -1,0 +1,9 @@
+# factories
+services:
+	ropanel1: Nette\Application\Diagnostics\RoutingPanel::initialize
+	ropanel2: Nette\Application\Diagnostics\RoutingPanel::initialize(test)
+	httpRequest: @httpRequestFactory::createHttpRequest
+
+panels:
+	- Nette\Application\Diagnostics\RoutingPanel::initialize
+	- @httpRequestFactory::start

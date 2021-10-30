@@ -13,8 +13,7 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.lexer.NeonLexer;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
-import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.impl.*;
+import cz.juzna.intellij.neon.psi.impl.elements.*;
 import org.jetbrains.annotations.NotNull;
 
 public class NeonParserDefinition implements ParserDefinition {
@@ -69,7 +68,7 @@ public class NeonParserDefinition implements ParserDefinition {
 	}
 
 	@Override
-	public PsiFile createFile(FileViewProvider viewProvider) {
+	public @NotNull PsiFile createFile(@NotNull FileViewProvider viewProvider) {
 		return new NeonFileImpl(viewProvider);
 	}
 

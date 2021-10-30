@@ -1,0 +1,13 @@
+#invalid inline arrays
+- [1,,2]
+- [1,,]
+- [
+- 1
+]
+
+- [foo:
+    - bar
+]
+
+- [foo: "bar" lorem: ispum]
+- ["foo" "bar"]

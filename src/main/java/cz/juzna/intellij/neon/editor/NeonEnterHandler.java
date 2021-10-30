@@ -16,9 +16,9 @@ import com.intellij.psi.util.PsiUtilCore;
 import cz.juzna.intellij.neon.NeonLanguage;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
-import cz.juzna.intellij.neon.psi.NeonArray;
-import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.NeonKeyValPair;
+import cz.juzna.intellij.neon.psi.elements.NeonArray;
+import cz.juzna.intellij.neon.psi.elements.NeonFile;
+import cz.juzna.intellij.neon.psi.elements.NeonKeyValPair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

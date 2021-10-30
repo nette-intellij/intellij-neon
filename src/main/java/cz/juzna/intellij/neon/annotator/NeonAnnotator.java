@@ -6,8 +6,8 @@ import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiErrorElement;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
-import cz.juzna.intellij.neon.psi.NeonArray;
-import cz.juzna.intellij.neon.psi.NeonKey;
+import cz.juzna.intellij.neon.psi.elements.NeonArray;
+import cz.juzna.intellij.neon.psi.elements.NeonKey;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

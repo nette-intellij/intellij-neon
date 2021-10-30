@@ -1,0 +1,15 @@
+[Neon] T_INDENT
+[Neon] T_LITERAL
+[Neon] T_COLON
+[Neon] T_INDENT
+[Neon] T_ARRAY_BULLET
+[Neon] T_WHITESPACE
+[Neon] T_NUMBER
+[Neon] T_INDENT
+[Neon] T_LITERAL
+[Neon] T_COLON
+[Neon] T_INDENT
+[Neon] T_ARRAY_BULLET
+[Neon] T_WHITESPACE
+[Neon] T_NUMBER
+[Neon] T_INDENT

@@ -6,7 +6,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import cz.juzna.intellij.neon.psi.NeonScalar;
+import cz.juzna.intellij.neon.psi.elements.NeonScalar;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;

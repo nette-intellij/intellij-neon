@@ -4,7 +4,6 @@ import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.patterns.StandardPatterns;
 import com.intellij.psi.PsiElement;
-import cz.juzna.intellij.neon.psi.NeonReference;
 
 /**
  * Provides code completion

@@ -3,9 +3,7 @@ package cz.juzna.intellij.neon.editor;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
-import cz.juzna.intellij.neon.psi.*;
+import cz.juzna.intellij.neon.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

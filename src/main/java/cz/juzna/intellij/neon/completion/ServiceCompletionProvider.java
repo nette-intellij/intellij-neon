@@ -10,7 +10,7 @@ import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.impl.PhpDocPropertyImpl;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import cz.juzna.intellij.neon.psi.*;
+import cz.juzna.intellij.neon.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -74,7 +74,7 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 	 */
 	private void getServicesFromNeonFile(List<String> result, NeonFile file) {
 		if (file.getValue() instanceof NeonArray) {
-			HashMap<String,NeonValue> map = ((NeonArray) file.getValue()).getMap();
+			HashMap<String, NeonValue> map = ((NeonArray) file.getValue()).getMap();
 			if (map.containsKey("services")) {
 				addServiceFromNeonArray(result, (NeonArray) map.get("services"));
 			}

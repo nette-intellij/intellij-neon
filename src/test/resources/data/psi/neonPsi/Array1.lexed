@@ -1,0 +1,10 @@
+[Neon] T_LITERAL
+[Neon] T_COLON
+[Neon] T_WHITESPACE
+[Neon] T_LITERAL
+[Neon] T_INDENT
+[Neon] T_LITERAL
+[Neon] T_COLON
+[Neon] T_WHITESPACE
+[Neon] T_STRING
+[Neon] T_INDENT

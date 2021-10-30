@@ -1,0 +1,7 @@
+#array-after-key syntax
+foo:
+- 1
+- 2
+lorem:
+- 3
+- 4

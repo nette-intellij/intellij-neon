@@ -11,8 +11,8 @@ import com.jetbrains.php.completion.PhpLookupElement;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import cz.juzna.intellij.neon.completion.insert.PhpReferenceInsertHandler;
-import cz.juzna.intellij.neon.psi.NeonEntity;
-import cz.juzna.intellij.neon.psi.NeonScalar;
+import cz.juzna.intellij.neon.psi.elements.NeonEntity;
+import cz.juzna.intellij.neon.psi.elements.NeonScalar;
 import gnu.trove.THashSet;
 import org.jetbrains.annotations.NotNull;
 

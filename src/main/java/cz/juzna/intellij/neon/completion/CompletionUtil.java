@@ -6,10 +6,10 @@ import com.intellij.psi.PsiErrorElement;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import cz.juzna.intellij.neon.parser.NeonParser;
-import cz.juzna.intellij.neon.psi.NeonArray;
-import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.NeonKeyValPair;
-import cz.juzna.intellij.neon.psi.NeonScalar;
+import cz.juzna.intellij.neon.psi.elements.NeonArray;
+import cz.juzna.intellij.neon.psi.elements.NeonFile;
+import cz.juzna.intellij.neon.psi.elements.NeonKeyValPair;
+import cz.juzna.intellij.neon.psi.elements.NeonScalar;
 
 public class CompletionUtil {
 

@@ -1,65 +1,198 @@
 package cz.juzna.intellij.neon.psi;
 
-import com.intellij.psi.PsiFile;
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-import junit.framework.Assert;
+import com.intellij.testFramework.HeavyPlatformTestCase;
+import cz.juzna.intellij.neon.BasePsiParsingTestCase;
+import cz.juzna.intellij.neon.parser.NeonParser2Definition;
 import org.junit.Test;
 
-import java.util.*;
+import java.net.URL;
 
 
-public class NeonPsiTest extends LightPlatformCodeInsightFixtureTestCase {
+public class NeonPsiTest extends BasePsiParsingTestCase {
+
+	public NeonPsiTest() {
+		super(new NeonParser2Definition());
+		HeavyPlatformTestCase.doAutodetectPlatformPrefix();
+	}
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		// initialize configuration with test configuration
+		//LatteConfiguration.getInstance(getProject(), getXmlFileData());
+		//getProject().registerService(LatteSettings.class);
+	}
 
 	@Override
 	protected String getTestDataPath() {
-		return "src/test/data/psi";
-	}
-
-	protected NeonPsiElement getPsiElement() {
-		return ((NeonFile) myFixture.configureByFile(getTestDataPath() + "/" + getTestName(true) + ".neon")).getValue();
+		URL url = getClass().getClassLoader().getResource("data/psi/neonPsi");
+		assert url != null;
+		return url.getFile();
 	}
 
 	@Test
-	public void testArrayKeys() {
-		NeonArray array = (NeonArray) getPsiElement();
-		List<NeonKey> keys = array.getKeys();
-		assertSize(1, keys);
-		Assert.assertEquals(keys.iterator().next().getKeyText(), "4");
+	public void testDefault() {
+		doTest(true, true);
+	}
 
-		Set<String> keys2 = array.getMap().keySet();
-		assertSize(4, keys2);
-		assertContainsElements(Arrays.asList("0", "1", "4", "5"), keys2);
+	@Test
+	public void testDefault1() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testDefault2() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testNested() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testNested1() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray1() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray2() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray3() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray4() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray5() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray6() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray7() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray8() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray9() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArray10() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArrayAfterKey() {
+		doTest(true, true); //todo: fix this eventuality
+	}
+
+	@Test
+	public void testArrayComment() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArrayEntity() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArrayEntity2() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArrayIndentedFile() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArrayNoSpaceColon() {
+		doTest(true, true);
 	}
 
 	@Test
 	public void testArrayNull() {
-		NeonArray array = (NeonArray) getPsiElement();
-
-		List<NeonValue> values = array.getValues();
-
-		assertSize(4, values);
-		Assert.assertTrue(values.get(0) instanceof NeonScalar);
-		Assert.assertEquals("null", values.get(0).getText());
-		Assert.assertTrue(values.get(1) instanceof NeonScalar);
-		Assert.assertNull(values.get(2));
-		Assert.assertNull(values.get(3));
+		doTest(true, true);
 	}
 
 	@Test
-	public void testEntity() {
-		NeonEntity entity = (NeonEntity) getPsiElement();
-		Assert.assertEquals("foo", entity.getName());
-		assertSize(1, entity.getArgs().getValues());
+	public void testEmptyLineBeginning() {
+		doTest(true, true);
 	}
 
 	@Test
-	public void testChainedEntity() {
-		NeonChainedEntity chain = (NeonChainedEntity) getPsiElement();
-		assertSize(2, chain.getValues());
-		Assert.assertEquals("foo", chain.getValues().get(0).getName());
-		Assert.assertEquals("bar", chain.getValues().get(1).getName());
-		assertSize(1, chain.getValues().get(0).getArgs().getValues());
-		assertSize(2, chain.getValues().get(1).getArgs().getValues());
+	public void testMultiline() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testItemValueAfterNewLine() {
+		doTest(true, true); //todo: fix this eventuality
+	}
+
+	@Test
+	public void testArrayInline() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArrayInline2() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testArrayInline3() {
+		doTest(true, true);
+	}
+
+	@Test
+	public void testErrorClosingBracket() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testErrorClosingBracket2() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testErrorIndent() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testErrorInlineArray() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void testErrorTabSpaceMixing() {
+		doTest(true, false);
 	}
 
 }
