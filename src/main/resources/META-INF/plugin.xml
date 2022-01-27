@@ -13,6 +13,8 @@
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.jetbrains.php</depends>
 
+	<resource-bundle>messages.NeonBundle</resource-bundle>
+
 	<extensions defaultExtensionNs="com.intellij">
 
 		<fileType name="Neon" implementationClass="cz.juzna.intellij.neon.file.NeonFileType" fieldName="INSTANCE"
@@ -37,5 +39,11 @@
 
 		<gotoDeclarationHandler implementation="cz.juzna.intellij.neon.reference.GoToClassHandler"/>
 		<annotator implementationClass="cz.juzna.intellij.neon.annotator.NeonAnnotator" language="neon"/>
+
+		<notificationGroup id="NEON pro suggestion" displayType="STICKY_BALLOON" key="notification.group.name"/>
 	</extensions>
+
+	<applicationListeners>
+		<listener class="cz.juzna.intellij.neon.ide.NeonPluginListener" topic="com.intellij.openapi.project.ProjectManagerListener"/>
+	</applicationListeners>
 </idea-plugin>
