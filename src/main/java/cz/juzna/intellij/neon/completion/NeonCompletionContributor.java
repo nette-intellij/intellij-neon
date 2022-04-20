@@ -13,6 +13,5 @@ public class NeonCompletionContributor extends CompletionContributor {
 		extend(CompletionType.BASIC, StandardPatterns.instanceOf(PsiElement.class), new KeywordCompletionProvider());
 		extend(CompletionType.BASIC, StandardPatterns.instanceOf(PsiElement.class), new ServiceCompletionProvider());
 		extend(CompletionType.BASIC, StandardPatterns.instanceOf(PsiElement.class), new ClassCompletionProvider());
-		extend(CompletionType.BASIC, StandardPatterns.instanceOf(PsiElement.class), new NamespaceCompletionProvider());
 	}
 }
