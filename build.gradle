@@ -19,8 +19,8 @@ properties.load(project.rootProject.file("local.properties").newDataInputStream(
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version '0.5.2'
-group 'cz.juzna.intellij.neon'
+version '0.5.3'
+group 'NEON support'
 
 jar {
     archiveName 'intellij-neon-' + version + '.jar'

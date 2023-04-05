@@ -8,12 +8,10 @@ import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ex.ApplicationUtil;
 import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.PluginId;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManagerListener;
+import com.intellij.openapi.project.*;
 import com.intellij.openapi.startup.StartupManager;
 import com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.PluginsAdvertiser;
 import com.jetbrains.php.PhpIndex;
@@ -35,24 +33,23 @@ public class NeonPluginListener implements ProjectManagerListener {
 
 	@Override
 	public void projectOpened(@NotNull Project project) {
-		StartupManager.getInstance(project).registerPostStartupActivity(() -> new Thread(() -> {
-			try {
-				Thread.sleep(60000);
+		StartupManager.getInstance(project).registerPostStartupActivity((DumbAwareRunnable) () -> {
+				try {
+					Thread.sleep(60000);
 
-				ApplicationUtil.tryRunReadAction(() -> {
-					PhpIndex phpIndex = PhpIndex.getInstance(project);
-					if (phpIndex.getClassesByFQN("Nette\\DI\\Container").size() > 0) {
-						neonProSuggestion(NeonBundle.message("notification.neonProSuggestion.message"));
-					} else {
-						neonDonateSuggestion(NeonBundle.message("notification.neonDonate.message"));
-					}
-					return null;
-				});
+					DumbService.getInstance(project).smartInvokeLater(() -> {
+						PhpIndex phpIndex = PhpIndex.getInstance(project);
+						if (phpIndex.getClassesByFQN("Nette\\DI\\Container").size() > 0) {
+							neonProSuggestion(NeonBundle.message("notification.neonProSuggestion.message"));
+						} else {
+							neonDonateSuggestion(NeonBundle.message("notification.neonDonate.message"));
+						}
+					});
 
-			} catch (InterruptedException e) {
-				//do nothing
-			}
-		}).start());
+				} catch (InterruptedException| IndexNotReadyException e) {
+					//do nothing
+				}
+		});
 	}
 
 	public static void neonDonateSuggestion(final @NotNull String message) {

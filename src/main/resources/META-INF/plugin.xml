@@ -1,5 +1,5 @@
 <idea-plugin>
-	<id>cz.juzna.intellij.neon</id>
+	<id>NEON support</id>
 
 	<name>NEON support</name>
 
@@ -12,7 +12,7 @@
 
 			<hr>
 
-			<p>NEON (Nette Object Notation; <a href="http://ne-on.org">http://ne-on.org</a>) is a custom configuration language similar to YAML.</p>
+			<p>NEON (Nette Object Notation; <a href="https://ne-on.org">https://ne-on.org</a>) is a custom configuration language similar to YAML.</p>
 
 			<p>Supported features</p>
 
@@ -26,7 +26,7 @@
 	<vendor>juzna.cz, Matouš Němec</vendor>
 
 	<!-- http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges -->
-	<idea-version since-build="139.0" />
+	<idea-version since-build="212.0" />
 
 	<!-- http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products -->
 	<depends>com.intellij.modules.lang</depends>
