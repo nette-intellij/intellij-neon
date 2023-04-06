@@ -17,6 +17,16 @@ This plugin aims to add supports for this language into PhpStorm (or the whole I
 * ... more to come
 
 
+Sponsors
+------
+
+<a href="https://www.futurerockstars.cz/"><img src=".github/sponsors/future-rockstars.png" alt="FutureRockstars" width="188" height="86"></a>
+
+Does GitHub already have your 💳? Does Nette plugins save you development time? [Send a couple of 💸 a month my way too.](https://github.com/sponsors/mesour) Thank you!
+
+To request an invoice, [contact me](mailto:matous.nemec@mesour.com) through e-mail.
+
+
 ## Install
 
 1. Go to File → Settings in PhpStorm
