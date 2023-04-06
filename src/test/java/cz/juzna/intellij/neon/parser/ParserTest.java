@@ -15,7 +15,7 @@ public class ParserTest extends ParsingTestCase {
 
 	public ParserTest() {
 		super("", "neon", new NeonParserDefinition());
-		//PlatformTestCase.initPlatformLangPrefix();
+		//PlatformTestCase.doAutodetectPlatformPrefix();
 	}
 
 	@Override

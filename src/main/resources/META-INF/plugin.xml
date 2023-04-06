@@ -1,17 +1,38 @@
 <idea-plugin>
-	<id>cz.juzna.intellij.neon</id>
+	<id>NEON support</id>
 
 	<name>NEON support</name>
-	<description>NEON (Nette Object Notation; http://ne-on.org) is a custom configuration language similar to YAML.</description>
+
+	<description>
+		<![CDATA[
+			<p>Here is <b>more advanced plugin for NEON that understands your Nette application</b>, helps with refactoring,
+			has advanced code completion, etc.</p>
+
+			<a href="https://plugins.jetbrains.com/plugin/18387-neon-nette-support">See more about new NEON Nette plugin</a>
+
+			<hr>
+
+			<p>NEON (Nette Object Notation; <a href="https://ne-on.org">https://ne-on.org</a>) is a custom configuration language similar to YAML.</p>
+
+			<p>Supported features</p>
+
+			<ul>
+				<li>Syntax highlighter</li>
+				<li>Basic class completion only</li>
+			</ul>
+		]]>
+	</description>
 
 	<vendor>juzna.cz, Matouš Němec</vendor>
 
 	<!-- http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges -->
-	<idea-version since-build="139.0" />
+	<idea-version since-build="212.0" />
 
 	<!-- http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products -->
 	<depends>com.intellij.modules.lang</depends>
 	<depends>com.jetbrains.php</depends>
+
+	<resource-bundle>messages.NeonBundle</resource-bundle>
 
 	<extensions defaultExtensionNs="com.intellij">
 
@@ -37,5 +58,11 @@
 
 		<gotoDeclarationHandler implementation="cz.juzna.intellij.neon.reference.GoToClassHandler"/>
 		<annotator implementationClass="cz.juzna.intellij.neon.annotator.NeonAnnotator" language="neon"/>
+
+		<notificationGroup id="NEON Pro Group" displayType="STICKY_BALLOON" key="notification.group.name"/>
 	</extensions>
+
+	<applicationListeners>
+		<listener class="cz.juzna.intellij.neon.ide.NeonPluginListener" topic="com.intellij.openapi.project.ProjectManagerListener"/>
+	</applicationListeners>
 </idea-plugin>
