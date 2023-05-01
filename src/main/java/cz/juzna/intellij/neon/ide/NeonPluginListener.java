@@ -12,8 +12,9 @@ import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.*;
-import com.intellij.openapi.startup.StartupManager;
+import com.intellij.openapi.startup.StartupActivity;
 import com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.PluginsAdvertiser;
+import com.intellij.util.Alarm;
 import com.jetbrains.php.PhpIndex;
 import cz.juzna.intellij.neon.NeonBundle;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 
-public class NeonPluginListener implements ProjectManagerListener {
+public class NeonPluginListener implements StartupActivity.Background {
 
 	private static final @NotNull Logger LOG = Logger.getInstance(CommandProcessor.class);
 	private static final @NotNull String NOTIFICATION_GROUP = "NEON Pro Group";
@@ -32,24 +33,23 @@ public class NeonPluginListener implements ProjectManagerListener {
 	private static final @NotNull String DONATE_PAGE_URL = "https://github.com/sponsors/mesour";
 
 	@Override
-	public void projectOpened(@NotNull Project project) {
-		StartupManager.getInstance(project).registerPostStartupActivity((DumbAwareRunnable) () -> {
-				try {
-					Thread.sleep(60000);
+	public void runActivity(@NotNull Project project) {
+		Alarm alarm = new Alarm(Alarm.ThreadToUse.SWING_THREAD, project);
+		alarm.addRequest(() -> {
+			try {
+				DumbService.getInstance(project).smartInvokeLater(() -> {
+					PhpIndex phpIndex = PhpIndex.getInstance(project);
+					if (phpIndex.getClassesByFQN("Nette\\DI\\Container").size() > 0) {
+						neonProSuggestion(NeonBundle.message("notification.neonProSuggestion.message"));
+					} else {
+						neonDonateSuggestion(NeonBundle.message("notification.neonDonate.message"));
+					}
+				});
 
-					DumbService.getInstance(project).smartInvokeLater(() -> {
-						PhpIndex phpIndex = PhpIndex.getInstance(project);
-						if (phpIndex.getClassesByFQN("Nette\\DI\\Container").size() > 0) {
-							neonProSuggestion(NeonBundle.message("notification.neonProSuggestion.message"));
-						} else {
-							neonDonateSuggestion(NeonBundle.message("notification.neonDonate.message"));
-						}
-					});
-
-				} catch (InterruptedException| IndexNotReadyException e) {
-					//do nothing
-				}
-		});
+			} catch (IndexNotReadyException e) {
+				//do nothing
+			}
+		}, 60000);
 	}
 
 	public static void neonDonateSuggestion(final @NotNull String message) {

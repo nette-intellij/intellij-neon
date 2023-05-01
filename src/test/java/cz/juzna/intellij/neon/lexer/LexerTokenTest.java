@@ -11,7 +11,7 @@ public class LexerTokenTest extends BaseLexerTestCase {
 
 	// which lexer to test
 	protected MergingLexerAdapter createLexer() {
-		return new NeonLexer3();
+		return new NeonLexer();
 	}
 
 	@Test

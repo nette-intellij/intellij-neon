@@ -2,7 +2,7 @@ package cz.juzna.intellij.neon.psi;
 
 import com.intellij.testFramework.HeavyPlatformTestCase;
 import cz.juzna.intellij.neon.BasePsiParsingTestCase;
-import cz.juzna.intellij.neon.parser.NeonParser2Definition;
+import cz.juzna.intellij.neon.parser.NeonParserDefinition;
 import org.junit.Test;
 
 import java.net.URL;
@@ -11,7 +11,7 @@ import java.net.URL;
 public class NeonPsiTest extends BasePsiParsingTestCase {
 
 	public NeonPsiTest() {
-		super(new NeonParser2Definition());
+		super(new NeonParserDefinition());
 		HeavyPlatformTestCase.doAutodetectPlatformPrefix();
 	}
 

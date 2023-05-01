@@ -60,9 +60,7 @@
 		<annotator implementationClass="cz.juzna.intellij.neon.annotator.NeonAnnotator" language="neon"/>
 
 		<notificationGroup id="NEON Pro Group" displayType="STICKY_BALLOON" key="notification.group.name"/>
-	</extensions>
 
-	<applicationListeners>
-		<listener class="cz.juzna.intellij.neon.ide.NeonPluginListener" topic="com.intellij.openapi.project.ProjectManagerListener"/>
-	</applicationListeners>
+		<postStartupActivity implementation="cz.juzna.intellij.neon.ide.NeonPluginListener"/>
+	</extensions>
 </idea-plugin>
